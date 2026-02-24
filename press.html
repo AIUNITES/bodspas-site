@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Press — MNN &amp; BodWave: The First Muscle Notation System | BodSpas</title>
+  <meta name="description" content="Muscular Neuro Notation (MNN) is the first symbolic notation system for muscle training. No existing gym language maps muscles to nerves. MNN changes that — for bodybuilding, rehab, virtual worlds, and AI.">
+  <meta name="keywords" content="MNN, muscular neuro notation, muscle notation, bodybuilding notation, muscle nerve map, BodWave, virtual avatar muscles, game character animation, neuromuscular simulation, mind muscle connection, EMG notation">
+  <meta name="author" content="BodSpas / AIUNITES">
+  <meta property="og:title" content="Press — MNN: The First Muscle Notation System">
+  <meta property="og:description" content="Bodybuilders have sets, reps, and RPE. Nobody has a notation system that maps muscles to nerves. Until MNN.">
+  <meta property="og:type" content="article">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Press Page Styles */
+    .press-hero{padding:100px 20px 60px;text-align:center;background:radial-gradient(ellipse at 40% 20%,rgba(220,38,38,0.15) 0%,transparent 50%),radial-gradient(ellipse at 60% 80%,rgba(249,115,22,0.1) 0%,transparent 50%),var(--dark)}
+    .press-hero h1{font-size:clamp(2.2rem,5vw,3.5rem);margin-bottom:15px;background:var(--gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .press-hero-sub{font-size:1.15rem;color:var(--gray-light);max-width:700px;margin:0 auto;line-height:1.7}
+
+    .press-content{max-width:920px;margin:0 auto;padding:0 20px 80px}
+    .press-section{margin-bottom:60px;padding-top:40px}
+    .press-section h2{font-size:1.7rem;margin-bottom:20px;color:var(--accent);display:flex;align-items:center;gap:15px}
+    .press-section h2::before{content:"";width:5px;height:28px;background:var(--gradient);border-radius:3px;flex-shrink:0}
+    .press-section h3{font-size:1.2rem;margin:25px 0 12px;color:var(--primary-light)}
+    .press-section p{color:var(--gray-light);margin-bottom:16px;line-height:1.8}
+
+    /* Press Meta */
+    .press-meta{display:flex;gap:20px;align-items:center;margin-bottom:30px;flex-wrap:wrap}
+    .press-badge{background:var(--gradient);color:#fff;padding:6px 16px;border-radius:20px;font-size:0.8rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase}
+    .press-date{color:var(--gray);font-size:0.9rem}
+
+    /* Comparison Table */
+    .compare-table{width:100%;border-collapse:collapse;margin:25px 0;background:var(--dark-light);border-radius:var(--radius-lg);overflow:hidden}
+    .compare-table th,.compare-table td{padding:16px 20px;text-align:left;border-bottom:1px solid var(--dark-border)}
+    .compare-table th{background:rgba(220,38,38,0.15);color:var(--primary-light);font-weight:600;font-size:0.9rem}
+    .compare-table tr:last-child td{border-bottom:none}
+    .compare-table tr:hover{background:rgba(220,38,38,0.03)}
+    .compare-table .method{color:var(--accent);font-weight:700}
+    .compare-table .gap{color:var(--primary-light);font-weight:600}
+    .compare-table .yes{color:#4ade80;font-weight:600}
+    .compare-table .no{color:var(--gray)}
+
+    /* Quote Block */
+    .press-quote{background:var(--dark-lighter);border-radius:var(--radius);padding:25px 30px;margin:25px 0;border-left:4px solid var(--primary)}
+    .press-quote p{color:var(--white);font-size:1.05rem;font-style:italic;margin-bottom:8px}
+    .press-quote .attr{color:var(--gray);font-size:0.85rem;font-style:normal}
+
+    /* Highlight Box */
+    .highlight-box{background:linear-gradient(135deg,rgba(220,38,38,0.08),rgba(249,115,22,0.05));border:1px solid rgba(220,38,38,0.2);border-radius:var(--radius-lg);padding:30px;margin:25px 0}
+    .highlight-box h3{color:var(--primary-light);margin-top:0}
+    .highlight-box.virtual{border-color:rgba(99,102,241,0.3);background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(0,212,255,0.05))}
+    .highlight-box.virtual h3{color:#818cf8}
+
+    /* MNN Code Examples */
+    .mnn-code{background:var(--dark-lighter);border-radius:10px;padding:20px 25px;margin:20px 0;font-family:'Courier New',monospace;font-size:0.95rem;border:1px solid rgba(255,255,255,0.08);color:var(--accent);line-height:1.9}
+    .mnn-code .label{color:var(--gray-light);font-family:'Inter',sans-serif;font-size:0.85rem;display:block;margin-bottom:8px}
+    .mnn-code .note{color:var(--gray);font-family:'Inter',sans-serif;font-size:0.82rem;margin-top:8px;display:block}
+
+    /* Use Case Cards */
+    .use-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:25px 0}
+    .use-card{background:var(--dark-light);border-radius:var(--radius-lg);padding:25px;border:1px solid var(--dark-border);transition:var(--transition)}
+    .use-card:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:0 8px 30px rgba(220,38,38,0.15)}
+    .use-card .tag{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--primary-light);margin-bottom:8px}
+    .use-card h4{font-size:1.05rem;font-weight:800;margin-bottom:8px}
+    .use-card p{color:var(--gray-light);font-size:0.9rem;margin:0;line-height:1.7}
+
+    /* Virtual World section specific */
+    .vw-compare{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:25px 0}
+    .vw-now,.vw-mnn{border-radius:var(--radius-lg);padding:25px;border:1px solid var(--dark-border)}
+    .vw-now{background:rgba(115,115,115,0.08);border-color:rgba(115,115,115,0.2)}
+    .vw-mnn{background:rgba(220,38,38,0.06);border-color:rgba(220,38,38,0.2)}
+    .vw-now h4{color:var(--gray-light);font-size:1rem;margin-bottom:12px}
+    .vw-mnn h4{color:var(--primary-light);font-size:1rem;margin-bottom:12px}
+    .vw-now p,.vw-mnn p{font-size:0.9rem;color:var(--gray-light);margin-bottom:10px;line-height:1.7}
+    .vw-now p:last-child,.vw-mnn p:last-child{margin-bottom:0}
+
+    /* IP Notice */
+    .ip-notice{background:var(--dark-lighter);border-radius:var(--radius);padding:20px 25px;border:1px solid var(--dark-border);font-size:0.85rem;color:var(--gray);line-height:1.7;margin:30px 0}
+    .ip-notice strong{color:var(--gray-light)}
+
+    /* Footer */
+    .press-footer{background:var(--dark-light);padding:40px 20px;text-align:center;border-top:1px solid var(--dark-border)}
+    .press-footer p{color:var(--gray-light);font-size:0.9rem}.press-footer a{color:var(--primary-light);text-decoration:none}
+
+    @media(max-width:768px){
+      .vw-compare{grid-template-columns:1fr}
+      .use-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <!-- AIUNITES Webring -->
+  <style>.aiunites-bar{background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}.aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}.aiunites-bar-content::-webkit-scrollbar{display:none}.aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}.aiunites-bar a:hover{color:#fff}.aiunites-bar-brand{color:#6366f1!important;font-weight:600}.aiunites-bar-divider{color:rgba(255,255,255,.2)}.aiunites-bar-active{color:#fff!important;text-decoration:underline;text-underline-offset:3px}</style>
+  <div class="aiunites-bar"><div class="aiunites-bar-content"><a href="https://aiunites.github.io/aiunites-site/" class="aiunites-bar-brand">◆ AIUNITES</a><span class="aiunites-bar-divider">|</span><a href="https://aiunites.github.io/aizines-app/">AIZines</a><a href="https://aiunites.github.io/aibyjob-demo/">AIByJob</a><a href="https://aiunites.github.io/redomy-demo/">Redomy</a><a href="https://aiunites.github.io/videobate-site/">VideoBate</a><a href="https://aiunites.github.io/voicestry-site/">🎤 VoiceStry</a><a href="https://aiunites.github.io/bodspas-site/" class="aiunites-bar-active">💪 BodSpas</a><a href="https://aiunites.github.io/furnishthings-site/">FurnishThings</a><a href="https://aiunites.github.io/bizstry-site/">BizStry</a><a href="https://aiunites.github.io/aiyhwh-site/">AI YHWH</a><a href="https://aiunites.github.io/cloudsion-site/">Cloudsion</a><a href="https://aiunites.github.io/gameatica-site/">Gameatica</a><a href="https://aiunites.github.io/uptownit-site/">UptownIT</a><a href="https://aiunites.github.io/inthisworld-site/">InThisWorld</a><a href="https://aiunites.github.io/erpise-site/">ERPise</a><a href="https://aiunites.github.io/erpize-site/">ERPize</a><a href="https://aiunites.github.io/aitsql-site/">AITSQL</a><a href="https://aiunites.github.io/cosmostheopera-site/">🌌 COSMOS</a></div></div>
+
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo"><span class="logo-icon">💪</span><span class="logo-text">BodSpas</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="bodwave.html">BodWave</a>
+        <a href="press.html" style="color:var(--primary-light);">Press</a>
+      </div>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="press-hero">
+    <h1>📰 Press &amp; Technical Brief</h1>
+    <p class="press-hero-sub">Muscular Neuro Notation (MNN) is the first symbolic notation system that maps every muscle you train to the nerve that fires it. Here's why that matters — and what it replaces.</p>
+  </section>
+
+  <main class="press-content">
+
+    <!-- ============================================ -->
+    <!-- SECTION 1: What Bodybuilders Use Now -->
+    <!-- ============================================ -->
+    <section class="press-section">
+      <div class="press-meta">
+        <span class="press-badge">Technical Brief</span>
+        <span class="press-date">February 2026</span>
+      </div>
+
+      <h2>What Bodybuilders Use Now</h2>
+      <p>There is no muscle notation system in bodybuilding, strength training, physical therapy, or sports science. Nothing equivalent to music notation, chess notation, or dance notation exists for the gym. What exists instead is a loose collection of informal shorthand that describes load and effort but tells you nothing about which muscles fire, which nerves control them, or in what order.</p>
+
+      <h3>Sets × Reps × Weight</h3>
+      <p>The universal gym language. <strong>3×10×225</strong> means 3 sets of 10 reps at 225 lbs. It tells you the external load. It says nothing about which head of the pec is driving the movement, which nerve is firing it, or why the left side fatigues faster than the right. Two people can do 3×10×225 on bench and have completely different muscle activation patterns — one driving with sternal pec via the medial pectoral nerve, the other compensating with front delt via the axillary nerve. Same notation. Different neuromuscular events. No way to distinguish them.</p>
+
+      <h3>Muscle Group Names (Plain English)</h3>
+      <p>"Chest day." "Back and bi's." "Leg day." This is how training is communicated worldwide. The problem is that "chest" contains at least four distinct muscles served by three different nerves from five different spinal levels. Saying "chest day" is like a musician saying "I played some notes." There's no precision, no individual muscle identification, no neural pathway awareness.</p>
+
+      <h3>RPE / RIR</h3>
+      <p><strong>Rate of Perceived Exertion</strong> (RPE 1–10) and <strong>Reps in Reserve</strong> (RIR) describe how hard a set felt subjectively. RPE 8 means "I could have done 2 more reps." Useful for autoregulation, but it measures perceived effort, not neuromuscular activity. You can be at RPE 9 because your triceps failed via the radial nerve while your pec had plenty left via the medial pectoral nerve. RPE can't distinguish which pathway ran out.</p>
+
+      <h3>Tempo Notation</h3>
+      <p><strong>3-1-2-0</strong> means 3 seconds eccentric, 1 second pause, 2 seconds concentric, 0 second lockout. This is the closest thing to MNN's tempo system and it's genuinely useful — coaches worldwide use it. But it only describes speed. It doesn't tell you which muscles are contracting, what type of contraction is happening, or which nerve drives the movement at each phase.</p>
+
+      <h3>EMG (Lab Only)</h3>
+      <p><strong>Electromyography</strong> measures muscle activation as a percentage of Maximum Voluntary Contraction (%MVC). A research paper might report "incline bench produced 85% MVC in the clavicular head of pectoralis major." This is real data from real electrodes. But EMG is lab output — nobody writes it in a training log, it requires expensive equipment, and it still doesn't map the nerve pathway. It tells you the muscle fired but not the neural command that caused it.</p>
+
+      <h3>Anatomy Textbooks</h3>
+      <p>Gray's Anatomy and similar references document every nerve-to-muscle connection in the body. The information exists. But it's in paragraph form buried in 1,500-page textbooks. No one has extracted it into a compact, combinable symbolic notation that a coach, physio, or athlete can write in a training log the way a musician writes a chord chart.</p>
+
+      <!-- Comparison Table -->
+      <h3>The Gap MNN Fills</h3>
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Tracks Load?</th>
+            <th>Tracks Effort?</th>
+            <th>Names Individual Muscles?</th>
+            <th>Maps Nerves?</th>
+            <th>Symbolic Notation?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="method">Sets × Reps × Weight</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td class="method">Muscle Group Names</td><td class="no">—</td><td class="no">—</td><td class="no">Groups only</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td class="method">RPE / RIR</td><td class="no">—</td><td class="yes">✓</td><td class="no">—</td><td class="no">—</td><td class="no">—</td></tr>
+          <tr><td class="method">Tempo (3-1-2-0)</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="no">—</td><td class="yes">✓ (speed only)</td></tr>
+          <tr><td class="method">EMG (%MVC)</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td><td class="no">—</td><td class="no">Lab output</td></tr>
+          <tr><td class="method" style="color:var(--primary-light);font-size:1.05rem;">MNN</td><td class="yes">✓</td><td class="yes">✓ (+/++/+++)</td><td class="yes">✓ (48+ symbols)</td><td class="yes" style="color:#4ade80;">✓ (16 nerve tags)</td><td class="yes" style="color:#4ade80;">✓ (full system)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="press-quote">
+        <p>"Bodybuilders have been training for over a century without a notation system. Musicians got one in the 11th century. Dancers got Labanotation in 1928. Chess got algebraic notation in the 1700s. The gym has had sets and reps. MNN is the first system to give muscle training a real symbolic language."</p>
+        <div class="attr">— The MNN principle</div>
+      </div>
+
+      <h3>What MNN Notation Looks Like vs. What Exists</h3>
+      <div class="mnn-code">
+        <span class="label">Current gym language:</span>
+        Flat bench, 3×10×225, RPE 8, tempo 3-1-2
+        <span class="note">Tells you: the exercise, load, effort, speed. Tells you nothing about which muscles, which nerves, or what's firing.</span>
+      </div>
+      <div class="mnn-code">
+        <span class="label">MNN notation — same exercise:</span>
+        {Push.H} [Con:Pec.S+++, Pec.C++, Tri++, Dlt.A+, t[3-1-2]] → MedPec(C8–T1)/LatPec(C5–C7)/Rad(C6–C8)/Axil(C5–C6)
+        <span class="note">Tells you: movement pattern, every muscle firing, activation intensity, contraction type, tempo, the nerve innervating each muscle, and the spinal root feeding each nerve. One line.</span>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 2: MNN for Virtual Worlds -->
+    <!-- ============================================ -->
+    <section class="press-section">
+      <h2>MNN for Virtual Worlds &amp; Game Engines</h2>
+      <p>Avatar animation is one of the biggest unsolved problems in gaming, VR, and virtual production. Current methods fake muscle behavior. MNN provides the data layer to simulate it from neural first principles.</p>
+
+      <h3>What Game Engines Use Now</h3>
+
+      <div class="vw-compare">
+        <div class="vw-now">
+          <h4>🎮 Current Methods</h4>
+          <p><strong>Skeletal Animation (Rigging)</strong> — The industry standard. A bone hierarchy (spine, humerus, femur) with mesh vertices attached via skinning weights. When a bone rotates, nearby vertices follow. There are no muscles. A "bicep curl" is just the forearm bone rotating around the elbow joint, and the mesh stretches to match. Muscle bulge is faked by adjusting vertex weights or adding corrective blend shapes.</p>
+          <p><strong>Blend Shapes / Morph Targets</strong> — Pre-sculpted poses. An artist sculpts "bicep flexed" and "bicep relaxed" as two mesh states, and the engine interpolates between them. Works for one muscle but falls apart for compound movements — every combination needs its own sculpted target.</p>
+          <p><strong>Physics-Based Muscle Sims</strong> — Ziva Dynamics (now Unity) and Unreal Engine 5 simulate muscles as soft-body volumes that contract, bulge, and compress against each other. Impressive geometry. But they model muscles as shapes that deform, not as neural circuits that fire in sequence.</p>
+          <p><strong>Motion Capture</strong> — Records real human movement and maps it to the skeleton. Looks realistic because it IS real. But it's playback, not simulation. The avatar can only do what was recorded. No understanding of why the body moved that way.</p>
+          <p><strong>Procedural Animation</strong> — Ragdoll physics, inverse kinematics, locomotion systems. Good for foot placement and balance. Zero concept of individual muscle activation. Everything is joint-angle math.</p>
+        </div>
+        <div class="vw-mnn">
+          <h4>💪 What's Missing</h4>
+          <p><strong>None of these systems model the neural control layer.</strong></p>
+          <p>They don't know that a bench press fires the medial pectoral nerve to the sternal head before the lateral pectoral nerve catches the clavicular head.</p>
+          <p>They don't know that fatigue in the radial nerve pathway means the triceps give out before the pec.</p>
+          <p>They don't know that a BW4-level character could wave their abs while a BW1 character can only flex them as a block.</p>
+          <p>They don't know that cutting the axillary nerve eliminates all three deltoid heads — from one injury.</p>
+          <p><strong>MNN provides the structured parameter space they're missing.</strong></p>
+        </div>
+      </div>
+
+      <h3>What MNN Gives Game Engines</h3>
+      <div class="use-grid">
+        <div class="use-card">
+          <div class="tag">Realistic Firing Sequences</div>
+          <h4>Neural Timing, Not Blending</h4>
+          <p>Instead of interpolating between "relaxed" and "flexed" blend shapes, the engine fires <code style="color:var(--accent);">[Con:Pec.S+++, Pec.C++, Tri++, Dlt.A+]</code> in correct neural order. The sternal pec fires slightly before the clavicular because they're on different nerves from different spinal levels. That subtle timing difference is what makes real movement look real and animated movement look animated.</p>
+        </div>
+        <div class="use-card">
+          <div class="tag">Fatigue Modeling</div>
+          <h4>Pathway-Specific Exhaustion</h4>
+          <p>Neural pathways tire at different rates. The radial nerve pathway serving the triceps has a different fatigue curve than the femoral nerve pathway serving the quads. MNN lets an engine model which pathways are depleted, so a tired avatar's form degrades in anatomically correct ways — triceps giving out before pec on bench, VMO failing before vastus lateralis on squats.</p>
+        </div>
+        <div class="use-card">
+          <div class="tag">Injury &amp; Damage Systems</div>
+          <h4>One Nerve, Multiple Consequences</h4>
+          <p>Cut the axillary nerve and the avatar loses anterior, lateral, AND posterior deltoid — all three heads. Compress L5–S1 and they get calf weakness, hamstring weakness, and glute weakness simultaneously — because MNN maps the nerve root to every muscle it serves. No current game engine can simulate cascading injury from first principles. MNN provides the dependency graph.</p>
+        </div>
+        <div class="use-card">
+          <div class="tag">NPC Skill Differentiation</div>
+          <h4>BodWave Levels as Character Traits</h4>
+          <p>A BW1 NPC flexes in blocks — whole muscle groups at once. A BW3 NPC can isolate individual heads and roll contractions. A BW4 boss character performs full-body waves. That's a character trait encoded in data, not in hand-animated blend shapes. One notation system, infinite skill gradations.</p>
+        </div>
+        <div class="use-card">
+          <div class="tag">VR Fitness &amp; Training</div>
+          <h4>Anatomically Correct Coaching</h4>
+          <p>A VR coach avatar demonstrates exercises with correct muscle firing sequences, highlighting which muscles activate in which order, driven by MNN data. The avatar doesn't just move its arm through a curl — it shows the musculocutaneous nerve firing the biceps brachii while the radial nerve stabilizes via the triceps, with visual overlays mapping the neural chain in real time.</p>
+        </div>
+        <div class="use-card">
+          <div class="tag">Digital Doubles &amp; VFX</div>
+          <h4>Actor-Accurate Muscle Behavior</h4>
+          <p>Digital doubles in film need to move exactly like the actor they replicate. MNN gives VFX artists a parameter space for muscle firing that goes beyond mesh deformation — the digital double's muscles fire in the same neural order as the real actor's body, with the same compensations, imbalances, and fatigue signatures captured in notation.</p>
+        </div>
+      </div>
+
+      <div class="highlight-box virtual">
+        <h3>🎮 The Integration Path</h3>
+        <p>MNN doesn't replace skeletal animation or physics-based muscle sims — it adds a <strong>neural control layer on top of them</strong>. The pipeline becomes:</p>
+        <p style="font-family:'Courier New',monospace;color:var(--accent);margin:15px 0;font-size:0.95rem;">
+          MNN Data Layer → Neural Firing Sequence → Physics-Based Muscle Sim → Mesh Deformation → Render
+        </p>
+        <p>The skeleton still drives gross movement. The muscle sim still handles soft-body deformation. But now a data layer tells the sim <em>which</em> muscles to fire, <em>when</em>, in what <em>order</em>, at what <em>intensity</em>, through which <em>nerve pathway</em>. The notation becomes the instruction set. The engine becomes the interpreter.</p>
+        <p style="margin-top:12px;">Game studios, VR platforms, and VFX houses looking to integrate MNN can contact BodSpas through the <a href="https://aiunites.github.io/aiunites-site/" style="color:#818cf8;">AIUNITES network</a>.</p>
+      </div>
+
+      <div class="press-quote" style="border-left-color:var(--accent);">
+        <p>"Every game engine in the world animates skeletons. Some simulate muscles. Nobody simulates the nerves that fire those muscles. MNN is the missing data layer between intent and movement."</p>
+        <div class="attr">— The case for neural animation</div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 3: Who Needs MNN -->
+    <!-- ============================================ -->
+    <section class="press-section">
+      <h2>Who Needs MNN</h2>
+
+      <div class="use-grid">
+        <div class="use-card">
+          <div class="tag">Bodybuilders &amp; Strength Athletes</div>
+          <h4>Real Mind-Muscle Connection</h4>
+          <p>Knowing that the medial pectoral nerve (C8–T1) drives the sternal head means you can focus neural intent on that pathway during flat bench. Research confirms focused attention on a specific muscle during contraction increases EMG activity. MNN gives that focus a name, a symbol, and a map.</p>
+        </div>
+        <div class="use-card">
+          <div class="tag">Physical Therapists &amp; Rehab</div>
+          <h4>Nerve-Level Documentation</h4>
+          <p>"Weak lateral delt" could be a training problem or an axillary nerve issue at C5–C6. MNN gives clinicians compact notation for documenting nerve status, tracking reinnervation, and identifying compensation patterns: <code style="color:var(--accent);">[Dlt.L−−] → Axil | [Comp:Trp.U for Dlt.L]</code></p>
+        </div>
+        <div class="use-card">
+          <div class="tag">Neurologists</div>
+          <h4>Motor Pathway Assessment</h4>
+          <p>Parkinson's, stroke, ALS, spinal cord injury — all produce specific patterns of motor loss. MNN provides standardized notation for documenting which pathways are intact, which are degraded, and which are compensating. One notation system across all neuromuscular conditions.</p>
+        </div>
+        <div class="use-card">
+          <div class="tag">Sports Coaches</div>
+          <h4>Neural-Precision Programming</h4>
+          <p>Upper pec (lateral pectoral, C5–C7) and lower pec (medial pectoral, C8–T1) are literally different nerves from different spinal levels. They're not the same muscle "at a different angle." MNN-aware programming treats them as separate neural circuits because they are.</p>
+        </div>
+        <div class="use-card">
+          <div class="tag">Game Studios &amp; VR Platforms</div>
+          <h4>Neural Animation Data</h4>
+          <p>48+ muscle symbols, 16 nerve tags, contraction types, firing sequences, fatigue curves, and injury dependency graphs — all in structured notation that an engine can parse. The first data standard for neuromuscular simulation in virtual characters.</p>
+        </div>
+        <div class="use-card">
+          <div class="tag">AI &amp; Robotics Researchers</div>
+          <h4>Neuromuscular Parameter Space</h4>
+          <p>Humanoid robots and AI motion synthesis need structured muscle-nerve data. MNN provides the notation layer for training neural networks on anatomically correct motor control — potentially the biggest long-term market for the system.</p>
+        </div>
+      </div>
+
+      <div class="press-quote">
+        <p>"MNN is the notation for the wiring diagram. Nobody else has one."</p>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 4: IP & Copyright -->
+    <!-- ============================================ -->
+    <section class="press-section">
+      <h2>Intellectual Property</h2>
+      <p><strong>Muscular Neuro Notation (MNN)</strong> — the symbolic notation system mapping muscles to nerves to spinal roots, including the 48+ muscle symbol set, 16 nerve tags, contraction type codes, movement pattern symbols, tempo/control markers, clinical status codes, and BodWave level markers (BW1–BW4) — is an original framework created and published by BodSpas / AIUNITES in February 2026.</p>
+      <p><strong>BodWave</strong> — the consumer training brand and the BodWave Scale measuring neuromuscular control from Group Flexion (BW1) to Full BodWave (BW4) — is an original framework of BodSpas / AIUNITES.</p>
+      <p>MNN is the first system to map exercise-based muscle training to its underlying neural command chains in compact symbolic notation. The nerve-to-muscle mapping data itself is anatomical fact (public domain), but the symbolic notation system, the organizational framework, the BodWave scale, and the integration model are original intellectual property.</p>
+      <p>MNN is published freely for educational, clinical, and professional use. Commercial integration (game engines, VR platforms, AI training, clinical software) should contact BodSpas through the AIUNITES network.</p>
+      <p><strong>Sister system:</strong> <a href="https://aiunites.github.io/voicestry-site/ai-neuro.html" style="color:var(--primary-light);">Vocal Neuro Notation (VNN)</a> at VoiceStry maps cranial nerves to vocal muscles using the same framework principles. <strong>VRN → VNN → MNN</strong> — the AIUNITES network maps the complete human instrument.</p>
+    </section>
+
+    <!-- IP Notice -->
+    <div class="ip-notice">
+      <strong>© 2026 BodSpas / AIUNITES. All Rights Reserved. DMCA Protected.</strong><br>
+      Muscular Neuro Notation (MNN), the MNN Symbol Set, BodWave, the BodWave Scale (BW1–BW4), all nerve-to-muscle mapping tables, the virtual world integration framework, and all original notation systems described on this page and on <a href="bodwave.html" style="color:var(--primary-light);">bodwave.html</a> are protected intellectual property. Published February 2026.
+    </div>
+
+  </main>
+
+  <footer class="press-footer">
+    <p>
+      © 2026 BodSpas. All Rights Reserved. DMCA Protected.<br>
+      MNN / Muscular Neuro Notation © 2026 BodSpas / AIUNITES.<br>
+      <a href="index.html">Home</a> |
+      <a href="bodwave.html">BodWave</a> |
+      <a href="press.html">Press</a><br><br>
+      Part of the <a href="https://aiunites.github.io/aiunites-site/">AIUNITES</a> network |
+      Sister system: <a href="https://aiunites.github.io/voicestry-site/ai-neuro.html">VNN at VoiceStry</a>
+    </p>
+  </footer>
+
+  <script>
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navLinks = document.getElementById('navLinks');
+    if(mobileToggle) mobileToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      mobileToggle.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

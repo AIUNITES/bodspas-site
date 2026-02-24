@@ -7,8 +7,8 @@
 | **Repository** | bodspas-site |
 | **Live URL** | https://bodspas.com/ |
 | **Local Path** | C:/Users/Tom/Documents/GitHub/bodspas-site |
-| **Last Updated** | February 1, 2026 |
-| **Version** | 1.0.0 |
+| **Last Updated** | February 24, 2026 |
+| **Version** | 1.2.0 |
 | **Based On** | Custom Landing |
 
 ---
@@ -18,7 +18,8 @@
 | Page | File | Description | Status |
 |------|------|-------------|--------|
 | Landing/Home | index.html | Main landing page | ✅ |
-| BodWave | bodwave.html | Muscular Neuro Notation (MNN) — maps every muscle to its nerve, spinal root, and exercises. BodWave is the training brand, MNN is the formal notation. BodWave Scale BW1–BW4. Sister system to VNN at VoiceStry. | ✅ New |
+| BodWave | bodwave.html | Muscular Neuro Notation (MNN) — maps every muscle to its nerve, spinal root, and exercises. BodWave is the training brand, MNN is the formal notation. BodWave Scale BW1–BW4. Sister system to VNN at VoiceStry. | ✅ |
+| Press | press.html | Technical brief: what bodybuilders use now vs MNN, MNN for virtual worlds & game engines, who needs MNN, IP/DMCA notice. | ✅ New |
 | Gallery | gallery.html | Photo slideshow gallery | ✅ |
 
 ---
@@ -165,6 +166,7 @@
 | 1.0.0 | Feb 1, 2026 | Initial site creation |
 | 1.0.1 | Feb 22, 2026 | Webring highlight fix: standardized to .aiunites-bar-active class with white (#fff) + underline styling |
 | 1.1.0 | Feb 24, 2026 | BodWave page: complete nerve→muscle mapping for all major groups, BodWave Scale (BW1–BW4), clinical nerve tests, VNN cross-link. Nav updated on all pages. Sitemap updated. |
+| 1.2.0 | Feb 24, 2026 | Press page: "What Bodybuilders Use Now" comparison (sets×reps, RPE, tempo, EMG vs MNN), "MNN for Virtual Worlds" (skeletal animation, blend shapes, mocap, procedural anim vs neural control layer), "Who Needs MNN" audience cards, IP section. Nav updated on all pages. Sitemap updated. |
 
 ---
 
