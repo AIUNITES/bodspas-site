@@ -166,7 +166,7 @@
 | 1.0.0 | Feb 1, 2026 | Initial site creation |
 | 1.0.1 | Feb 22, 2026 | Webring highlight fix: standardized to .aiunites-bar-active class with white (#fff) + underline styling |
 | 1.1.0 | Feb 24, 2026 | BodWave page: complete nerve→muscle mapping for all major groups, BodWave Scale (BW1–BW4), clinical nerve tests, VNN cross-link. Nav updated on all pages. Sitemap updated. |
-| 1.2.0 | Feb 24, 2026 | Press page: "What Bodybuilders Use Now" comparison (sets×reps, RPE, tempo, EMG vs MNN), "MNN for Virtual Worlds" (skeletal animation, blend shapes, mocap, procedural anim vs neural control layer), "Who Needs MNN" audience cards, IP section. Nav updated on all pages. Sitemap updated. |
+| 1.2.0 | Feb 24, 2026 | Press page: "What Bodybuilders Use Now" comparison (sets×reps, RPE, tempo, EMG vs MNN), "Muscle Focus: More Gains, Less Joint Damage" (wrong pathway problem, shoulder-dominant vs pec-dominant bench in MNN, muscle control artists = joint protection, joint protection table for 7 exercises), "MNN for Virtual Worlds" (skeletal animation, blend shapes, mocap, procedural anim vs neural control layer), "Who Needs MNN" audience cards, IP section. Nav updated on all pages. Sitemap updated. |
 
 ---
 
