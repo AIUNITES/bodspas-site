@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aiunites.github.io/bodspas-site/sitemap.xml

@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BodWave — Muscular Neuro Notation (MNN) | BodSpas</title>
+  <meta name="description" content="BodWave, powered by Muscular Neuro Notation (MNN), maps every muscle to the nerve that fires it. From basic flexing to full-body wave control — the neural wiring diagram for bodybuilders, physios, and anyone who trains.">
+  <meta name="keywords" content="BodWave, MNN, muscular neuro notation, muscle nerve connection, mind muscle connection, muscle control, bodybuilding neuroscience, nerve innervation, muscle isolation, motor unit recruitment, body wave control">
+  <meta name="author" content="BodSpas / AIUNITES">
+  <meta property="og:title" content="BodWave — Master Your Muscle-Nerve Connection">
+  <meta property="og:description" content="Every rep implies a neural command. BodWave maps the nerves that fire your muscles — from bench press to body wave.">
+  <meta property="og:type" content="article">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* BodWave Page Overrides */
+    .mw-hero{padding:100px 20px 60px;text-align:center;background:radial-gradient(ellipse at 40% 20%,rgba(220,38,38,0.15) 0%,transparent 50%),radial-gradient(ellipse at 60% 80%,rgba(249,115,22,0.1) 0%,transparent 50%),var(--dark)}
+    .mw-hero h1{font-size:clamp(2.4rem,5vw,3.8rem);margin-bottom:15px;background:var(--gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .mw-hero-sub{font-size:1.15rem;color:var(--gray-light);max-width:720px;margin:0 auto 30px;line-height:1.7}
+    .mw-stats{display:flex;gap:30px;justify-content:center;flex-wrap:wrap;margin-top:25px}
+    .mw-stat{text-align:center}
+    .mw-stat .num{font-size:2.2rem;font-weight:900;background:var(--gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .mw-stat .label{font-size:0.85rem;color:var(--gray)}
+
+    .mw-content{max-width:920px;margin:0 auto;padding:0 20px 80px}
+    .mw-section{margin-bottom:60px;padding-top:40px}
+    .mw-section h2{font-size:1.7rem;margin-bottom:20px;color:var(--accent);display:flex;align-items:center;gap:15px}
+    .mw-section h2::before{content:"";width:5px;height:28px;background:var(--gradient);border-radius:3px;flex-shrink:0}
+    .mw-section h3{font-size:1.2rem;margin:25px 0 12px;color:var(--primary-light)}
+    .mw-section p{color:var(--gray-light);margin-bottom:16px;line-height:1.8}
+
+    /* Nerve-Muscle Cards */
+    .muscle-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin:25px 0}
+    .muscle-card{background:var(--dark-light);border-radius:var(--radius-lg);padding:25px;border:1px solid var(--dark-border);transition:var(--transition)}
+    .muscle-card:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:0 8px 30px rgba(220,38,38,0.15)}
+    .muscle-group{font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--primary-light);margin-bottom:8px}
+    .muscle-card h4{font-size:1.1rem;font-weight:800;margin-bottom:8px}
+    .muscle-card p{color:var(--gray-light);font-size:0.9rem;margin:0 0 10px}
+    .muscle-nerve{font-family:'Courier New',monospace;color:var(--accent);font-size:0.85rem;background:rgba(251,191,36,0.06);padding:6px 10px;border-radius:6px;display:block;margin-top:8px}
+
+    /* BodWave Scale */
+    .mw-scale{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin:25px 0}
+    .mw-level{border-radius:var(--radius-lg);padding:25px;border:1px solid var(--dark-border);text-align:center;transition:var(--transition)}
+    .mw-level:hover{transform:translateY(-3px)}
+    .mw-level .lvl{font-size:2rem;font-weight:900;margin-bottom:6px}
+    .mw-level h4{font-size:1rem;font-weight:700;margin-bottom:8px}
+    .mw-level p{font-size:0.85rem;color:var(--gray-light);margin:0}
+    .mw-level.l1{background:linear-gradient(135deg,rgba(220,38,38,0.08),rgba(220,38,38,0.03));border-color:rgba(220,38,38,0.2)}.mw-level.l1 .lvl{color:var(--primary-light)}
+    .mw-level.l2{background:linear-gradient(135deg,rgba(249,115,22,0.08),rgba(249,115,22,0.03));border-color:rgba(249,115,22,0.2)}.mw-level.l2 .lvl{color:var(--secondary)}
+    .mw-level.l3{background:linear-gradient(135deg,rgba(251,191,36,0.08),rgba(251,191,36,0.03));border-color:rgba(251,191,36,0.2)}.mw-level.l3 .lvl{color:var(--accent)}
+    .mw-level.l4{background:linear-gradient(135deg,rgba(255,255,255,0.06),rgba(251,191,36,0.05));border-color:rgba(251,191,36,0.3)}.mw-level.l4 .lvl{background:var(--gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+    /* Mapping Table */
+    .mw-table{width:100%;border-collapse:collapse;margin:20px 0;background:var(--dark-light);border-radius:var(--radius-lg);overflow:hidden}
+    .mw-table th,.mw-table td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--dark-border)}
+    .mw-table th{background:rgba(220,38,38,0.15);color:var(--primary-light);font-weight:600;font-size:0.9rem}
+    .mw-table tr:last-child td{border-bottom:none}
+    .mw-table tr:hover{background:rgba(220,38,38,0.03)}
+    .mw-table .nerve{color:var(--secondary);font-weight:600}
+    .mw-table .muscle{color:var(--accent);font-family:'Courier New',monospace}
+
+    /* Quote */
+    .mw-quote{background:var(--dark-lighter);border-radius:var(--radius);padding:25px 30px;margin:25px 0;border-left:4px solid var(--primary)}
+    .mw-quote p{color:var(--white);font-size:1.05rem;font-style:italic;margin-bottom:8px}
+    .mw-quote .attr{color:var(--gray);font-size:0.85rem;font-style:normal}
+
+    /* Connection Box */
+    .connect-box{background:linear-gradient(135deg,rgba(220,38,38,0.08),rgba(249,115,22,0.05));border:1px solid rgba(220,38,38,0.2);border-radius:var(--radius-lg);padding:30px;margin:25px 0}
+    .connect-box h3{color:var(--primary-light);margin-top:0}
+
+    /* Chain */
+    .nerve-chain{display:flex;align-items:center;gap:0;margin:30px 0;flex-wrap:wrap;justify-content:center}
+    .nc-step{background:var(--dark-light);border:1px solid var(--dark-border);border-radius:var(--radius);padding:16px 20px;text-align:center;min-width:130px;transition:var(--transition)}
+    .nc-step:hover{border-color:var(--primary)}
+    .nc-step .icon{font-size:1.6rem;margin-bottom:4px}
+    .nc-step .name{font-size:0.85rem;font-weight:700}
+    .nc-step .desc{font-size:0.72rem;color:var(--gray);margin-top:3px}
+    .nc-arrow{color:var(--primary-light);font-size:1.5rem;padding:0 6px;flex-shrink:0}
+
+    /* IP Notice */
+    .ip-notice{background:var(--dark-lighter);border-radius:var(--radius);padding:20px 25px;border:1px solid var(--dark-border);font-size:0.85rem;color:var(--gray);line-height:1.7;margin:30px 0}
+    .ip-notice strong{color:var(--gray-light)}
+
+    /* CTA */
+    .mw-cta{text-align:center;padding:50px 20px;background:radial-gradient(ellipse at 50% 50%,rgba(220,38,38,0.1) 0%,transparent 60%);border-radius:var(--radius-lg);margin:40px 0}
+    .mw-cta h2{justify-content:center;font-size:1.9rem}
+    .mw-cta h2::before{display:none}
+    .mw-cta-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:25px}
+    .mw-cta-links a{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:var(--radius);text-decoration:none;font-weight:700;font-size:1rem;transition:transform 0.2s;color:#fff}
+    .mw-cta-links a:hover{transform:translateY(-3px)}
+    .btn-red{background:var(--gradient);box-shadow:0 4px 20px rgba(220,38,38,0.3)}
+    .btn-orange{background:linear-gradient(135deg,var(--secondary),var(--accent));color:#000!important;box-shadow:0 4px 20px rgba(249,115,22,0.25)}
+
+    /* Footer */
+    .mw-footer{background:var(--dark-light);padding:40px 20px;text-align:center;border-top:1px solid var(--dark-border)}
+    .mw-footer p{color:var(--gray-light);font-size:0.9rem}.mw-footer a{color:var(--primary-light);text-decoration:none}
+
+    @media(max-width:768px){
+      .muscle-grid{grid-template-columns:1fr}
+      .mw-scale{grid-template-columns:1fr 1fr}
+      .nerve-chain{flex-direction:column}.nc-arrow{transform:rotate(90deg)}
+      .mw-stats{gap:15px}
+    }
+  </style>
+</head>
+<body>
+  <!-- AIUNITES Webring -->
+  <style>.aiunites-bar{background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}.aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}.aiunites-bar-content::-webkit-scrollbar{display:none}.aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}.aiunites-bar a:hover{color:#fff}.aiunites-bar-brand{color:#6366f1!important;font-weight:600}.aiunites-bar-divider{color:rgba(255,255,255,.2)}.aiunites-bar-active{color:#fff!important;text-decoration:underline;text-underline-offset:3px}</style>
+  <div class="aiunites-bar"><div class="aiunites-bar-content"><a href="https://aiunites.github.io/aiunites-site/" class="aiunites-bar-brand">◆ AIUNITES</a><span class="aiunites-bar-divider">|</span><a href="https://aiunites.github.io/aizines-app/">AIZines</a><a href="https://aiunites.github.io/aibyjob-demo/">AIByJob</a><a href="https://aiunites.github.io/redomy-demo/">Redomy</a><a href="https://aiunites.github.io/videobate-site/">VideoBate</a><a href="https://aiunites.github.io/voicestry-site/">🎤 VoiceStry</a><a href="https://aiunites.github.io/bodspas-site/" class="aiunites-bar-active">💪 BodSpas</a><a href="https://aiunites.github.io/furnishthings-site/">FurnishThings</a><a href="https://aiunites.github.io/bizstry-site/">BizStry</a><a href="https://aiunites.github.io/aiyhwh-site/">AI YHWH</a><a href="https://aiunites.github.io/cloudsion-site/">Cloudsion</a><a href="https://aiunites.github.io/gameatica-site/">Gameatica</a><a href="https://aiunites.github.io/uptownit-site/">UptownIT</a><a href="https://aiunites.github.io/inthisworld-site/">InThisWorld</a><a href="https://aiunites.github.io/erpise-site/">ERPise</a><a href="https://aiunites.github.io/erpize-site/">ERPize</a><a href="https://aiunites.github.io/aitsql-site/">AITSQL</a><a href="https://aiunites.github.io/cosmostheopera-site/">🌌 COSMOS</a></div></div>
+
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo"><span class="logo-icon">💪</span><span class="logo-text">BodSpas</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="bodwave.html" style="color:var(--primary-light);">BodWave</a>
+        <a href="gallery.html">Gallery</a>
+      </div>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="mw-hero">
+    <h1>⚡ BodWave</h1>
+    <p class="mw-hero-sub" style="margin-bottom:10px;">Powered by <strong>Muscular Neuro Notation (MNN)</strong></p>
+    <p class="mw-hero-sub">Every rep implies a neural command chain. BodWave maps the nerve that fires every muscle you train — from basic flexing to masterful full-body wave control where elite bodybuilders isolate and roll contractions through individual muscles at will.</p>
+    <div class="mw-stats">
+      <div class="mw-stat"><div class="num">35+</div><div class="label">Nerves Mapped</div></div>
+      <div class="mw-stat"><div class="num">600+</div><div class="label">Skeletal Muscles</div></div>
+      <div class="mw-stat"><div class="num">4</div><div class="label">BodWave Levels</div></div>
+      <div class="mw-stat"><div class="num">∞</div><div class="label">Mind-Muscle Potential</div></div>
+    </div>
+  </section>
+
+  <main class="mw-content">
+
+    <!-- 1. The Concept -->
+    <section class="mw-section">
+      <h2>What Is BodWave?</h2>
+      <p>Most people go to the gym and "do chest." They push the bar up. The weight moves. But they have no idea which nerve fires which head of which muscle — or why their left pec grows faster than their right, why their lateral delts lag, or why a pinched nerve at C5 kills their curl strength.</p>
+      <p><strong>BodWave is the neural wiring diagram for your body.</strong> It's powered by <strong>Muscular Neuro Notation (MNN)</strong> — the formal system that maps every major muscle group to the specific nerve that innervates it, the spinal root that feeds that nerve, and the exercises that target that pathway. MNN is the notation. BodWave is what you train. It's the difference between "I did bench" and "I activated the medial pectoral nerve driving the sternal head of pectoralis major through a progressive overload at 80% 1RM."</p>
+      <p>The name comes from elite bodybuilders who take muscle control to performance art — isolating individual muscles, rolling contractions through chains, creating visible waves across their torso. That's not just strength. That's <strong>conscious neural control at the motor unit level.</strong></p>
+
+      <div class="mw-quote">
+        <p>"You say flex your brachii and they know it and flex it. That's not muscle memory — it's neural precision. The nerve fires, the muscle obeys, and the bodybuilder controls which nerve fires when."</p>
+        <div class="attr">— The BodWave principle</div>
+      </div>
+    </section>
+
+    <!-- 2. The Neural Command Chain -->
+    <section class="mw-section">
+      <h2>The Neural Command Chain</h2>
+      <p>Every rep you do in the gym follows this path — whether you know it or not:</p>
+      <div class="nerve-chain">
+        <div class="nc-step"><div class="icon">🧠</div><div class="name">Motor Cortex</div><div class="desc">Voluntary intent</div></div>
+        <div class="nc-arrow">→</div>
+        <div class="nc-step"><div class="icon">🎯</div><div class="name">Basal Ganglia</div><div class="desc">Learned patterns</div></div>
+        <div class="nc-arrow">→</div>
+        <div class="nc-step"><div class="icon">⏱️</div><div class="name">Cerebellum</div><div class="desc">Timing &amp; force</div></div>
+        <div class="nc-arrow">→</div>
+        <div class="nc-step"><div class="icon">🔌</div><div class="name">Spinal Cord</div><div class="desc">Motor neurons</div></div>
+        <div class="nc-arrow">→</div>
+        <div class="nc-step"><div class="icon">⚡</div><div class="name">Peripheral Nerve</div><div class="desc">Signal delivery</div></div>
+        <div class="nc-arrow">→</div>
+        <div class="nc-step"><div class="icon">💪</div><div class="name">Muscle Fiber</div><div class="desc">Contraction</div></div>
+      </div>
+      <p>A trained bodybuilder has optimized this chain through thousands of reps. Their basal ganglia has learned the motor pattern. Their cerebellum has calibrated the force. And at BodWave Level 4, they've developed such precise voluntary control that they can address individual motor units — flexing muscles one at a time, rolling contractions through a chain, creating waves.</p>
+    </section>
+
+    <!-- 3. The BodWave Scale -->
+    <section class="mw-section">
+      <h2>The BodWave Scale</h2>
+      <p>Four levels of neuromuscular control. Most gym-goers live at Level 1. Elite bodybuilders reach Level 3. Full-body wave performance artists hit Level 4.</p>
+      <div class="mw-scale">
+        <div class="mw-level l1">
+          <div class="lvl">BW1</div>
+          <h4>Group Flexion</h4>
+          <p>Can flex major groups on command: biceps, chest, quads. Most gym-goers. The nerve fires, the whole muscle group responds.</p>
+        </div>
+        <div class="mw-level l2">
+          <div class="lvl">BW2</div>
+          <h4>Head Isolation</h4>
+          <p>Can isolate heads within a group: upper vs lower pec, long head vs short head bicep, lateral vs rear delt. Intermediate mind-muscle connection.</p>
+        </div>
+        <div class="mw-level l3">
+          <div class="lvl">BW3</div>
+          <h4>Sequential Control</h4>
+          <p>Can roll contractions through a muscle chain: ab wave top-to-bottom, pec wave medial-to-lateral. Advanced neuromuscular precision. Competitive bodybuilder territory.</p>
+        </div>
+        <div class="mw-level l4">
+          <div class="lvl">BW4</div>
+          <h4>Full BodWave</h4>
+          <p>Full-body wave control. Individual muscle isolation at will. Sequential cascading contractions across multiple groups. Performance-art-level neuromuscular mastery.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. The Complete Nerve-Muscle Map -->
+    <section class="mw-section">
+      <h2>Complete MNN Reference — Nerve → Muscle Map</h2>
+      <p>Every muscle you train has a specific nerve that innervates it, fed by specific spinal roots. These are the master Muscular Neuro Notation tables.</p>
+
+      <h3>Chest</h3>
+      <table class="mw-table">
+        <thead><tr><th>Muscle</th><th>Nerve</th><th>Spinal Root</th><th>Key Exercises</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">Pectoralis Major (sternal)</td><td class="nerve">Medial Pectoral</td><td>C8–T1</td><td>Flat bench, dips, cable fly</td></tr>
+          <tr><td class="muscle">Pectoralis Major (clavicular)</td><td class="nerve">Lateral Pectoral</td><td>C5–C7</td><td>Incline bench, incline fly</td></tr>
+          <tr><td class="muscle">Pectoralis Minor</td><td class="nerve">Medial Pectoral</td><td>C8–T1</td><td>Dips, scapular protraction</td></tr>
+          <tr><td class="muscle">Serratus Anterior</td><td class="nerve">Long Thoracic</td><td>C5–C7</td><td>Push-up plus, serratus punches</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Back</h3>
+      <table class="mw-table">
+        <thead><tr><th>Muscle</th><th>Nerve</th><th>Spinal Root</th><th>Key Exercises</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">Latissimus Dorsi</td><td class="nerve">Thoracodorsal</td><td>C6–C8</td><td>Pull-ups, lat pulldown, rows</td></tr>
+          <tr><td class="muscle">Rhomboids (Major/Minor)</td><td class="nerve">Dorsal Scapular</td><td>C5</td><td>Cable rows, face pulls, band pull-aparts</td></tr>
+          <tr><td class="muscle">Trapezius (Upper)</td><td class="nerve">Accessory (CN XI)</td><td>Cranial</td><td>Shrugs, upright rows</td></tr>
+          <tr><td class="muscle">Trapezius (Mid/Lower)</td><td class="nerve">Accessory + C3–C4</td><td>Cranial + cervical</td><td>Face pulls, Y-raises, prone rows</td></tr>
+          <tr><td class="muscle">Erector Spinae</td><td class="nerve">Dorsal Rami</td><td>T1–L5</td><td>Deadlifts, back extensions, good mornings</td></tr>
+          <tr><td class="muscle">Teres Major</td><td class="nerve">Subscapular (Lower)</td><td>C5–C6</td><td>Lat pulldowns, straight-arm pulldowns</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Shoulders</h3>
+      <table class="mw-table">
+        <thead><tr><th>Muscle</th><th>Nerve</th><th>Spinal Root</th><th>Key Exercises</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">Deltoid (Anterior)</td><td class="nerve">Axillary</td><td>C5–C6</td><td>Front raises, overhead press</td></tr>
+          <tr><td class="muscle">Deltoid (Lateral)</td><td class="nerve">Axillary</td><td>C5–C6</td><td>Lateral raises, upright rows</td></tr>
+          <tr><td class="muscle">Deltoid (Posterior)</td><td class="nerve">Axillary</td><td>C5–C6</td><td>Reverse fly, face pulls</td></tr>
+          <tr><td class="muscle">Supraspinatus</td><td class="nerve">Suprascapular</td><td>C5–C6</td><td>First 15° of abduction, rotator cuff work</td></tr>
+          <tr><td class="muscle">Infraspinatus</td><td class="nerve">Suprascapular</td><td>C5–C6</td><td>External rotation, face pulls</td></tr>
+          <tr><td class="muscle">Subscapularis</td><td class="nerve">Subscapular (Upper/Lower)</td><td>C5–C6</td><td>Internal rotation, Gerber lift-off</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Arms</h3>
+      <table class="mw-table">
+        <thead><tr><th>Muscle</th><th>Nerve</th><th>Spinal Root</th><th>Key Exercises</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">Biceps Brachii</td><td class="nerve">Musculocutaneous</td><td>C5–C7</td><td>Curls (barbell, dumbbell, EZ bar)</td></tr>
+          <tr><td class="muscle">Brachialis</td><td class="nerve">Musculocutaneous + Radial</td><td>C5–C7</td><td>Hammer curls, reverse curls</td></tr>
+          <tr><td class="muscle">Brachioradialis</td><td class="nerve">Radial</td><td>C5–C6</td><td>Hammer curls, reverse grip curls</td></tr>
+          <tr><td class="muscle">Triceps (All 3 heads)</td><td class="nerve">Radial</td><td>C6–C8</td><td>Pushdowns, skull crushers, close-grip bench</td></tr>
+          <tr><td class="muscle">Forearm Flexors</td><td class="nerve">Median + Ulnar</td><td>C7–T1</td><td>Wrist curls, grip work</td></tr>
+          <tr><td class="muscle">Forearm Extensors</td><td class="nerve">Radial (posterior interosseous)</td><td>C7–C8</td><td>Reverse wrist curls, wrist rollers</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Core</h3>
+      <table class="mw-table">
+        <thead><tr><th>Muscle</th><th>Nerve</th><th>Spinal Root</th><th>Key Exercises</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">Rectus Abdominis (upper)</td><td class="nerve">Intercostal</td><td>T7–T11</td><td>Crunches, cable crunches</td></tr>
+          <tr><td class="muscle">Rectus Abdominis (lower)</td><td class="nerve">Subcostal + Iliohypogastric</td><td>T12–L1</td><td>Leg raises, reverse crunches</td></tr>
+          <tr><td class="muscle">External Obliques</td><td class="nerve">Intercostal</td><td>T5–T12</td><td>Russian twists, side bends, woodchops</td></tr>
+          <tr><td class="muscle">Internal Obliques</td><td class="nerve">Intercostal + Iliohypogastric</td><td>T7–L1</td><td>Anti-rotation press, Pallof press</td></tr>
+          <tr><td class="muscle">Transversus Abdominis</td><td class="nerve">Intercostal + Iliohypogastric</td><td>T7–L1</td><td>Vacuum, dead bugs, plank</td></tr>
+          <tr><td class="muscle">Diaphragm</td><td class="nerve">Phrenic</td><td>C3–C5</td><td>Breathing drills, bracing</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Legs — Anterior</h3>
+      <table class="mw-table">
+        <thead><tr><th>Muscle</th><th>Nerve</th><th>Spinal Root</th><th>Key Exercises</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">Rectus Femoris</td><td class="nerve">Femoral</td><td>L2–L4</td><td>Squats, leg extensions, lunges</td></tr>
+          <tr><td class="muscle">Vastus Lateralis</td><td class="nerve">Femoral</td><td>L2–L4</td><td>Squats, leg press, leg extensions</td></tr>
+          <tr><td class="muscle">Vastus Medialis (VMO)</td><td class="nerve">Femoral</td><td>L2–L4</td><td>Terminal knee extension, narrow squats</td></tr>
+          <tr><td class="muscle">Vastus Intermedius</td><td class="nerve">Femoral</td><td>L2–L4</td><td>Deep squats, leg press</td></tr>
+          <tr><td class="muscle">Hip Flexors (Iliopsoas)</td><td class="nerve">Femoral + L1–L3 direct</td><td>L1–L3</td><td>Hanging leg raises, hip flexor march</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Legs — Posterior</h3>
+      <table class="mw-table">
+        <thead><tr><th>Muscle</th><th>Nerve</th><th>Spinal Root</th><th>Key Exercises</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">Biceps Femoris (long)</td><td class="nerve">Sciatic (tibial division)</td><td>L5–S2</td><td>Romanian deadlifts, lying leg curl</td></tr>
+          <tr><td class="muscle">Biceps Femoris (short)</td><td class="nerve">Sciatic (peroneal division)</td><td>L5–S1</td><td>Seated leg curl</td></tr>
+          <tr><td class="muscle">Semimembranosus</td><td class="nerve">Sciatic (tibial)</td><td>L5–S2</td><td>RDLs, Nordic curls</td></tr>
+          <tr><td class="muscle">Semitendinosus</td><td class="nerve">Sciatic (tibial)</td><td>L5–S2</td><td>Lying curls, glute-ham raises</td></tr>
+          <tr><td class="muscle">Gastrocnemius</td><td class="nerve">Tibial</td><td>S1–S2</td><td>Standing calf raises</td></tr>
+          <tr><td class="muscle">Soleus</td><td class="nerve">Tibial</td><td>S1–S2</td><td>Seated calf raises</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Glutes</h3>
+      <table class="mw-table">
+        <thead><tr><th>Muscle</th><th>Nerve</th><th>Spinal Root</th><th>Key Exercises</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">Gluteus Maximus</td><td class="nerve">Inferior Gluteal</td><td>L5–S2</td><td>Hip thrusts, squats, deadlifts</td></tr>
+          <tr><td class="muscle">Gluteus Medius</td><td class="nerve">Superior Gluteal</td><td>L4–S1</td><td>Lateral band walks, side-lying abduction</td></tr>
+          <tr><td class="muscle">Gluteus Minimus</td><td class="nerve">Superior Gluteal</td><td>L4–S1</td><td>Clamshells, single-leg stance work</td></tr>
+          <tr><td class="muscle">Tensor Fasciae Latae</td><td class="nerve">Superior Gluteal</td><td>L4–S1</td><td>Hip flexion with internal rotation</td></tr>
+          <tr><td class="muscle">Piriformis</td><td class="nerve">Direct branches</td><td>S1–S2</td><td>External rotation, piriformis stretches</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 5. Why It Matters -->
+    <section class="mw-section">
+      <h2>Why Knowing Your Wiring Matters</h2>
+      <div class="muscle-grid">
+        <div class="muscle-card">
+          <div class="muscle-group">For Bodybuilders</div>
+          <h4>Targeted Mind-Muscle Connection</h4>
+          <p>Knowing the medial pectoral nerve drives the sternal head means you can focus neural intent on that pathway during flat bench. That's not bro-science — it's how motor cortex allocation works. Research shows focused attention on a specific muscle during contraction increases EMG activity in that muscle.</p>
+        </div>
+        <div class="muscle-card">
+          <div class="muscle-group">For Physios &amp; Rehab</div>
+          <h4>Diagnose the Nerve, Not Just the Muscle</h4>
+          <p>"Weak lateral delt" might be an axillary nerve issue at C5–C6, not a training problem. A dropped wrist is radial nerve. A claw hand is ulnar nerve. BodWave gives clinicians the muscle-to-nerve diagnostic map.</p>
+        </div>
+        <div class="muscle-card">
+          <div class="muscle-group">For Athletes</div>
+          <h4>Understand Injury Patterns</h4>
+          <p>A herniated disc at L5–S1 compresses the S1 nerve root. BodWave shows that means: calf raise weakness (tibial nerve → gastrocnemius), hamstring weakness (sciatic → biceps femoris), and glute weakness (inferior gluteal). One disc, three muscle groups, one nerve root.</p>
+        </div>
+        <div class="muscle-card">
+          <div class="muscle-group">For Coaches</div>
+          <h4>Program With Neural Precision</h4>
+          <p>Upper pec (lateral pectoral, C5–C7) and lower pec (medial pectoral, C8–T1) are literally different nerves from different spinal levels. They're not the same muscle "at a different angle" — they're different neural circuits. Programming should reflect that.</p>
+        </div>
+        <div class="muscle-card">
+          <div class="muscle-group">For Posing &amp; Performance</div>
+          <h4>Train the Wave</h4>
+          <p>BodWave Level 3–4 control is trainable. Start with single-muscle flexion, progress to head isolation, then sequential rolling contractions. It's the same principle as a trained singer isolating cranial nerve pathways — voluntary neural precision over individual motor units.</p>
+        </div>
+        <div class="muscle-card">
+          <div class="muscle-group">For Everyone</div>
+          <h4>Know Your Wiring</h4>
+          <p>Your body has 600+ muscles controlled by specific nerves from specific spinal levels. You don't need to memorize them all. But knowing the major pathways transforms training from mechanical repetition into conscious neuromuscular development.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. The VNN Connection -->
+    <section class="mw-section">
+      <h2>The VoiceStry Connection</h2>
+      <div class="connect-box">
+        <h3>🎤 VNN + 💪 MNN — Same Framework, Different Instruments</h3>
+        <p><strong>Muscular Neuro Notation (MNN)</strong> is the body equivalent of <a href="https://aiunites.github.io/voicestry-site/ai-neuro.html" style="color:var(--accent);">Vocal Neuro Notation (VNN)</a> from VoiceStry. VNN maps cranial nerves to vocal muscles. MNN maps peripheral nerves to skeletal muscles. Same principle — the neural wiring diagram for a biological instrument. BodWave is the training brand. MNN is the notation.</p>
+        <p style="margin-top:12px;">A trained singer at VoiceStry can isolate CN VII (facial nerve) to lift the zygomaticus major for mask resonance. A trained bodybuilder at BodWave Level 4 can isolate the thoracodorsal nerve to contract the lat in isolation. Both are voluntary neural precision over individual motor units. Both are trainable. Both have a notation system now.</p>
+        <p style="margin-top:12px;"><strong>VRN → VNN → MNN.</strong> Vocal notation → vocal neuroscience → full-body neuroscience. The AIUNITES network maps the complete human instrument.</p>
+      </div>
+    </section>
+
+    <!-- 7. Clinical Nerve Tests -->
+    <section class="mw-section">
+      <h2>Clinical Quick Tests — Know Your Nerves</h2>
+      <p>Neurologists use specific muscle tests to diagnose nerve damage. These same tests tell you if your neural pathways are firing correctly:</p>
+      <table class="mw-table">
+        <thead><tr><th>Test</th><th>Nerve Being Tested</th><th>Root</th><th>If Weak...</th></tr></thead>
+        <tbody>
+          <tr><td>Calf raise (single leg)</td><td class="nerve">Tibial (S1)</td><td>S1–S2</td><td>S1 radiculopathy — check for disc herniation L5–S1</td></tr>
+          <tr><td>Foot dorsiflexion (heel walk)</td><td class="nerve">Deep Peroneal (L4–L5)</td><td>L4–L5</td><td>L5 root or peroneal nerve compression (foot drop)</td></tr>
+          <tr><td>Knee extension (seated)</td><td class="nerve">Femoral (L3–L4)</td><td>L2–L4</td><td>Femoral nerve issue — check for L3–L4 disc</td></tr>
+          <tr><td>Wrist extension (against resistance)</td><td class="nerve">Radial (C6–C7)</td><td>C6–C7</td><td>Radial nerve palsy — check for humeral fracture or compression</td></tr>
+          <tr><td>Grip strength</td><td class="nerve">Median + Ulnar (C8–T1)</td><td>C8–T1</td><td>Carpal tunnel (median) or cubital tunnel (ulnar)</td></tr>
+          <tr><td>Shoulder abduction (first 15°)</td><td class="nerve">Suprascapular (C5–C6)</td><td>C5–C6</td><td>Suprascapular nerve entrapment</td></tr>
+          <tr><td>Deltoid flex (lateral raise)</td><td class="nerve">Axillary (C5–C6)</td><td>C5–C6</td><td>Axillary nerve injury — check for shoulder dislocation history</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- IP Notice -->
+    <div class="ip-notice">
+      <strong>Intellectual Property Notice:</strong> Muscular Neuro Notation (MNN), BodWave, the BodWave Scale (BW1–BW4), the nerve-to-muscle mapping tables, and all original frameworks on this page are © 2026 BodSpas / AIUNITES. All Rights Reserved. DMCA Protected. MNN is the first system to map exercise-based muscle training to its underlying neural command chains. Published freely for educational and professional use. Sister system: <a href="https://aiunites.github.io/voicestry-site/ai-neuro.html" style="color:var(--primary-light);">VNN (Vocal Neuro Notation)</a> at VoiceStry.
+    </div>
+
+    <!-- CTA -->
+    <section class="mw-cta">
+      <h2>Know Your Wiring. Train Smarter.</h2>
+      <p style="color:var(--gray-light);max-width:600px;margin:0 auto 10px;">BodWave maps the nerves. Your training builds the pathways. From BW1 to BW4 — the journey is neural.</p>
+      <div class="mw-cta-links">
+        <a href="index.html" class="btn-red">💪 BodSpas Programs</a>
+        <a href="https://aiunites.github.io/voicestry-site/ai-neuro.html" class="btn-orange">🎤 VNN at VoiceStry</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="mw-footer">
+    <p>
+      © 2026 BodSpas. All Rights Reserved. DMCA Protected.<br>
+      MNN / Muscular Neuro Notation © 2026 BodSpas / AIUNITES.<br>
+      <a href="index.html">Home</a> |
+      <a href="bodwave.html">BodWave</a> |
+      <a href="gallery.html">Gallery</a><br><br>
+      Part of the <a href="https://aiunites.github.io/aiunites-site/">AIUNITES</a> network |
+      Sister system: <a href="https://aiunites.github.io/voicestry-site/ai-neuro.html">VNN at VoiceStry</a>
+    </p>
+  </footer>
+
+  <script>
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navLinks = document.getElementById('navLinks');
+    if(mobileToggle) mobileToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      mobileToggle.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

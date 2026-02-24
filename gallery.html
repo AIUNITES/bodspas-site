@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VP15KRLV6P"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VP15KRLV6P');
+  </script>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery | BodSpas - Fitness Inspiration</title>
+  <meta name="description" content="Get inspired with our fitness gallery. See the results of dedicated training and proper nutrition.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    /* Gallery Page Styles */
+    .gallery-page {
+      padding: 120px 0 80px;
+      min-height: 100vh;
+    }
+    
+    /* Slideshow Container */
+    .slideshow-container {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto 60px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+    
+    .slide {
+      display: none;
+      position: relative;
+    }
+    
+    .slide.active {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .slide img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .slide-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 30px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+      color: white;
+    }
+    
+    .slide-caption h3 {
+      margin-bottom: 5px;
+    }
+    
+    .slide-caption p {
+      color: var(--gray-light);
+      font-size: 0.9rem;
+    }
+    
+    /* Slideshow Controls */
+    .slideshow-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .slide-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid var(--dark-border);
+      background: var(--dark-light);
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .slide-btn:hover {
+      border-color: var(--primary);
+      background: rgba(220, 38, 38, 0.1);
+    }
+    
+    .play-pause-btn {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient);
+      border: none;
+    }
+    
+    .play-pause-btn:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-glow);
+    }
+    
+    /* Progress Bar */
+    .slide-progress {
+      width: 100%;
+      height: 4px;
+      background: var(--dark-border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 30px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .slide-progress-bar {
+      height: 100%;
+      background: var(--gradient);
+      width: 0%;
+      transition: width 0.1s linear;
+    }
+    
+    /* Dots */
+    .slide-dots {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 60px;
+    }
+    
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--dark-border);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .dot:hover {
+      background: var(--gray);
+    }
+    
+    .dot.active {
+      background: var(--primary);
+      box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+    }
+    
+    /* Thumbnail Grid */
+    .thumbnail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 40px;
+    }
+    
+    .thumbnail {
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: var(--transition);
+    }
+    
+    .thumbnail:hover {
+      border-color: var(--primary);
+      transform: scale(1.02);
+    }
+    
+    .thumbnail.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+    }
+    
+    .thumbnail img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    /* Stats */
+    .gallery-stats {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .gallery-stat {
+      text-align: center;
+    }
+    
+    .gallery-stat-number {
+      font-size: 2rem;
+      font-weight: 800;
+      background: var(--gradient-text);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .gallery-stat-label {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .slide img {
+        height: 350px;
+      }
+      
+      .slideshow-controls {
+        gap: 15px;
+      }
+      
+      .slide-btn {
+        width: 44px;
+        height: 44px;
+      }
+      
+      .play-pause-btn {
+        width: 54px;
+        height: 54px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- AIUNITES Webring -->
+  <style>.aiunites-bar{position:fixed;top:0;left:0;right:0;z-index:1100;background:linear-gradient(90deg,#0a0a0f,#1a1a2e);border-bottom:1px solid rgba(99,102,241,.3);padding:8px 0;font-size:12px}.aiunites-bar-content{max-width:1400px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:12px;overflow-x:auto;scrollbar-width:none}.aiunites-bar-content::-webkit-scrollbar{display:none}.aiunites-bar a{color:rgba(255,255,255,.7);text-decoration:none;white-space:nowrap;transition:color .2s}.aiunites-bar a:hover{color:#fff}.aiunites-bar-brand{color:#6366f1!important;font-weight:600}.aiunites-bar-brand:hover{color:#818cf8!important}.aiunites-bar-divider{color:rgba(255,255,255,.2)}.aiunites-bar .current{color:#dc2626!important;text-decoration:underline;text-underline-offset:3px;}</style>
+  <div class="aiunites-bar"><div class="aiunites-bar-content"><a href="https://aiunites.github.io/aiunites-site/" class="aiunites-bar-brand">◆ AIUNITES</a><span class="aiunites-bar-divider">|</span><a href="https://aiunites.github.io/aizines-app/">AIZines</a><a href="https://aiunites.github.io/aibyjob-demo/">AIByJob</a><a href="https://aiunites.github.io/redomy-demo/">Redomy</a><a href="https://aiunites.github.io/videobate-site/">VideoBate</a><a href="https://aiunites.github.io/furnishthings-site/">FurnishThings</a><a href="https://aiunites.github.io/bizstry-site/">BizStry</a><a href="https://aiunites.github.io/aiyhwh-site/">AI YHWH</a><a href="https://aiunites.github.io/cloudsion-site/">Cloudsion</a><a href="https://aiunites.github.io/gameatica-site/">Gameatica</a><a href="https://aiunites.github.io/uptownit-site/">UptownIT</a><a href="https://aiunites.github.io/inthisworld-site/">InThisWorld</a><a href="https://aiunites.github.io/erpise-site/">ERPise</a><a href="https://aiunites.github.io/erpize-site/">ERPize</a><a href="https://aiunites.github.io/cosmostheopera-site/">🌌 COSMOS</a></div></div>
+  <script>(function(){if(location.protocol==='file:'||location.hostname==='localhost'||location.hostname==='127.0.0.1'){document.querySelectorAll('.aiunites-bar a').forEach(a=>{if(!a.classList.contains('current'))a.href=a.href.replace('https://aiunites.github.io/','../')+'index.html';});}})()</script>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">💪</span>
+        <span class="logo-text">BodSpas</span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="index.html#programs">Programs</a>
+        <a href="index.html#nutrition">Nutrition</a>
+        <a href="bodwave.html">BodWave</a>
+        <a href="gallery.html" style="color: var(--primary-light);">Gallery</a>
+        <a href="index.html#start" class="btn btn-primary btn-sm">Notify Me</a>
+      </div>
+      <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Gallery Section -->
+  <section class="gallery-page">
+    <div class="container">
+      <div class="section-header">
+        <h1>Fitness <span class="gradient-text">Gallery</span></h1>
+        <p>Get inspired by dedication, discipline, and results</p>
+      </div>
+      
+      <!-- Stats -->
+      <div class="gallery-stats">
+        <div class="gallery-stat">
+          <div class="gallery-stat-number">25</div>
+          <div class="gallery-stat-label">Photos</div>
+        </div>
+        <div class="gallery-stat">
+          <div class="gallery-stat-number" id="slideTimer">5s</div>
+          <div class="gallery-stat-label">Per Slide</div>
+        </div>
+        <div class="gallery-stat">
+          <div class="gallery-stat-number" id="currentSlide">1</div>
+          <div class="gallery-stat-label">Current</div>
+        </div>
+      </div>
+      
+      <!-- Slideshow -->
+      <div class="slideshow-container" id="slideshow">
+        <div class="slide active">
+          <img src="images/sport-6820867_1280.jpg" alt="Intense workout">
+          <div class="slide-caption">
+            <h3>Dedication</h3>
+            <p>Every rep counts towards your goal</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/man-5883500_1280.jpg" alt="Strength training">
+          <div class="slide-caption">
+            <h3>Foundation</h3>
+            <p>Build your base with compound movements</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/muscles-7877929_1280.jpg" alt="Muscle definition">
+          <div class="slide-caption">
+            <h3>Hypertrophy</h3>
+            <p>Maximize muscle growth with volume</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/abs-6349095_1280.jpg" alt="Defined abs">
+          <div class="slide-caption">
+            <h3>Definition</h3>
+            <p>Abs are made in the kitchen</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/athlete-6232790_1280.jpg" alt="Athletic physique">
+          <div class="slide-caption">
+            <h3>Athletic</h3>
+            <p>Performance meets aesthetics</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/model-2842198_1280.jpg" alt="Fitness model">
+          <div class="slide-caption">
+            <h3>Discipline</h3>
+            <p>Consistency is the key to transformation</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/akram-huseyn-V-SkkqKbt7g-unsplash.jpg" alt="Gym motivation">
+          <div class="slide-caption">
+            <h3>Push Limits</h3>
+            <p>Growth happens outside your comfort zone</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/anastase-maragos-7kEpUPB8vNk-unsplash.jpg" alt="Weightlifting">
+          <div class="slide-caption">
+            <h3>Strength</h3>
+            <p>Heavy weights build dense muscle</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/karolis-milisauskas-eoVdk1z4ihI-unsplash.jpg" alt="Training hard">
+          <div class="slide-caption">
+            <h3>Focus</h3>
+            <p>Mind-muscle connection matters</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/siamak-C_mhSj7MI18-unsplash.jpg" alt="Fitness journey">
+          <div class="slide-caption">
+            <h3>Journey</h3>
+            <p>Every day is a chance to improve</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/sven-mieke-A5O3rCnIkg4-unsplash.jpg" alt="Gym life">
+          <div class="slide-caption">
+            <h3>Lifestyle</h3>
+            <p>Fitness is not a hobby, it's a way of life</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/man-1868632_1280.jpg" alt="Muscular physique">
+          <div class="slide-caption">
+            <h3>Physique</h3>
+            <p>Sculpt your best body</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-adenir-32816487.jpg" alt="Fitness">
+          <div class="slide-caption">
+            <h3>Power</h3>
+            <p>Unleash your potential</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-alexapopovich-14898412.jpg" alt="Training">
+          <div class="slide-caption">
+            <h3>Grind</h3>
+            <p>No shortcuts, just hard work</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-alexapopovich-14898419.jpg" alt="Workout">
+          <div class="slide-caption">
+            <h3>Perseverance</h3>
+            <p>Keep pushing forward</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-blanxybuilding-20400636.jpg" alt="Gym session">
+          <div class="slide-caption">
+            <h3>Gains</h3>
+            <p>Every session counts</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-david-lago-rodriguez-84330347-12966654.jpg" alt="Lifting">
+          <div class="slide-caption">
+            <h3>Iron</h3>
+            <p>The weights don't lie</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-fitness-underground-1907989105-28762686.jpg" alt="Underground gym">
+          <div class="slide-caption">
+            <h3>Raw</h3>
+            <p>Real gyms, real results</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-leonmart-1552106.jpg" alt="Strong physique">
+          <div class="slide-caption">
+            <h3>Strong</h3>
+            <p>Strength is earned</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-leonmart-2468344.jpg" alt="Muscular">
+          <div class="slide-caption">
+            <h3>Built</h3>
+            <p>Brick by brick</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-mike-jones-8875224.jpg" alt="Fitness journey">
+          <div class="slide-caption">
+            <h3>Transform</h3>
+            <p>Become who you're meant to be</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-mralpha-26222788.jpg" alt="Alpha physique">
+          <div class="slide-caption">
+            <h3>Elite</h3>
+            <p>Rise above the rest</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-niko-twisty-12895269.jpg" alt="Gym workout">
+          <div class="slide-caption">
+            <h3>Hustle</h3>
+            <p>Outwork everyone</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-shuvalova-natalia-415991090-18723748.jpg" alt="Training hard">
+          <div class="slide-caption">
+            <h3>Relentless</h3>
+            <p>Never settle for less</p>
+          </div>
+        </div>
+        <div class="slide">
+          <img src="images/pexels-yogendras31-4384679.jpg" alt="Peak fitness">
+          <div class="slide-caption">
+            <h3>Peak</h3>
+            <p>Reach your summit</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Progress Bar -->
+      <div class="slide-progress">
+        <div class="slide-progress-bar" id="progressBar"></div>
+      </div>
+      
+      <!-- Controls -->
+      <div class="slideshow-controls">
+        <button class="slide-btn" id="prevBtn">◀</button>
+        <button class="slide-btn play-pause-btn" id="playPauseBtn">❚❚</button>
+        <button class="slide-btn" id="nextBtn">▶</button>
+      </div>
+      
+      <!-- Dots -->
+      <div class="slide-dots" id="slideDots"></div>
+      
+      <!-- Thumbnail Grid -->
+      <h3 style="text-align: center; margin-bottom: 20px;">All Photos</h3>
+      <div class="thumbnail-grid" id="thumbnailGrid"></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>&copy; 2025 BodSpas. All rights reserved.</p>
+        <p>Part of the <a href="https://aiunites.github.io/aiunites-site/" target="_blank">AIUNITES</a> network</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileToggle = document.getElementById('mobileToggle');
+    const navLinks = document.getElementById('navLinks');
+    
+    mobileToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      mobileToggle.classList.toggle('active');
+    });
+
+    // Slideshow
+    const slides = document.querySelectorAll('.slide');
+    const dotsContainer = document.getElementById('slideDots');
+    const thumbnailGrid = document.getElementById('thumbnailGrid');
+    const progressBar = document.getElementById('progressBar');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const currentSlideDisplay = document.getElementById('currentSlide');
+    
+    let currentIndex = 0;
+    let isPlaying = true;
+    let slideInterval;
+    let progressInterval;
+    const slideDuration = 5000; // 5 seconds
+    
+    // Create dots and thumbnails
+    slides.forEach((slide, index) => {
+      // Dots
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (index === 0 ? ' active' : '');
+      dot.addEventListener('click', () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+      
+      // Thumbnails
+      const thumb = document.createElement('div');
+      thumb.className = 'thumbnail' + (index === 0 ? ' active' : '');
+      const img = slide.querySelector('img').cloneNode();
+      thumb.appendChild(img);
+      thumb.addEventListener('click', () => goToSlide(index));
+      thumbnailGrid.appendChild(thumb);
+    });
+    
+    const dots = document.querySelectorAll('.dot');
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    
+    function updateSlide() {
+      slides.forEach((slide, index) => {
+        slide.classList.remove('active');
+        dots[index].classList.remove('active');
+        thumbnails[index].classList.remove('active');
+      });
+      
+      slides[currentIndex].classList.add('active');
+      dots[currentIndex].classList.add('active');
+      thumbnails[currentIndex].classList.add('active');
+      currentSlideDisplay.textContent = currentIndex + 1;
+    }
+    
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % slides.length;
+      updateSlide();
+      resetProgress();
+    }
+    
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+      updateSlide();
+      resetProgress();
+    }
+    
+    function goToSlide(index) {
+      currentIndex = index;
+      updateSlide();
+      resetProgress();
+    }
+    
+    function resetProgress() {
+      progressBar.style.width = '0%';
+      if (isPlaying) {
+        startProgress();
+      }
+    }
+    
+    function startProgress() {
+      let progress = 0;
+      clearInterval(progressInterval);
+      progressInterval = setInterval(() => {
+        progress += 100 / (slideDuration / 100);
+        progressBar.style.width = progress + '%';
+        if (progress >= 100) {
+          clearInterval(progressInterval);
+        }
+      }, 100);
+    }
+    
+    function startSlideshow() {
+      clearInterval(slideInterval);
+      slideInterval = setInterval(nextSlide, slideDuration);
+      startProgress();
+    }
+    
+    function stopSlideshow() {
+      clearInterval(slideInterval);
+      clearInterval(progressInterval);
+    }
+    
+    function togglePlayPause() {
+      isPlaying = !isPlaying;
+      playPauseBtn.textContent = isPlaying ? '❚❚' : '▶';
+      
+      if (isPlaying) {
+        startSlideshow();
+      } else {
+        stopSlideshow();
+      }
+    }
+    
+    // Event listeners
+    playPauseBtn.addEventListener('click', togglePlayPause);
+    prevBtn.addEventListener('click', () => {
+      prevSlide();
+      if (isPlaying) startSlideshow();
+    });
+    nextBtn.addEventListener('click', () => {
+      nextSlide();
+      if (isPlaying) startSlideshow();
+    });
+    
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+        if (isPlaying) startSlideshow();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+        if (isPlaying) startSlideshow();
+      } else if (e.key === ' ') {
+        e.preventDefault();
+        togglePlayPause();
+      }
+    });
+    
+    // Auto-start slideshow
+    startSlideshow();
+  </script>
+</body>
+</html>
