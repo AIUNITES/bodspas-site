@@ -7,8 +7,8 @@
 | **Repository** | bodspas-site |
 | **Live URL** | https://bodspas.com/ |
 | **Local Path** | C:/Users/Tom/Documents/GitHub/bodspas-site |
-| **Last Updated** | February 24, 2026 |
-| **Version** | 1.2.0 |
+| **Last Updated** | February 27, 2026 |
+| **Version** | 1.4.0 |
 | **Based On** | Custom Landing |
 
 ---
@@ -18,7 +18,7 @@
 | Page | File | Description | Status |
 |------|------|-------------|--------|
 | Landing/Home | index.html | Main landing page | ✅ |
-| BodWave | bodwave.html | Muscular Neuro Notation (MNN) — maps every muscle to its nerve, spinal root, and exercises. BodWave is the training brand, MNN is the formal notation. BodWave Scale BW1–BW4. Sister system to VNN at VoiceStry. | ✅ |
+| BodWave | bodwave.html | Mind-Neuro-Muscle Notation (MNN) — 11 notation categories across 3 complexity tiers (🟢 Gym Floor / 🟡 Coach / 🔴 Clinical/BCI). BodWave Scale BW1–BW4. 4-Stage Training Progression. Sister system to VNN at VoiceStry. | ✅ |
 | Press | press.html | Technical brief: what bodybuilders use now vs MNN, MNN for virtual worlds & game engines, who needs MNN, IP/DMCA notice. | ✅ New |
 | Gallery | gallery.html | Photo slideshow gallery | ✅ |
 
@@ -167,6 +167,8 @@
 | 1.0.1 | Feb 22, 2026 | Webring highlight fix: standardized to .aiunites-bar-active class with white (#fff) + underline styling |
 | 1.1.0 | Feb 24, 2026 | BodWave page: complete nerve→muscle mapping for all major groups, BodWave Scale (BW1–BW4), clinical nerve tests, VNN cross-link. Nav updated on all pages. Sitemap updated. |
 | 1.2.0 | Feb 24, 2026 | Press page: "What Bodybuilders Use Now" comparison (sets×reps, RPE, tempo, EMG vs MNN), "Muscle Focus: More Gains, Less Joint Damage" (wrong pathway problem, shoulder-dominant vs pec-dominant bench in MNN, muscle control artists = joint protection, joint protection table for 7 exercises), "MNN for Virtual Worlds" (skeletal animation, blend shapes, mocap, procedural anim vs neural control layer), "Who Needs MNN" audience cards, IP section. Nav updated on all pages. Sitemap updated. |
+| 1.3.0 | Feb 27, 2026 | MNN rebrand: "Muscular Neuro Notation" → "Mind-Neuro-Muscle Notation" (Mind→Neuro→Muscle chain). Category 9: Directional Axis & Force Vector (laterality L:/R:/Bi:, 16 joint action codes, 6 force vectors ⇢Med/Lat/Sup/Inf/Ant/Post, 3 movement planes #Sag/#Fro/#Trn). Oblique rotation, rotator cuff, BCI gait worked examples. Hero stat 8→9 categories. h4 CSS. IP notice updated. |
+| 1.4.0 | Feb 27, 2026 | MNN Complexity Tiers (🟢 Gym Floor / 🟡 Coach / 🔴 Clinical/BCI). Tier badges on all 11 category headings. Category 10: Range of Motion (ROM:Full, ROM:X°–Y°, ROM:Short/Mid/Long, ROM:Limited, ROM:Δ+). Category 11: Antagonist & Synergist Pairing (Ag:/Ant:/Syn:/Stb:, Ant:CoC, Ant:❌) with bicep curl + BCI elbow extension examples. Hero stat 9→11 categories. NEW SECTION: "How to Train Mind-Muscle Connection" — neuroscience of touch during training, GTO insertion point targeting, Graston/IASTM sensory amplification method (original contribution), 4-Stage Training Progression (Tactile Guided → Tool Amplified → Proprioceptive Only → Isolated Voluntary), 4-week practical protocol table. IP notice updated with training methodology + all new notation layers. |
 
 ---
 
