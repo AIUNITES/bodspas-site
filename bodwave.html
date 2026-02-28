@@ -30,6 +30,7 @@
     .mw-section h2{font-size:1.7rem;margin-bottom:20px;color:var(--accent);display:flex;align-items:center;gap:15px}
     .mw-section h2::before{content:"";width:5px;height:28px;background:var(--gradient);border-radius:3px;flex-shrink:0}
     .mw-section h3{font-size:1.2rem;margin:25px 0 12px;color:var(--primary-light)}
+    .mw-section h4{font-size:1.05rem;margin:22px 0 10px;color:var(--secondary);font-weight:700}
     .mw-section p{color:var(--gray-light);margin-bottom:16px;line-height:1.8}
 
     /* Nerve-Muscle Cards */
@@ -131,7 +132,7 @@
     <div class="mw-stats">
       <div class="mw-stat"><div class="num">48+</div><div class="label">Muscle Symbols</div></div>
       <div class="mw-stat"><div class="num">16</div><div class="label">Nerve Tags</div></div>
-      <div class="mw-stat"><div class="num">8</div><div class="label">Notation Categories</div></div>
+      <div class="mw-stat"><div class="num">11</div><div class="label">Notation Categories</div></div>
       <div class="mw-stat"><div class="num">4</div><div class="label">BodWave Levels</div></div>
     </div>
   </section>
@@ -204,7 +205,21 @@
       <h2>The MNN Symbol Set</h2>
       <p>Just as VRN gives singers a compact notation like <code style="color:var(--accent);font-family:monospace;">[H+++, Zy, Fl, Sp4]</code>, MNN gives the body a symbolic language. Every muscle, nerve, contraction type, and movement pattern has a short code. They combine freely — one annotation can describe an entire exercise with neural precision.</p>
 
-      <h3>1. Muscle Symbols</h3>
+      <!-- Complexity Tiers -->
+      <div style="background:var(--dark-lighter);border-radius:var(--radius-lg);padding:25px 30px;margin:0 0 35px;border:1px solid var(--dark-border);">
+        <h3 style="margin-top:0;color:var(--accent);">📊 MNN Complexity Tiers</h3>
+        <p style="color:var(--gray-light);margin-bottom:15px;">You don't need all 11 categories. Start at Level 1 and add layers as you need them.</p>
+        <table class="mw-table" style="margin:0;">
+          <thead><tr><th>Tier</th><th>Who It's For</th><th>Categories</th></tr></thead>
+          <tbody>
+            <tr><td style="color:#4ade80;font-weight:700;">🟢 Level 1 — Gym Floor</td><td>Any lifter who wants better mind-muscle connection</td><td>1. Muscle Symbols · 2. Intensity · 3. Contraction Type</td></tr>
+            <tr><td style="color:var(--accent);font-weight:700;">🟡 Level 2 — Coach</td><td>Trainers, programmers, serious athletes</td><td>+ 4. Nerve Tags · 5. Movement Pattern · 6. Tempo</td></tr>
+            <tr><td style="color:var(--primary-light);font-weight:700;">🔴 Level 3 — Clinical / BCI</td><td>Physios, neurologists, researchers, BCI engineers</td><td>+ 7. Clinical Status · 8. BodWave Levels · 9. Direction · 10. ROM · 11. Antagonists</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>🟢 1. Muscle Symbols</h3>
       <p>Short codes for every major muscle and individual heads. Format: <code style="color:var(--accent);">[Group.Head]</code></p>
       <table class="mw-table">
         <thead><tr><th>Symbol</th><th>Muscle</th><th>Symbol</th><th>Muscle</th></tr></thead>
@@ -236,7 +251,7 @@
         </tbody>
       </table>
 
-      <h3>2. Activation Intensity</h3>
+      <h3>🟢 2. Activation Intensity</h3>
       <p>Appended to any muscle symbol. Same scale as VRN.</p>
       <table class="mw-table">
         <thead><tr><th>Notation</th><th>Level</th><th>Meaning</th><th>Example</th></tr></thead>
@@ -249,7 +264,7 @@
         </tbody>
       </table>
 
-      <h3>3. Contraction Type</h3>
+      <h3>🟢 3. Contraction Type</h3>
       <p>Describes how the muscle is firing. Prefixed or appended to the muscle symbol.</p>
       <table class="mw-table">
         <thead><tr><th>Symbol</th><th>Type</th><th>Meaning</th><th>Example</th></tr></thead>
@@ -262,7 +277,7 @@
         </tbody>
       </table>
 
-      <h3>4. Nerve Tags</h3>
+      <h3>🟡 4. Nerve Tags</h3>
       <p>Arrow notation showing the neural pathway. Format: <code style="color:var(--accent);">Muscle → Nerve (Root)</code></p>
       <table class="mw-table">
         <thead><tr><th>Symbol</th><th>Nerve</th><th>Root</th><th>Primary Targets</th></tr></thead>
@@ -286,7 +301,7 @@
         </tbody>
       </table>
 
-      <h3>5. Movement Pattern</h3>
+      <h3>🟡 5. Movement Pattern</h3>
       <p>Describes the compound movement category. Enclosed in braces.</p>
       <table class="mw-table">
         <thead><tr><th>Symbol</th><th>Pattern</th><th>Example Exercises</th></tr></thead>
@@ -304,7 +319,7 @@
         </tbody>
       </table>
 
-      <h3>6. Tempo &amp; Control</h3>
+      <h3>🟡 6. Tempo &amp; Control</h3>
       <p>Describes the speed and voluntary control quality. Used for BodWave training.</p>
       <table class="mw-table">
         <thead><tr><th>Symbol</th><th>Meaning</th><th>Example</th></tr></thead>
@@ -318,7 +333,7 @@
         </tbody>
       </table>
 
-      <h3>7. Clinical Status</h3>
+      <h3>🔴 7. Clinical Status</h3>
       <p>For physios, neurologists, and rehab documentation.</p>
       <table class="mw-table">
         <thead><tr><th>Symbol</th><th>Meaning</th><th>Example</th></tr></thead>
@@ -332,7 +347,7 @@
         </tbody>
       </table>
 
-      <h3>8. BodWave Level Markers</h3>
+      <h3>🔴 8. BodWave Level Markers</h3>
       <p>Annotate the neuromuscular control level required or demonstrated.</p>
       <table class="mw-table">
         <thead><tr><th>Symbol</th><th>Level</th><th>Meaning</th></tr></thead>
@@ -343,6 +358,125 @@
           <tr><td class="muscle">BW4:</td><td>Full BodWave</td><td>Multi-group cascading wave — [BW4:Wave→:Dlt.A→Pec.C→Pec.S→RA.U→RA.L→Obl.E]</td></tr>
         </tbody>
       </table>
+
+      <h3>🔴 9. Directional Axis &amp; Force Vector</h3>
+      <p>Muscles don't just fire on or off — they produce force along specific vectors. The same muscle group can pull up, down, medially, or rotate around a joint axis. For coaching this clarifies which action you're training. For BCI stimulation it's critical — "activate deltoid" without a direction sends the arm the wrong way.</p>
+
+      <h4>Laterality</h4>
+      <p>Prefix any symbol with body side. Required for clinical and BCI notation where asymmetry matters.</p>
+      <table class="mw-table">
+        <thead><tr><th>Symbol</th><th>Meaning</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">L:</td><td>Left side</td><td class="muscle">[L:Pec.S+++] — left sternal pec, max contraction</td></tr>
+          <tr><td class="muscle">R:</td><td>Right side</td><td class="muscle">[R:Dlt.L++] — right lateral delt, moderate</td></tr>
+          <tr><td class="muscle">Bi:</td><td>Bilateral (both sides)</td><td class="muscle">[Bi:Quad.RF+++] — both quads, heavy squat</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Joint Action</h4>
+      <p>Describes the movement the muscle is producing at the joint. Appended after the muscle symbol. These are standard kinesiology terms compressed to short codes.</p>
+      <table class="mw-table">
+        <thead><tr><th>Symbol</th><th>Action</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">.Flx</td><td>Flexion</td><td class="muscle">[R:Dlt.A++.Flx] — right front delt, shoulder flexion</td></tr>
+          <tr><td class="muscle">.Ext</td><td>Extension</td><td class="muscle">[Tri.Lg++.Ext] — long head tricep, elbow extension</td></tr>
+          <tr><td class="muscle">.Abd</td><td>Abduction</td><td class="muscle">[Dlt.L+++.Abd] — lateral delt, full abduction</td></tr>
+          <tr><td class="muscle">.Add</td><td>Adduction</td><td class="muscle">[Pec.S++.Add] — sternal pec, arm adduction (cable fly)</td></tr>
+          <tr><td class="muscle">.IRot</td><td>Internal Rotation</td><td class="muscle">[Sub++.IRot] — subscapularis, internal rotation</td></tr>
+          <tr><td class="muscle">.ERot</td><td>External Rotation</td><td class="muscle">[Inf++.ERot] — infraspinatus, external rotation</td></tr>
+          <tr><td class="muscle">.Pron</td><td>Pronation</td><td class="muscle">[FrFl+.Pron] — forearm pronation</td></tr>
+          <tr><td class="muscle">.Supn</td><td>Supination</td><td class="muscle">[Bic++.Supn] — bicep supination (dumbbell curl twist)</td></tr>
+          <tr><td class="muscle">.Elev</td><td>Elevation</td><td class="muscle">[Trp.U++.Elev] — upper trap, scapular elevation (shrug)</td></tr>
+          <tr><td class="muscle">.Depr</td><td>Depression</td><td class="muscle">[Trp.L++.Depr] — lower trap, scapular depression</td></tr>
+          <tr><td class="muscle">.Prot</td><td>Protraction</td><td class="muscle">[Ser++.Prot] — serratus, scapular protraction (push-up plus)</td></tr>
+          <tr><td class="muscle">.Retr</td><td>Retraction</td><td class="muscle">[Rhm++.Retr] — rhomboids, scapular retraction (row squeeze)</td></tr>
+          <tr><td class="muscle">.DFl</td><td>Dorsiflexion</td><td class="muscle">[TibAnt++.DFl] — tibialis anterior, ankle dorsiflexion</td></tr>
+          <tr><td class="muscle">.PFl</td><td>Plantarflexion</td><td class="muscle">[Gas+++.PFl] — gastrocnemius, calf raise</td></tr>
+          <tr><td class="muscle">.Inv</td><td>Inversion</td><td class="muscle">[TibPost+.Inv] — tibialis posterior, foot inversion</td></tr>
+          <tr><td class="muscle">.Evr</td><td>Eversion</td><td class="muscle">[Peron+.Evr] — peroneals, foot eversion</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Force Vector</h4>
+      <p>For BCI and clinical precision — describes the anatomical direction of pull. Arrow notation pointing toward the force direction.</p>
+      <table class="mw-table">
+        <thead><tr><th>Symbol</th><th>Direction</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">⇢Med</td><td>Medial (toward midline)</td><td class="muscle">[Pec.S+++.Add ⇢Med] — sternal pec pulling arm inward</td></tr>
+          <tr><td class="muscle">⇢Lat</td><td>Lateral (away from midline)</td><td class="muscle">[Dlt.L+++.Abd ⇢Lat] — lateral delt pushing arm outward</td></tr>
+          <tr><td class="muscle">⇢Sup</td><td>Superior (upward)</td><td class="muscle">[Trp.U++.Elev ⇢Sup] — upper trap pulling scapula up</td></tr>
+          <tr><td class="muscle">⇢Inf</td><td>Inferior (downward)</td><td class="muscle">[Lat+++.Ext ⇢Inf] — lat pulling arm down (pulldown)</td></tr>
+          <tr><td class="muscle">⇢Ant</td><td>Anterior (forward)</td><td class="muscle">[Dlt.A++.Flx ⇢Ant] — front delt driving arm forward</td></tr>
+          <tr><td class="muscle">⇢Post</td><td>Posterior (backward)</td><td class="muscle">[Dlt.P++.Ext ⇢Post] — rear delt pulling arm back</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Movement Plane</h4>
+      <p>Optionally specify which anatomical plane the action occurs in. Useful for compound movements that cross planes.</p>
+      <table class="mw-table">
+        <thead><tr><th>Symbol</th><th>Plane</th><th>Movements</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">#Sag</td><td>Sagittal</td><td>Flexion, extension, dorsiflexion, plantarflexion</td></tr>
+          <tr><td class="muscle">#Fro</td><td>Frontal</td><td>Abduction, adduction, lateral flexion, inversion, eversion</td></tr>
+          <tr><td class="muscle">#Trn</td><td>Transverse</td><td>Internal/external rotation, pronation, supination, horizontal adduction</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Directional Rotation — The Oblique Problem Solved</h4>
+      <p>The obliques are the clearest case of why MNN needed a directional layer. External obliques rotate the trunk to the <em>opposite</em> side. Internal obliques rotate to the <em>same</em> side. A woodchop to the left fires right external oblique + left internal oblique. Without directional notation, you can't encode this:</p>
+      <div class="mw-quote" style="border-left-color:var(--secondary);">
+        <p style="font-family:'Courier New',monospace;font-style:normal;font-size:0.95rem;color:var(--accent);">Woodchop — rotation left:<br>[R:Obl.E++.IRot ⇢L, #Trn] + [L:Obl.I++.IRot ⇢L, #Trn] → Intercostal (T5–T12/T7–L1)</p>
+        <div class="attr">Right external oblique + left internal oblique, both driving trunk rotation toward the left, transverse plane.</div>
+      </div>
+      <div class="mw-quote" style="border-left-color:var(--secondary);">
+        <p style="font-family:'Courier New',monospace;font-style:normal;font-size:0.95rem;color:var(--accent);">Rotator Cuff — external rotation drill:<br>[R:Inf++.ERot ⇢Lat, #Trn] + [R:TrMn+.ERot] → SupScap (C5–C6)</p>
+        <div class="attr">Right infraspinatus driving external rotation, lateral force vector, transverse plane. Teres minor assisting. Both via suprascapular nerve.</div>
+      </div>
+      <div class="mw-quote" style="border-left-color:var(--primary);">
+        <p style="font-family:'Courier New',monospace;font-style:normal;font-size:0.95rem;color:var(--accent);">BCI Gait Command — left step:<br>[L:HpFl++.Flx ⇢Ant, #Sag] → [L:Quad.RF+++.Ext ⇢Ant] → [L:Gas++.PFl ⇢Inf] → Fem/Tib</p>
+        <div class="attr">Sequential left leg step: hip flexors swing leg forward, quads extend knee, calf pushes off. Each muscle has a defined force direction the stimulator must target. Without directional markers, the BCI fires muscles but can't specify <em>where</em> the force goes.</div>
+      </div>
+
+      <h3>🔴 10. Range of Motion</h3>
+      <p>Specifies the target joint angle or excursion. Critical for rehab prescriptions (terminal knee extension vs full squat) and for BCI stimulators that need to know where in the arc to fire.</p>
+      <table class="mw-table">
+        <thead><tr><th>Symbol</th><th>Meaning</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">ROM:Full</td><td>Full available range</td><td class="muscle">[Con:Bic+++, ROM:Full] — full curl, bottom to top</td></tr>
+          <tr><td class="muscle">ROM:X°–Y°</td><td>Specific arc in degrees</td><td class="muscle">[Quad.VM++.Ext, ROM:165°–180°] — VMO terminal extension only</td></tr>
+          <tr><td class="muscle">ROM:Short</td><td>Shortened position (peak contraction)</td><td class="muscle">[Iso:Glu.Mx+++, ROM:Short, Hold:5s] — lockout glute squeeze</td></tr>
+          <tr><td class="muscle">ROM:Mid</td><td>Mid-range</td><td class="muscle">[Pec.S++, ROM:Mid] — pin press, mid-range bench</td></tr>
+          <tr><td class="muscle">ROM:Long</td><td>Lengthened position (stretch under load)</td><td class="muscle">[Ecc:Pec.C++, ROM:Long] — deep incline fly stretch</td></tr>
+          <tr><td class="muscle">ROM:Limited X°</td><td>Restricted range (pathological)</td><td class="muscle">[Dlt.L+, ROM:Limited 40°] → Axil — can’t abduct past 40°</td></tr>
+          <tr><td class="muscle">ROM:Δ+X°</td><td>Range improvement (recovery tracking)</td><td class="muscle">[Dlt.L+, ROM:Δ+15°] → Axil — gained 15° since last assessment</td></tr>
+        </tbody>
+      </table>
+
+      <h3>🔴 11. Antagonist &amp; Synergist Pairing</h3>
+      <p>Movement isn’t just about the muscle that fires — it’s about the muscle that must <em>release</em>. For BCI stimulation this is critical: if you activate the bicep without inhibiting the tricep, you get co-contraction (rigidity) instead of movement. For coaching, it explains why a tight muscle elsewhere blocks your target.</p>
+      <table class="mw-table">
+        <thead><tr><th>Symbol</th><th>Role</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td class="muscle">Ag:</td><td>Agonist (prime mover)</td><td class="muscle">[Ag:Bic+++] — bicep is the primary driver</td></tr>
+          <tr><td class="muscle">Ant:</td><td>Antagonist (must release/inhibit)</td><td class="muscle">[Ant:Tri–] — tricep must relax for bicep to curl</td></tr>
+          <tr><td class="muscle">Syn:</td><td>Synergist (assists the agonist)</td><td class="muscle">[Syn:Brk++] — brachialis assisting the curl</td></tr>
+          <tr><td class="muscle">Stb:</td><td>Stabilizer (holds position, doesn’t move)</td><td class="muscle">[Stb:Dlt.A+] — front delt stabilizing during curl</td></tr>
+          <tr><td class="muscle">Ant:CoC</td><td>Co-contraction (both fire — intentional)</td><td class="muscle">[Ant:CoC Quad+Ham] — both quads and hams bracing for landing</td></tr>
+          <tr><td class="muscle">Ant:❌</td><td>Failed inhibition (pathological)</td><td class="muscle">[Ant:❌ Tri] — tricep won’t release, spastic co-contraction</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Full Pairing Example — Bicep Curl</h4>
+      <div class="mw-quote" style="border-left-color:var(--secondary);">
+        <p style="font-family:'Courier New',monospace;font-style:normal;font-size:0.95rem;color:var(--accent);">[Ag:Bic+++.Flx, ROM:Full, #Sag] + [Syn:Brk++] + [Stb:Dlt.A+] + [Ant:Tri–] → MusCut (C5–C7)</p>
+        <div class="attr">Bicep is prime mover (flexion, full ROM, sagittal plane). Brachialis assists. Front delt stabilizes. Tricep must inhibit. All via musculocutaneous nerve.</div>
+      </div>
+
+      <h4>BCI Pairing Example — Elbow Extension for Reaching</h4>
+      <div class="mw-quote" style="border-left-color:var(--primary);">
+        <p style="font-family:'Courier New',monospace;font-style:normal;font-size:0.95rem;color:var(--accent);">BCI Command: [R:Ag:Tri.Lg+++.Ext ⇢Ant, ROM:90°–170°] + [R:Ant:Bic–] → Rad (C6–C8)</p>
+        <div class="attr">Stimulator must activate right tricep long head for extension AND simultaneously inhibit bicep. Without the antagonist signal, the arm locks up in co-contraction. This is a real problem in current BCI systems.</div>
+      </div>
 
       <!-- Examples -->
       <h3>Putting It Together — MNN in Action</h3>
@@ -557,7 +691,7 @@
 
     <!-- IP Notice -->
     <div class="ip-notice">
-      <strong>Intellectual Property Notice:</strong> Mind-Neuro-Muscle Notation (MNN), the MNN Symbol Set (48+ muscle symbols, nerve tags, contraction types, movement patterns, tempo/control markers, clinical status codes, and BodWave level markers), BodWave, the BodWave Scale (BW1–BW4), the nerve-to-muscle mapping tables, and all original frameworks on this page are © 2026 BodSpas / AIUNITES. All Rights Reserved. DMCA Protected. MNN is the first system to map exercise-based muscle training to its underlying neural command chains. Published freely for educational and professional use. Sister system: <a href="https://aiunites.github.io/voicestry-site/ai-neuro.html" style="color:var(--primary-light);">VNN (Vocal Neuro Notation)</a> at VoiceStry.
+      <strong>Intellectual Property Notice:</strong> Mind-Neuro-Muscle Notation (MNN), the MNN Symbol Set (48+ muscle symbols, nerve tags, contraction types, movement patterns, tempo/control markers, clinical status codes, BodWave level markers, directional axis/force vector notation, joint action codes, range of motion notation, and antagonist/synergist pairing), BodWave, the BodWave Scale (BW1–BW4), the nerve-to-muscle mapping tables, and all original frameworks on this page are © 2026 BodSpas / AIUNITES. All Rights Reserved. DMCA Protected. MNN is the first system to map exercise-based muscle training to its underlying neural command chains. Published freely for educational and professional use. Sister system: <a href="https://aiunites.github.io/voicestry-site/ai-neuro.html" style="color:var(--primary-light);">VNN (Vocal Neuro Notation)</a> at VoiceStry.
     </div>
 
     <!-- CTA -->
