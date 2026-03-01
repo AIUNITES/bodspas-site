@@ -227,11 +227,11 @@
 
       <p>This is the same problem every notation system solves. Musicians don't write "the third scale degree of B-flat major, played mezzo-forte for one beat" — they write a note on a staff. Chemists don't write "two atoms of hydrogen bonded to one atom of oxygen" — they write H₂O. The information is identical. The format determines whether it's usable in practice. MNN puts neuromuscular anatomy into a format that fits on a screen, chains across muscles, compares across sessions, and parses by software — because full names, however accurate, simply don't.</p>
 
-      <h3>The Workout Log That Knows Your Nerves</h3>
-      <p>Now imagine a web app where you log in, record your workout, and the system stores every set — not just the weight and reps, but which muscles fired, through which nerves, at what activation level, and whether compensations appeared. Full anatomical names make that impossible in a usable interface. A database row containing "Sternal head of pectoralis major, contracting concentrically at high activation, innervated by the medial pectoral nerve from spinal roots C8 and T1" for each of five muscles per set would be unreadable in any table, chart, or dashboard. But a row containing <code style="color:var(--accent);">[Con:Pec.S+++] → MedPec(C8–T1)</code> is compact enough to store, display, query, and compare across months of training.</p>
+      <h3>What a Nerve-Aware Workout Log Would Require</h3>
+      <p>Any future training app that tracks muscle activation at the nerve level — whether built by BodSpas or anyone else — would face the same interface problem. A database row containing "Sternal head of pectoralis major, contracting concentrically at high activation, innervated by the medial pectoral nerve from spinal roots C8 and T1" for each of five muscles per set would be unreadable in any table, chart, or dashboard. But a row containing <code style="color:var(--accent);">[Con:Pec.S+++] → MedPec(C8–T1)</code> is compact enough to store, display, query, and compare across months of training.</p>
 
       <div class="highlight-box">
-        <h3>📊 What a Logged Workout Could Look Like</h3>
+        <h3>📊 What MNN-Formatted Data Looks Like in Practice</h3>
         <div class="mnn-code" style="margin:12px 0;padding:15px 20px;font-size:0.85rem;">
           <span class="label">Session: Chest &amp; Triceps — Feb 28, 2026</span>
           Set 1: Flat Bench — 3×10×225, RPE 7<br>
@@ -243,13 +243,13 @@
           Set 7: Cable Fly — 3×12×40, RPE 6<br>
           &nbsp;&nbsp;{Pull.H} [Con:Pec.S+++, Pec.C++] → MedPec/LatPec<br>
           &nbsp;&nbsp;✅ Pec isolation maintained
-          <span class="note">Every set keeps the traditional log (exercise, sets, reps, weight, RPE) and adds what actually happened at the neuromuscular level. Over weeks, you can see exactly when and where compensations appear — which set, which rep range, which fatigue threshold.</span>
+          <span class="note">Traditional log data (exercise, sets, reps, weight, RPE) alongside what actually happened at the neuromuscular level. The notation is compact enough to fit in a database column, a phone screen, or a coaching report. Over weeks, patterns emerge — which set, which rep range, which fatigue threshold triggers compensations.</span>
         </div>
       </div>
 
-      <p>That's a training log that answers the questions current logs can't: Did the target muscle actually do the work? When did compensations start? Which nerve pathway fatigued first? Is the pattern improving week over week? All stored in a format compact enough to display on a phone, query in a database, and share with a coach or PT — because the notation fits where paragraphs never will.</p>
+      <p>That kind of data answers questions current training logs can't: Did the target muscle actually do the work? When did compensations start? Which nerve pathway fatigued first? Is the pattern improving week over week? The notation makes it possible because it fits where paragraphs never will — in a database column, on a phone screen, and in a format software can parse.</p>
 
-      <p>BodSpas is building toward exactly this kind of neuromuscular training log. The notation system comes first — because without a compact, structured symbolic language, there's nothing usable to store, display, or compute. MNN is the foundation. The app is what sits on top of it.</p>
+      <p>The notation system has to come first — because without a compact, structured symbolic language, there's nothing usable to store, display, or compute. MNN is the foundation that any neuromuscular training app would need to sit on top of.</p>
 
       <div class="press-quote">
         <p>"The periodic table doesn't contain any information that wasn't already in chemistry textbooks. But nobody builds molecules from paragraphs. They build them from symbols — because symbols combine, compare, and compute. That's exactly the relationship between anatomy textbooks and MNN."</p>
@@ -347,12 +347,12 @@
     <!-- ============================================ -->
     <section class="press-section">
       <h2>The Machine That Doesn't Exist Yet</h2>
-      <p>You're doing a cable chest press. Arms perpendicular to the cable plane. On every rep, your shoulder grinds — that crunchy, catching feeling in the front of the joint. You instinctively rotate your arms inward about 25 degrees. The grinding stops. The press feels smooth. Your chest actually fires. You just fixed the problem yourself, but you have no idea <em>why</em> it worked. Your trainer likely doesn't either. And your physical therapist — however skilled — may not be able to tell you in real time, during the actual rep, with the specificity to say "rotate inward exactly 22 degrees for your anatomy."</p>
+      <p>You're doing a cable chest press. Arms perpendicular to the cable plane. On every rep, your shoulder grinds — that crunchy, catching feeling in the front of the joint. You instinctively rotate your arms inward some amount — maybe 20 degrees, maybe 30. The grinding stops. The press feels smooth. Your chest actually fires. You just fixed the problem yourself, but you have no idea <em>why</em> it worked. Your trainer likely doesn't either. And your physical therapist — however skilled — may not be able to tell you in real time, during the actual rep, with the specificity to say "rotate inward exactly 22 degrees for your anatomy."</p>
 
       <p>That's the gap. The fix exists in your body's proprioception. The explanation exists in anatomy textbooks. But no widely available machine today connects the two in real time during a working set.</p>
 
       <h3>What a Physical Therapist Tells You Now</h3>
-      <p>A good PT will assess your shoulder grinding after the fact. Here's what that process looks like:</p>
+      <p>A good PT will assess your shoulder grinding — typically after the fact, outside the gym. Here's what a common version of that process looks like (keeping in mind that actual practice varies widely by clinician):</p>
 
       <div class="vw-compare">
         <div class="vw-now">
@@ -466,7 +466,7 @@
           <p>→ "Subacromial impingement" (category)</p>
           <p>→ "Angle your press slightly inward" (vague direction)</p>
           <p>→ "How does it feel now?" (subjective verification)</p>
-          <p>→ Band exercises for 4–6 weeks (generic protocol)</p>
+          <p>→ Band exercises for 4–6 weeks (standard protocol)</p>
         </div>
         <div class="vw-mnn">
           <h4>🩺 PT + MNN Machine (Future)</h4>
@@ -474,7 +474,7 @@
           <p>→ IMU: humerus at 0° IR, subacromial compression detected at 73° abduction</p>
           <p>→ EMG: [Comp:Dlt.A for Pec.S] confirmed — anterior delt dominant, pec underactive</p>
           <p>→ Correction: IR to 25° clears subacromial space, shifts primary to [Pec.S+++ → MedPec]</p>
-          <p>→ Real-time verification: EMG confirms pec activation increased 40%, delt dropped to synergist</p>
+          <p>→ Real-time verification: EMG confirms pec activation increased significantly, delt dropped to synergist</p>
           <p>→ PT prescribes targeted rehab informed by measured data, tracks progress in MNN notation</p>
         </div>
       </div>
@@ -640,7 +640,7 @@
         <div class="use-card">
           <div class="tag">AI &amp; Robotics Researchers</div>
           <h4>Neuromuscular Parameter Space</h4>
-          <p>Humanoid robots and AI motion synthesis need structured muscle-nerve data. MNN provides the notation layer for training neural networks on anatomically correct motor control — potentially the biggest long-term market for the system.</p>
+          <p>Humanoid robots and AI motion synthesis need structured muscle-nerve data. MNN provides the notation layer for training neural networks on anatomically correct motor control — a growing area of interest for structured neuromuscular data.</p>
         </div>
       </div>
 
@@ -657,7 +657,7 @@
       <p><strong>Muscular Neuro Notation (MNN)</strong> — the symbolic notation system mapping muscles to nerves to spinal roots, including the 48+ muscle symbol set, 16 nerve tags, contraction type codes, movement pattern symbols, tempo/control markers, clinical status codes, and BodWave level markers (BW1–BW4) — is an original framework created and published by BodSpas / AIUNITES in February 2026.</p>
       <p><strong>BodWave</strong> — the consumer training brand and the BodWave Scale measuring neuromuscular control from Group Flexion (BW1) to Full BodWave (BW4) — is an original framework of BodSpas / AIUNITES.</p>
       <p>To our knowledge, MNN is the first system to map exercise-based muscle training to its underlying neural command chains in compact symbolic notation. The nerve-to-muscle mapping data itself is anatomical fact (public domain), but the symbolic notation system, the organizational framework, the BodWave scale, and the integration model are original intellectual property.</p>
-      <p>MNN is published freely for educational, clinical, and professional use. Commercial integration (game engines, VR platforms, AI training, clinical software) should contact BodSpas through the AIUNITES network.</p>
+      <p>For licensing inquiries — including educational, clinical, professional, and commercial integration (game engines, VR platforms, AI training, clinical software) — contact BodSpas through the AIUNITES network.</p>
       <p><strong>Sister system:</strong> <a href="https://aiunites.github.io/voicestry-site/ai-neuro.html" style="color:var(--primary-light);">Vocal Neuro Notation (VNN)</a> at VoiceStry maps cranial nerves to vocal muscles using the same framework principles. <strong>VRN → VNN → MNN</strong> — the AIUNITES network maps the complete human instrument.</p>
     </section>
 
