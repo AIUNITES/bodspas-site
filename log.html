@@ -355,7 +355,7 @@
               <span class="arrow">▶</span> 🧠 Nerve Status Check-In <span style="font-weight:400;color:var(--gray);font-size:.78rem">(optional)</span>
             </div>
             <div class="nerve-body">
-              <div class="nerve-hint">Tap any spinal levels that feel compromised today. Muscles served by those roots will be flagged ⚠️ in the builder so you can route around them.</div>
+              <div class="nerve-hint">Tap any spinal levels that feel compromised today. Muscles served by those roots will be flagged ⚠️ in the builder so you can route around them.<br><br><strong style="color:var(--gray-light)">⚠️ Important:</strong> Routing does not eliminate pain. If you have degenerative disc disease or nerve compression, some discomfort is likely regardless of exercise selection. The goal is to avoid putting a <em>primary training load</em> on an already-stressed nerve root — not to train pain-free. Flagged muscles may still be involved as stabilizers; this tool helps you choose exercises where they aren't the prime mover. Always work with your physician or PT.</div>
               <div style="font-size:.68rem;color:var(--gray-dark);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:700">Cervical</div>
               <div class="spine-chips" style="margin-bottom:8px">
                 <span class="spine-chip cervical" data-level="C1-C2" onclick="toggleSpine(this)">C1–C2</span>
@@ -616,7 +616,8 @@
             <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
               The optional Nerve Status Check-In lets you flag which spinal levels feel compromised today. Muscles served by those nerve roots get a <span style="color:var(--secondary)">⚠️ warning</span> in the builder so you can route your training through unaffected pathways.<br><br>
               <strong style="color:var(--white)">Example:</strong> If <code style="color:var(--secondary)">C5–C6</code> is flared, muscles served by C5–C6 (deltoids via Axillary, biceps via Musculocutaneous) are flagged. You can bias toward muscles served by C7–C8 (triceps via Radial, sternal pec via Medial Pectoral) instead.<br><br>
-              Over time, your history tracks which levels were compromised alongside your sets and compensations — building a personal dataset of what works when specific pathways are limited.
+              Over time, your history tracks which levels were compromised alongside your sets and compensations — building a personal dataset of what works when specific pathways are limited.<br><br>
+              <strong style="color:var(--secondary)">⚠️ This is not pain elimination.</strong> Conditions like degenerative disc disease mean some nerve stress is present at baseline. Routing helps you avoid making a compromised root the <em>primary load-bearer</em> during heavy sets — it doesn't mean flagged muscles won't feel anything. You may still feel discomfort from stabilizer involvement or general nerve irritation. The value is in reducing how hard you push through an already-stressed pathway, not in avoiding it entirely. This tool is informational — not medical advice. Always consult your physician or physical therapist.
             </div>
           </details>
           <details><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">Movement Patterns</summary>
@@ -639,8 +640,32 @@
     <footer class="app-footer">
       © 2026 BodSpas / AIUNITES. MNN Workout Log v1.0<br>
       <a href="index.html">Home</a> | <a href="bodwave.html">BodWave</a> | <a href="press.html">Press</a><br>
+      <a href="#" onclick="document.getElementById('legalModal').style.display='flex';return false">Privacy Policy</a> | <a href="#" onclick="document.getElementById('legalModal').style.display='flex';return false">Terms of Use</a><br>
       Part of the <a href="https://aiunites.github.io/aiunites-site/">AIUNITES</a> network
     </footer>
+
+    <!-- Legal Modal -->
+    <div id="legalModal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:300;align-items:center;justify-content:center;padding:20px" onclick="if(event.target===this)this.style.display='none'">
+      <div style="background:var(--dark-light);border:1px solid var(--dark-border);border-radius:var(--radius-lg);max-width:640px;width:100%;max-height:80vh;overflow-y:auto;padding:30px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+          <h2 style="font-size:1.2rem">Privacy & Terms</h2>
+          <button onclick="document.getElementById('legalModal').style.display='none'" style="background:none;border:none;color:var(--gray);font-size:1.4rem;cursor:pointer">✕</button>
+        </div>
+        <div style="color:var(--gray-light);font-size:.88rem;line-height:1.8">
+          <h3 style="color:var(--white);font-size:1rem;margin-bottom:8px">🔒 Privacy Policy</h3>
+          <p>BodSpas MNN Workout Log stores all data locally in your browser’s localStorage. <strong style="color:var(--white)">No data is sent to any server.</strong> No cookies, no analytics, no tracking. Your workout logs, account credentials, and nerve status data remain entirely on your device.</p>
+          <p style="margin-top:10px">If you clear your browser data, your logs are permanently deleted. Use the Export JSON feature to create backups. Imported data stays local.</p>
+          <p style="margin-top:10px">The AIUNITES webring links to other sites in the network. Each site has its own privacy practices. Navigating to another site leaves this app’s scope.</p>
+
+          <h3 style="color:var(--white);font-size:1rem;margin:20px 0 8px">📄 Terms of Use</h3>
+          <p>This tool is provided as-is for informational and personal tracking purposes. It is <strong style="color:var(--white)">not a medical device</strong> and does not provide medical advice, diagnosis, or treatment.</p>
+          <p style="margin-top:10px">The Nerve Status Check-In feature flags muscles based on spinal nerve root anatomy. This is educational information to help you make informed exercise choices — it does not replace guidance from a physician, physical therapist, or other qualified healthcare provider. If you have degenerative disc disease, nerve compression, or any spinal condition, always consult your care team before modifying your training.</p>
+          <p style="margin-top:10px">MNN (Muscular Neuro Notation) is a notation system created by BodSpas / AIUNITES. The muscle-nerve-root mappings are based on standard anatomical references but are simplified for practical gym use. They are not intended for clinical diagnosis.</p>
+          <p style="margin-top:10px">You are responsible for your own training decisions. BodSpas, AIUNITES, and the creators of this tool assume no liability for injury, pain, or adverse outcomes resulting from exercise choices made with or without this tool.</p>
+          <p style="margin-top:10px;color:var(--gray)">Last updated: March 2026</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="toast" id="toast"></div>
