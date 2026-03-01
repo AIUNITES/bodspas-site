@@ -227,6 +227,41 @@
     .vis-toggle{display:flex;align-items:center;gap:8px;margin:8px 0}
     .vis-toggle label{font-size:.8rem;color:var(--gray-light);cursor:pointer;display:flex;align-items:center;gap:6px}
     .vis-toggle input[type=radio]{accent-color:var(--primary)}
+
+    /* Joint Position Panel */
+    .pos-panel{margin-top:10px;border-top:1px solid var(--dark-border);padding-top:10px}
+    .pos-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--gray-light);font-size:.82rem;font-weight:600}
+    .pos-toggle:hover{color:var(--white)}
+    .pos-toggle .arrow{font-size:.7rem;transition:var(--transition)}
+    .pos-panel.open .pos-toggle .arrow{transform:rotate(90deg)}
+    .pos-body{display:none;margin-top:10px}
+    .pos-panel.open .pos-body{display:block}
+    .pos-hint{font-size:.76rem;color:var(--gray);margin-bottom:8px;line-height:1.6}
+    .side-chips{display:flex;gap:6px;margin-bottom:10px}
+    .side-chip{padding:4px 12px;border-radius:16px;font-size:.75rem;font-weight:600;cursor:pointer;border:1px solid var(--dark-border);background:var(--dark-light);color:var(--gray-light);transition:var(--transition)}
+    .side-chip:hover{border-color:var(--accent);color:var(--white)}
+    .side-chip.selected{background:rgba(251,191,36,.15);border-color:var(--accent);color:var(--accent)}
+    .joint-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+    .joint-chip{padding:4px 10px;border-radius:16px;font-size:.75rem;font-weight:600;cursor:pointer;border:1px solid rgba(251,191,36,.2);background:var(--dark-light);color:var(--gray-light);transition:var(--transition)}
+    .joint-chip:hover{border-color:var(--accent);color:var(--white)}
+    .joint-chip.selected{background:rgba(251,191,36,.15);border-color:var(--accent);color:var(--accent)}
+    .axis-panel{background:var(--dark);border:1px solid var(--dark-border);border-radius:8px;padding:12px;margin-bottom:8px}
+    .axis-panel-title{font-size:.78rem;font-weight:700;color:var(--accent);margin-bottom:8px}
+    .axis-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;flex-wrap:wrap}
+    .axis-row label{font-size:.78rem;color:var(--gray-light);min-width:70px;font-weight:600}
+    .axis-row input[type=range]{flex:1;min-width:100px;accent-color:var(--accent);height:6px}
+    .axis-row .axis-val{font-family:'Courier New',monospace;font-size:.8rem;color:var(--accent);min-width:36px;text-align:right}
+    .vec-section{margin-top:10px;border-top:1px solid var(--dark-border);padding-top:10px}
+    .vec-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--gray-light);font-size:.82rem;font-weight:600}
+    .vec-toggle:hover{color:var(--white)}
+    .vec-toggle .arrow{font-size:.7rem;transition:var(--transition)}
+    .vec-section.open .vec-toggle .arrow{transform:rotate(90deg)}
+    .vec-body{display:none;margin-top:10px}
+    .vec-section.open .vec-body{display:block}
+    .height-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+    .height-chip{padding:4px 10px;border-radius:16px;font-size:.75rem;font-weight:600;cursor:pointer;border:1px solid rgba(249,115,22,.2);background:var(--dark-light);color:var(--gray-light);transition:var(--transition)}
+    .height-chip:hover{border-color:var(--secondary);color:var(--white)}
+    .height-chip.selected{background:rgba(249,115,22,.15);border-color:var(--secondary);color:var(--secondary)}
     .app-footer a{color:var(--primary-light);text-decoration:none}
 
     /* Nerve Status Check-In */
@@ -417,12 +452,23 @@
               </div>
               <div style="font-size:.68rem;color:var(--gray-dark);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:700">Thoracic</div>
               <div class="spine-chips" style="margin-bottom:8px">
-                <span class="spine-chip thoracic" data-level="T1-T6" onclick="toggleSpine(this)">T1–T6</span>
-                <span class="spine-chip thoracic" data-level="T7-T12" onclick="toggleSpine(this)">T7–T12</span>
+                <span class="spine-chip thoracic" data-level="T1-T2" onclick="toggleSpine(this)">T1–T2</span>
+                <span class="spine-chip thoracic" data-level="T2-T3" onclick="toggleSpine(this)">T2–T3</span>
+                <span class="spine-chip thoracic" data-level="T3-T4" onclick="toggleSpine(this)">T3–T4</span>
+                <span class="spine-chip thoracic" data-level="T4-T5" onclick="toggleSpine(this)">T4–T5</span>
+                <span class="spine-chip thoracic" data-level="T5-T6" onclick="toggleSpine(this)">T5–T6</span>
+                <span class="spine-chip thoracic" data-level="T6-T7" onclick="toggleSpine(this)">T6–T7</span>
+                <span class="spine-chip thoracic" data-level="T7-T8" onclick="toggleSpine(this)">T7–T8</span>
+                <span class="spine-chip thoracic" data-level="T8-T9" onclick="toggleSpine(this)">T8–T9</span>
+                <span class="spine-chip thoracic" data-level="T9-T10" onclick="toggleSpine(this)">T9–T10</span>
+                <span class="spine-chip thoracic" data-level="T10-T11" onclick="toggleSpine(this)">T10–T11</span>
+                <span class="spine-chip thoracic" data-level="T11-T12" onclick="toggleSpine(this)">T11–T12</span>
               </div>
               <div style="font-size:.68rem;color:var(--gray-dark);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:700">Lumbar / Sacral</div>
               <div class="spine-chips">
-                <span class="spine-chip lumbar" data-level="L2-L4" onclick="toggleSpine(this)">L2–L4</span>
+                <span class="spine-chip lumbar" data-level="L1-L2" onclick="toggleSpine(this)">L1–L2</span>
+                <span class="spine-chip lumbar" data-level="L2-L3" onclick="toggleSpine(this)">L2–L3</span>
+                <span class="spine-chip lumbar" data-level="L3-L4" onclick="toggleSpine(this)">L3–L4</span>
                 <span class="spine-chip lumbar" data-level="L4-L5" onclick="toggleSpine(this)">L4–L5</span>
                 <span class="spine-chip lumbar" data-level="L5-S1" onclick="toggleSpine(this)">L5–S1</span>
                 <span class="spine-chip sacral" data-level="S1-S2" onclick="toggleSpine(this)">S1–S2</span>
@@ -598,7 +644,64 @@
               </div>
             </div>
 
-            <div class="chip-section-label">Preview</div>
+            <!-- Joint Position (collapsible) -->
+            <div class="pos-panel" id="posPanel">
+              <div class="pos-toggle" onclick="document.getElementById('posPanel').classList.toggle('open');">
+                <span class="arrow">▶</span> 🦨 Joint Position <span style="font-weight:400;color:var(--gray-dark);font-size:.75rem">(optional — for rotation/angle tracking)</span>
+              </div>
+              <div class="pos-body">
+                <div class="pos-hint">Set joint angles for this set. Defines the body position precisely — useful for tracking what angle works best, and required for future machine control.</div>
+                <div class="chip-section-label">Side</div>
+                <div class="side-chips" id="sideChips">
+                  <span class="side-chip" data-val="L" onclick="selectSide(this)">L (Left)</span>
+                  <span class="side-chip" data-val="R" onclick="selectSide(this)">R (Right)</span>
+                  <span class="side-chip" data-val="Bi" onclick="selectSide(this)">Bi (Both)</span>
+                </div>
+                <div class="chip-section-label">Joint</div>
+                <div class="joint-chips" id="jointChips"></div>
+                <div id="axisEditors"></div>
+              </div>
+            </div>
+
+            <!-- Resistance Vector (collapsible) -->
+            <div class="vec-section" id="vecSection">
+              <div class="vec-toggle" onclick="document.getElementById('vecSection').classList.toggle('open');">
+                <span class="arrow">▶</span> 🎯 Resistance Vector <span style="font-weight:400;color:var(--gray-dark);font-size:.75rem">(optional — cable/machine setup)</span>
+              </div>
+              <div class="vec-body">
+                <div class="pos-hint">Describe the resistance source. Cable height, direction relative to body, and load.</div>
+                <div class="chip-section-label">Pulley / Source Height</div>
+                <div class="height-chips" id="heightChips">
+                  <span class="height-chip" data-val="Floor" onclick="selectHeight(this)">Floor</span>
+                  <span class="height-chip" data-val="Low" onclick="selectHeight(this)">Low</span>
+                  <span class="height-chip" data-val="Mid" onclick="selectHeight(this)">Mid</span>
+                  <span class="height-chip" data-val="High" onclick="selectHeight(this)">High</span>
+                  <span class="height-chip" data-val="Over" onclick="selectHeight(this)">Overhead</span>
+                </div>
+                <div class="form-row" style="margin-bottom:0">
+                  <div class="form-group">
+                    <label>Cable Angle <span class="opt">(0° = straight ahead)</span></label>
+                    <div style="display:flex;align-items:center;gap:8px">
+                      <input type="range" id="vecAngle" min="-180" max="180" value="0" step="5" oninput="document.getElementById('vecAngleVal').textContent=this.value+'°';updatePreview()">
+                      <span id="vecAngleVal" style="font-family:'Courier New',monospace;font-size:.82rem;color:var(--secondary);min-width:42px;text-align:right">0°</span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Source <span class="opt">(optional)</span></label>
+                    <select id="vecSource" onchange="updatePreview()">
+                      <option value="">Select...</option>
+                      <option>Cable</option>
+                      <option>Band</option>
+                      <option>Gravity</option>
+                      <option>Machine</option>
+                      <option>Manual</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="chip-section-label" style="margin-top:12px">Preview</div>
             <div class="mnn-preview" id="mnnPreview"></div>
           </div>
 
@@ -1176,6 +1279,7 @@ function loadUserData() {
     applyNerveWarnings();
   }
   document.getElementById('welcomeMsg').textContent = currentUser ? (currentUser.isDemo ? 'Demo mode — sign up to keep your data permanently' : 'Welcome, ' + currentUser.name) : '';
+  injectCustomOptions();
 }
 
 function saveUserData() {
@@ -1206,8 +1310,56 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 });
 
 // =============================================
-// COMBO SELECT (dropdown + custom)
+// COMBO SELECT (dropdown + custom + memory)
 // =============================================
+function customsKey() { return 'bodspas_mnn_customs_' + (currentUser ? currentUser.username : 'anon'); }
+
+function getCustoms() {
+  try { return JSON.parse(localStorage.getItem(customsKey())) || { exercises: [], repsWeights: [], sessions: [] }; }
+  catch(e) { return { exercises: [], repsWeights: [], sessions: [] }; }
+}
+function saveCustoms(c) { localStorage.setItem(customsKey(), JSON.stringify(c)); }
+
+function injectCustomOptions() {
+  const c = getCustoms();
+  injectIntoSelect('exercise', c.exercises, 'Your Exercises');
+  injectIntoSelect('repsWeight', c.repsWeights, 'Your Presets');
+  injectIntoSelect('sessionName', c.sessions, 'Your Sessions');
+}
+
+function injectIntoSelect(selId, items, groupLabel) {
+  if (!items || !items.length) return;
+  const sel = document.getElementById(selId);
+  // Remove old custom group if present
+  const old = sel.querySelector('optgroup[data-custom]');
+  if (old) old.remove();
+  // Insert before the __custom__ option
+  const customOpt = sel.querySelector('option[value="__custom__"]');
+  const grp = document.createElement('optgroup');
+  grp.label = '⭐ ' + groupLabel;
+  grp.dataset.custom = '1';
+  items.forEach(val => {
+    const opt = document.createElement('option');
+    opt.value = val;
+    opt.textContent = val;
+    grp.appendChild(opt);
+  });
+  sel.insertBefore(grp, customOpt);
+}
+
+function rememberCustom(selId, customId, category) {
+  const sel = document.getElementById(selId);
+  if (sel.value !== '__custom__') return;
+  const val = document.getElementById(customId).value.trim();
+  if (!val) return;
+  const c = getCustoms();
+  if (!c[category].includes(val)) {
+    c[category].push(val);
+    saveCustoms(c);
+    injectCustomOptions();
+  }
+}
+
 function comboChanged(sel) {
   const custom = sel.parentElement.querySelector('.combo-custom');
   if (sel.value === '__custom__') { custom.classList.add('show'); custom.focus(); }
@@ -1302,9 +1454,20 @@ const SPINE_TO_ROOTS = {
   'C5-C6': ['C5','C6'],
   'C6-C7': ['C6','C7'],
   'C7-C8': ['C7','C8'],
-  'T1-T6': ['T1','T2','T3','T4','T5','T6'],
-  'T7-T12': ['T7','T8','T9','T10','T11','T12'],
-  'L2-L4': ['L2','L3','L4'],
+  'T1-T2': ['T1','T2'],
+  'T2-T3': ['T2','T3'],
+  'T3-T4': ['T3','T4'],
+  'T4-T5': ['T4','T5'],
+  'T5-T6': ['T5','T6'],
+  'T6-T7': ['T6','T7'],
+  'T7-T8': ['T7','T8'],
+  'T8-T9': ['T8','T9'],
+  'T9-T10': ['T9','T10'],
+  'T10-T11': ['T10','T11'],
+  'T11-T12': ['T11','T12'],
+  'L1-L2': ['L1','L2'],
+  'L2-L3': ['L2','L3'],
+  'L3-L4': ['L3','L4'],
   'L4-L5': ['L4','L5'],
   'L5-S1': ['L5','S1'],
   'S1-S2': ['S1','S2'],
@@ -1457,6 +1620,9 @@ function saveSet() {
   const exercise = getComboVal('exercise','exerciseCustom');
   if (!exercise) { showToast('Pick an exercise', 'error'); return; }
   const repsWeight = getComboVal('repsWeight','repsWeightCustom');
+  // Remember customs
+  rememberCustom('exercise', 'exerciseCustom', 'exercises');
+  if (repsWeight) rememberCustom('repsWeight', 'repsWeightCustom', 'repsWeights');
   const mnn = buildMNN();
   const cf = document.getElementById('compFrom').value;
   const ct = document.getElementById('compFor').value;
@@ -1521,6 +1687,7 @@ function deleteSet(id) {
 
 function finishSession() {
   if (!userData.currentSession.sets.length) return;
+  rememberCustom('sessionName', 'sessionNameCustom', 'sessions');
   const session = {
     id: Date.now(),
     name: userData.currentSession.name || 'Workout',
