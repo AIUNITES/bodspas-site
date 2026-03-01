@@ -94,6 +94,8 @@
     @media(max-width:600px){.form-row,.form-row.triple{grid-template-columns:1fr}}
     .form-group{display:flex;flex-direction:column;gap:4px}
     .form-group label{font-size:.76rem;font-weight:600;color:var(--gray-light);text-transform:uppercase;letter-spacing:.05em}
+    .req{color:var(--primary-light);font-weight:800}
+    .opt{color:var(--gray-dark);font-weight:400;text-transform:none;letter-spacing:0;font-size:.7rem}
     input,select,textarea{background:var(--dark-lighter);border:1px solid var(--dark-border);border-radius:8px;padding:10px 14px;color:var(--white);font-family:inherit;font-size:.9rem;transition:var(--transition);width:100%}
     input:focus,select:focus,textarea:focus{outline:none;border-color:var(--primary)}
     input::placeholder{color:var(--gray-dark)}
@@ -324,7 +326,7 @@
           <h3>Session</h3>
           <div class="form-row">
             <div class="form-group combo-wrap">
-              <label>Session Name</label>
+              <label>Session Name <span class="opt">(optional)</span></label>
               <select id="sessionName" onchange="comboChanged(this)">
                 <option value="">Select or type...</option>
                 <option>Chest & Triceps</option>
@@ -343,7 +345,7 @@
               <input type="text" class="combo-custom" id="sessionNameCustom" placeholder="Type session name" />
             </div>
             <div class="form-group">
-              <label>Date</label>
+              <label>Date <span class="opt">(auto-fills today)</span></label>
               <input type="date" id="sessionDate" />
             </div>
           </div>
@@ -383,6 +385,7 @@
 
         <div class="card">
           <h3>Add Set <span class="help-toggle" onclick="document.getElementById('helpPanel').classList.toggle('show')">?</span></h3>
+          <div style="font-size:.72rem;color:var(--gray-dark);margin-bottom:8px"><span class="req">*</span> = required &nbsp; everything else is optional</div>
           <div class="help-panel" id="helpPanel">
             <strong>Quick guide:</strong><br>
             1. Pick exercise, reps × weight, RPE<br>
@@ -396,7 +399,7 @@
 
           <div class="form-row triple">
             <div class="form-group combo-wrap">
-              <label>Exercise</label>
+              <label>Exercise <span class="req">*</span></label>
               <select id="exercise" onchange="comboChanged(this)">
                 <option value="">Select or type...</option>
                 <optgroup label="Chest">
@@ -457,7 +460,7 @@
               <input type="text" class="combo-custom" id="exerciseCustom" placeholder="Type exercise name" />
             </div>
             <div class="form-group combo-wrap">
-              <label>Reps × Weight</label>
+              <label>Reps × Weight <span class="req">*</span></label>
               <select id="repsWeight" onchange="comboChanged(this)">
                 <option value="">Select or type...</option>
                 <optgroup label="Rehab / Very Light (3–15 lbs)">
@@ -481,7 +484,7 @@
               <input type="text" class="combo-custom" id="repsWeightCustom" placeholder="e.g. 10×225" />
             </div>
             <div class="form-group">
-              <label>RPE <span class="help-toggle" onclick="event.stopPropagation();document.getElementById('rpeHelp').classList.toggle('show')" style="cursor:pointer">?</span></label>
+              <label>RPE <span class="opt">(optional)</span> <span class="help-toggle" onclick="event.stopPropagation();document.getElementById('rpeHelp').classList.toggle('show')" style="cursor:pointer">?</span></label>
               <select id="rpe">
                 <option value="">—</option>
                 <option value="6">6 — Easy (4 left)</option>
@@ -509,12 +512,12 @@
             <h4>MNN Notation Builder</h4>
 
             <div class="chip-section">
-              <div class="chip-section-label">Movement Pattern</div>
+              <div class="chip-section-label">Movement Pattern <span class="opt">(optional)</span></div>
               <div class="chip-group" id="movementChips"></div>
             </div>
 
             <div class="chip-section">
-              <div class="chip-section-label">Muscles <span class="chip-section-hint">— nerves auto-map when you select</span></div>
+              <div class="chip-section-label">Muscles <span class="opt">(optional)</span> <span class="chip-section-hint">— nerves auto-map when you select</span></div>
               <div class="chip-group" id="muscleChips"></div>
             </div>
 
@@ -524,12 +527,12 @@
             </div>
 
             <div class="chip-section">
-              <div class="chip-section-label">Nerves <span class="chip-section-hint">— auto-filled, override if needed</span></div>
+              <div class="chip-section-label">Nerves <span class="opt">(auto-filled)</span> <span class="chip-section-hint">— override if needed</span></div>
               <div class="chip-group" id="nerveChips"></div>
             </div>
 
             <div class="chip-section">
-              <div class="chip-section-label">Compensation <span class="chip-section-hint">— if wrong muscle dominated</span></div>
+              <div class="chip-section-label">Compensation <span class="opt">(optional)</span> <span class="chip-section-hint">— if wrong muscle dominated</span></div>
               <div class="form-row">
                 <div class="form-group"><label>Took Over</label>
                   <select id="compFrom" onchange="updatePreview()"><option value="">None</option></select>
