@@ -2,15 +2,15 @@
 
 **Version:** 1.0.0  
 **Date:** March 1, 2026  
-**Author:** Tom / BodSpas / AIUNITES  
-**Copyright:** © 2026 BodSpas. All rights reserved.  
-**License:** This specification is published for prior art and DMCA registration purposes. Use of the notation format in personal training logs is permitted. Commercial implementations, machine firmware integration, and derivative specification documents require written permission from the author.
+**Author:** Tom / AIUNITES LLC / BODWAVE  
+**Copyright:** © 2026 AIUNITES LLC. All rights reserved.  
+**License:** This specification is published for prior art and DMCA registration purposes. Use of the notation format in personal training logs is permitted. Commercial implementations, machine firmware integration, avatar control systems, and derivative specification documents require written permission from the author.
 
 ---
 
 ## 1. Purpose
 
-Muscular Neuro Notation (MNN) is a structured text notation system for describing human muscular contraction events at the neuromuscular level. It encodes:
+Muscular Neuro Notation (MNN) is a unified text notation system for describing human movement at the neuromuscular level. It encodes:
 
 1. **Which muscles contracted** and at what activation level
 2. **Which nerves drove them** and from which spinal roots
@@ -20,9 +20,32 @@ Muscular Neuro Notation (MNN) is a structured text notation system for describin
 6. **Whether compensation occurred** (wrong muscle dominated)
 
 MNN is designed to be:
-- **Human-readable** in a gym log or clinical note
+- **Human-readable** in a gym log, clinical note, or training plan
 - **Machine-parseable** for automated training equipment, exoskeletons, VR environments, and robotic rehabilitation systems
+- **Avatar-compatible** for virtual world character posing, animation blending, and remote-controlled movement
 - **Anatomically complete** — every tag maps to real neuroanatomy
+- **Portable** — the same string works in a text file, a database field, a game engine, or a hardware controller
+
+### 1.1 The Three Domains of MNN
+
+MNN is a notation for **human movement**, not just exercise. The same MNN string is valid and useful across three domains:
+
+| Domain | Use Case | Example |
+|--------|----------|---------|
+| **Exercise & Rehabilitation** | Gym logging, physical therapy, clinical documentation, personal training | Track which angle clears the acromion, log nerve flare-ups alongside sets, document compensation patterns over time |
+| **Virtual Worlds & Avatars** | Game engines, VR training, Second Life / OpenSim, digital twins, animation | Pose an avatar precisely using joint angles, animate contraction sequences, build training simulations |
+| **Remote Control & Robotics** | Cable rigs, exoskeletons, robotic rehabilitation, isokinetic machines, teleoperation | Drive a pulley to the exact height and angle, set joint limits on an exoskeleton, reproduce a therapist’s prescribed position |
+
+A single MNN string like:
+```
+{Push.H} [Con:Pec.S+++, Dlt.A+] → MedPec/Axil
+[Pos:L.Sh(IR:25,Flex:90)] [Vec:H:Mid,A:0°,Src:Cable]
+```
+...is simultaneously a gym log entry a human can read, an avatar pose command a game engine can execute, and a machine instruction a cable rig can actuate. The notation does not change between contexts. The implementation does.
+
+This is the core design principle of MNN: **write once, use everywhere.**
+
+MNN is developed and published by AIUNITES LLC under the BODWAVE product line. The reference implementation is hosted at https://aiunites.github.io/bodspas-site/log.html as part of the AIUNITES network of web applications.
 
 ---
 
@@ -509,11 +532,80 @@ Implementations SHOULD support two display modes:
 
 ---
 
-## 13. Version History
+## 13. Prior Art and Related Standards
 
-| Version | Date | Changes |
-|---------|------|---------|
-| 1.0.0 | March 1, 2026 | Initial specification — movement, contraction, nerve, position, vector, compensation, nerve status tags |
+MNN exists at the intersection of several established fields, each with its own standards and notation systems. None of them combine neuromuscular targeting, joint position, resistance vector, and compensation tracking into a single notation. MNN bridges this gap.
+
+### 13.1 Biomechanics — ISB Joint Coordinate System (JCS)
+
+The International Society of Biomechanics (ISB) Standardization and Terminology Committee published joint coordinate system definitions in two landmark papers:
+- **Part I** (Wu et al., 2002): Ankle, hip, and spine — *Journal of Biomechanics* 35, 543–548
+- **Part II** (Wu et al., 2005): Shoulder, elbow, wrist, and hand — *Journal of Biomechanics* 38, 981–992
+
+ISB JCS defines local coordinate systems on proximal and distal bone segments, with joint rotations expressed as Euler/Cardan angles. It is a *research reporting convention* used in journal papers and biomechanics software. It does not define a compact text notation, does not encode muscle activation or nerve involvement, and is not designed for real-time logging.
+
+MNN's `[Pos:]` tag is designed to be compatible with ISB joint axis conventions. The anatomical axes (Flexion/Extension, Abduction/Adduction, Internal/External Rotation) map directly to ISB's recommended decomposition sequences. MNN expresses these as compact key-value pairs (`Sh(IR:25,Flex:90)`) rather than tabular data.
+
+### 13.2 Motion Capture — C3D, BVH, OpenSim
+
+Several binary and text file formats store full-body motion data captured from cameras, IMUs, or marker systems:
+
+| Format | Origin | Type | Content |
+|--------|--------|------|--------|
+| **C3D** | NIH, mid-1980s | Binary | 3D marker positions, analog data (force plates, EMG), parameters |
+| **BVH** | Biovision, 1990s | ASCII | Skeletal hierarchy + per-frame joint rotations |
+| **OpenSim .trc/.mot** | Stanford/NIH | ASCII | Marker trajectories and motion files for musculoskeletal simulation |
+| **FBX** | Autodesk | Binary | Animation data including mesh, skeleton, and motion |
+| **MVNX** | Xsens | XML | IMU-based motion capture with joint angles, segment velocity, CoM |
+
+These are *sensor data formats* — they store time-series frame data generated by motion capture hardware. They are not designed for human authoring, do not encode which muscles or nerves were active, and do not capture training intent (compensation, activation level, resistance setup).
+
+MNN is not a replacement for motion capture formats. It is a *semantic annotation layer* that could accompany C3D/BVH data to describe the neuromuscular intent behind the captured movement.
+
+### 13.3 Electromyography — SENIAM and ISEK
+
+Surface electromyography (sEMG) has two major standards bodies:
+- **SENIAM** (Surface EMG for Non-Invasive Assessment of Muscles): European project that developed electrode placement recommendations for 30 muscles, signal processing guidelines, and sensor specifications.
+- **ISEK** (International Society of Electrophysiology and Kinesiology): Sets broader standards for electrophysiological measurement and reporting.
+
+EMG output is voltage waveforms normalized to Maximum Voluntary Contraction (%MVC). Research papers use informal muscle abbreviations (UT = upper trapezius, SA = serratus anterior, BB = biceps brachii) but there is no formal, standardized symbol table for muscle names.
+
+MNN's `[Con:]` tag provides what EMG lacks: a standardized symbol table for muscles with defined abbreviations, explicit nerve innervation mapping, and qualitative activation levels (+, ++, +++) that approximate the low/moderate/high categories used in EMG research without requiring sensor hardware.
+
+### 13.4 Exercise Prescription — ACSM FITT and NSCA
+
+The American College of Sports Medicine (ACSM) defines exercise prescription through the **FITT principle**: Frequency, Intensity, Time, and Type. This is a *prose framework* — a physician writes "moderate intensity aerobic, 30 min, 5×/week" in natural language.
+
+The National Strength and Conditioning Association (NSCA) uses the universal gym shorthand: **sets × reps × load** (e.g., 3×10×135lb). This captures dose but encodes zero information about joint position, nerve involvement, muscle targeting, or compensation patterns.
+
+MNN is complementary to FITT/NSCA notation. A complete training log entry might read:
+```
+Session: Upper Push — 3×12×20lb RPE:6
+{Push.H} [Con:Pec.S+++, Dlt.A+] → MedPec/Axil
+[Pos:L.Sh(IR:25,Flex:90)] [Vec:H:Mid,Src:Cable]
+```
+The first line is NSCA-style dose. The MNN string adds the neuromuscular detail.
+
+### 13.5 Dance and Movement — Labanotation
+
+Labanotation (Kinetography Laban), created by Rudolf Laban in the 1920s, is the only established notation system for human movement. It uses a vertical staff with symbols for direction, level, timing, body part, and effort quality. It is comprehensive for choreographic description and is used in dance, theater, and movement therapy.
+
+Labanotation describes *where* the body goes through space and with what quality of effort (Float, Punch, Glide, Slash, Dab, Wring, Flick, Press). It has no concept of which nerve fired, which muscle contracted, what the resistance vector was, or whether compensation occurred. It is a visual notation requiring specialized training to read and write.
+
+Birdwhistell's Kinesics system offers hundreds of codes for body part movements but is used in psychology for gesture analysis, not exercise.
+
+### 13.6 Summary — The MNN Gap
+
+| Domain | Standard | What It Captures | What It Lacks |
+|--------|----------|-----------------|---------------|
+| Joint angles | ISB JCS | Per-joint rotations via Euler angles | No muscle/nerve data, no compact text format |
+| Motion data | C3D/BVH/OpenSim | Full-body time-series from sensors | No semantic layer, no human authoring |
+| Muscle activity | EMG + SENIAM | Voltage waveforms, electrode standards | No standardized symbol table, no nerve mapping |
+| Exercise dose | ACSM FITT / NSCA | Frequency, intensity, sets×reps×load | No joint position, no muscle targeting |
+| Choreography | Labanotation | Spatial path, timing, effort quality | No neuromuscular data, no resistance vector |
+| **All of the above** | **MNN** | **Muscle + nerve + joint + vector + compensation** | **—** |
+
+MNN is the first notation system that combines neuromuscular targeting (which muscles, which nerves, from which spinal roots), joint position (ISB-compatible degrees per axis), resistance vector (source, height, angle), and compensation tracking into a single human-readable, machine-parseable string.
 
 ---
 
@@ -524,6 +616,14 @@ Muscular Neuro Notation (MNN) is an original notation system created by Tom / Bo
 The notation format, symbol tables, tag grammar, and the concept of a human-readable/machine-parseable neuromuscular exercise notation system are the intellectual property of the author.
 
 Reference implementation: https://aiunites.github.io/bodspas-site/log.html
+
+---
+
+## 15. Version History
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0.0 | March 1, 2026 | Initial specification — movement, contraction, nerve, position, vector, compensation, nerve status tags, joint position, resistance vector, prior art analysis |
 
 ---
 

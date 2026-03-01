@@ -804,6 +804,17 @@
               <strong style="color:var(--white)">Why:</strong> Changes the force line. Same muscle, same joint angle, different cable height = different activation pattern. Machines need this to set pulley position.
             </div>
           </details>
+          <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">🌐 Prior Art &amp; Related Standards</summary>
+            <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
+              MNN is the first notation combining neuromuscular targeting, joint position, resistance vector, and compensation tracking in a single human-readable, machine-parseable string. Here’s what exists in adjacent fields:<br><br>
+              <strong style="color:var(--white)">ISB Joint Coordinate System</strong> (Wu et al., 2002/2005) — Biomechanics standard for reporting joint rotations via Euler angles. Research convention, not a compact notation. MNN’s <code>[Pos:]</code> tag is ISB-compatible.<br><br>
+              <strong style="color:var(--white)">C3D / BVH / OpenSim</strong> — Motion capture file formats storing full-body time-series data from cameras/IMUs. Binary sensor data, not human-authored. No muscle/nerve layer.<br><br>
+              <strong style="color:var(--white)">SENIAM / ISEK</strong> — EMG electrode placement and signal processing standards. Output is voltage waveforms (%MVC). No standardized muscle symbol table, no nerve mapping. MNN’s <code>[Con:]</code> tag fills this gap.<br><br>
+              <strong style="color:var(--white)">ACSM FITT / NSCA</strong> — Exercise prescription frameworks (Frequency, Intensity, Time, Type; sets×reps×load). Captures dose but zero info on joint angles, nerve involvement, or compensation. MNN complements these.<br><br>
+              <strong style="color:var(--white)">Labanotation</strong> (Rudolf Laban, 1920s) — Visual staff notation for dance/choreography. Describes spatial path and effort quality. No concept of which nerve fired, which muscle contracted, or resistance vector.<br><br>
+              <strong style="color:var(--accent)">Full spec:</strong> See <code>MNN_SPEC_v1.md</code> § 14 for complete prior art analysis with citations.
+            </div>
+          </details>
           <details><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">Movement Patterns</summary>
             <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
               <code style="color:#818cf8">{Push.H}</code> Horizontal push &nbsp; <code style="color:#818cf8">{Push.V}</code> Vertical push<br>
