@@ -355,7 +355,7 @@
               <span class="arrow">▶</span> 🧠 Nerve Status Check-In <span style="font-weight:400;color:var(--gray);font-size:.78rem">(optional)</span>
             </div>
             <div class="nerve-body">
-              <div class="nerve-hint">Tap any spinal levels that feel compromised today. Muscles served by those roots will be flagged ⚠️ in the builder so you can route around them.<br><br><strong style="color:var(--gray-light)">⚠️ Important:</strong> Routing does not eliminate pain. If you have degenerative disc disease or nerve compression, some discomfort is likely regardless of exercise selection. The goal is to avoid putting a <em>primary training load</em> on an already-stressed nerve root — not to train pain-free. Flagged muscles may still be involved as stabilizers; this tool helps you choose exercises where they aren't the prime mover. Always work with your physician or PT.</div>
+              <div class="nerve-hint">Tap any spinal levels that feel compromised today. Muscles commonly served by those roots will be flagged ⚠️ in the builder for awareness.<br><br><strong style="color:var(--gray-light)">⚠️ Disclaimer:</strong> These are standard anatomical relationships. How nerve compression affects your training experience varies by individual — flagging a level is awareness, not a restriction. Some discomfort may be present regardless of exercise selection, especially with conditions like degenerative disc disease. This tool is informational, not medical advice. Always work with your physician or PT.</div>
               <div style="font-size:.68rem;color:var(--gray-dark);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:700">Cervical</div>
               <div class="spine-chips" style="margin-bottom:8px">
                 <span class="spine-chip cervical" data-level="C1-C2" onclick="toggleSpine(this)">C1–C2</span>
@@ -614,10 +614,10 @@
           </details>
           <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">🧠 Nerve Status Check-In</summary>
             <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
-              The optional Nerve Status Check-In lets you flag which spinal levels feel compromised today. Muscles served by those nerve roots get a <span style="color:var(--secondary)">⚠️ warning</span> in the builder so you can route your training through unaffected pathways.<br><br>
-              <strong style="color:var(--white)">Example:</strong> If <code style="color:var(--secondary)">C5–C6</code> is flared, muscles served by C5–C6 (deltoids via Axillary, biceps via Musculocutaneous) are flagged. You can bias toward muscles served by C7–C8 (triceps via Radial, sternal pec via Medial Pectoral) instead.<br><br>
-              Over time, your history tracks which levels were compromised alongside your sets and compensations — building a personal dataset of what works when specific pathways are limited.<br><br>
-              <strong style="color:var(--secondary)">⚠️ This is not pain elimination.</strong> Conditions like degenerative disc disease mean some nerve stress is present at baseline. Routing helps you avoid making a compromised root the <em>primary load-bearer</em> during heavy sets — it doesn't mean flagged muscles won't feel anything. You may still feel discomfort from stabilizer involvement or general nerve irritation. The value is in reducing how hard you push through an already-stressed pathway, not in avoiding it entirely. This tool is informational — not medical advice. Always consult your physician or physical therapist.
+              The optional Nerve Status Check-In lets you flag which spinal levels feel compromised today. Muscles commonly served by those nerve roots get a <span style="color:var(--secondary)">⚠️ flag</span> in the builder for awareness.<br><br>
+              <strong style="color:var(--white)">Example:</strong> If <code style="color:var(--secondary)">C5–C6</code> is flagged, muscles commonly served by C5–C6 (deltoids via Axillary, biceps via Musculocutaneous) are highlighted. Muscles commonly served by other roots (like triceps via Radial at C7–C8, or sternal pec via Medial Pectoral at C8–T1) are not flagged.<br><br>
+              Over time, your history tracks which levels were compromised alongside your sets and compensations — building a personal log of your training context.<br><br>
+              <strong style="color:var(--secondary)">⚠️ Disclaimer:</strong> These are standard anatomical relationships. How nerve compression affects your training experience varies by individual — flagging a level is awareness, not a restriction. Some discomfort may be present regardless of exercise selection, especially with conditions like degenerative disc disease. This tool is informational, not medical advice. Always consult your physician or physical therapist.
             </div>
           </details>
           <details><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">Movement Patterns</summary>
@@ -659,8 +659,8 @@
 
           <h3 style="color:var(--white);font-size:1rem;margin:20px 0 8px">📄 Terms of Use</h3>
           <p>This tool is provided as-is for informational and personal tracking purposes. It is <strong style="color:var(--white)">not a medical device</strong> and does not provide medical advice, diagnosis, or treatment.</p>
-          <p style="margin-top:10px">The Nerve Status Check-In feature flags muscles based on spinal nerve root anatomy. This is educational information to help you make informed exercise choices — it does not replace guidance from a physician, physical therapist, or other qualified healthcare provider. If you have degenerative disc disease, nerve compression, or any spinal condition, always consult your care team before modifying your training.</p>
-          <p style="margin-top:10px">MNN (Muscular Neuro Notation) is a notation system created by BodSpas / AIUNITES. The muscle-nerve-root mappings are based on standard anatomical references but are simplified for practical gym use. They are not intended for clinical diagnosis.</p>
+          <p style="margin-top:10px">The Nerve Status Check-In feature highlights muscles served by selected spinal nerve roots based on standard anatomy. How nerve compression affects your training experience varies by individual — flagging a level is awareness, not a restriction. This feature does not replace guidance from a physician, physical therapist, or other qualified healthcare provider.</p>
+          <p style="margin-top:10px">MNN (Muscular Neuro Notation) is a notation system created by BodSpas / AIUNITES. The muscle-nerve-root mappings are based on standard anatomical references, simplified for practical gym use. They are not intended for clinical diagnosis.</p>
           <p style="margin-top:10px">You are responsible for your own training decisions. BodSpas, AIUNITES, and the creators of this tool assume no liability for injury, pain, or adverse outcomes resulting from exercise choices made with or without this tool.</p>
           <p style="margin-top:10px;color:var(--gray)">Last updated: March 2026</p>
         </div>
@@ -1069,7 +1069,7 @@ function applyNerveWarnings() {
     bar.innerHTML = '⚠️ <strong>Flagged levels:</strong> ' + [...flareLevels].join(', ') + '<br>'
       + '<span style="color:var(--primary-light)">' + warnedMuscles.length + ' muscles affected</span> · '
       + '<span style="color:var(--green)">' + safeMuscles.length + ' muscles clear</span><br>'
-      + '<span style="font-size:.75rem;color:var(--gray)">Route through clear pathways to avoid loading compromised nerve roots.</span>';
+      + '<span style="font-size:.75rem;color:var(--gray)">These are standard anatomical relationships. Training experience varies by individual.</span>';
   }
 
   // Save to session
