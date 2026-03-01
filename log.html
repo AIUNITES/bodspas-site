@@ -187,6 +187,28 @@
 
     .app-footer{text-align:center;padding:30px 20px;color:var(--gray);font-size:.8rem;border-top:1px solid var(--dark-border);margin-top:40px}
     .app-footer a{color:var(--primary-light);text-decoration:none}
+
+    /* Nerve Status Check-In */
+    .nerve-status{margin-top:12px;border-top:1px solid var(--dark-border);padding-top:12px}
+    .nerve-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--gray-light);font-size:.85rem;font-weight:600}
+    .nerve-toggle:hover{color:var(--white)}
+    .nerve-toggle .arrow{font-size:.7rem;transition:var(--transition)}
+    .nerve-status.open .nerve-toggle .arrow{transform:rotate(90deg)}
+    .nerve-body{display:none;margin-top:10px}
+    .nerve-status.open .nerve-body{display:block}
+    .nerve-hint{font-size:.78rem;color:var(--gray);margin-bottom:8px;line-height:1.6}
+    .spine-chips{display:flex;flex-wrap:wrap;gap:6px}
+    .spine-chip{padding:4px 10px;border-radius:16px;font-size:.75rem;font-weight:600;cursor:pointer;border:1px solid var(--dark-border);background:var(--dark-light);color:var(--gray-light);transition:var(--transition);user-select:none}
+    .spine-chip:hover{border-color:var(--secondary);color:var(--white)}
+    .spine-chip.flared{background:rgba(249,115,22,.2);border-color:var(--secondary);color:var(--secondary)}
+    .spine-chip.cervical{border-color:rgba(99,102,241,.25)}
+    .spine-chip.thoracic{border-color:rgba(74,222,128,.2)}
+    .spine-chip.lumbar{border-color:rgba(251,191,36,.2)}
+    .spine-chip.sacral{border-color:rgba(220,38,38,.2)}
+    .nerve-active-bar{display:none;margin-top:10px;padding:10px 14px;background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:8px;font-size:.8rem;color:var(--secondary);line-height:1.7}
+    .nerve-active-bar.show{display:block}
+    .chip.warned{box-shadow:0 0 0 2px rgba(249,115,22,.4);position:relative}
+    .chip.warned::after{content:'⚠';position:absolute;top:-6px;right:-4px;font-size:.6rem}
   </style>
 </head>
 <body>
@@ -323,6 +345,36 @@
             <div class="form-group">
               <label>Date</label>
               <input type="date" id="sessionDate" />
+            </div>
+          </div>
+          <!-- Nerve Status Check-In -->
+          <div class="nerve-status" id="nerveStatus" onclick="event.stopPropagation()">
+            <div class="nerve-toggle" onclick="document.getElementById('nerveStatus').classList.toggle('open')">
+              <span class="arrow">▶</span> 🧠 Nerve Status Check-In <span style="font-weight:400;color:var(--gray);font-size:.78rem">(optional)</span>
+            </div>
+            <div class="nerve-body">
+              <div class="nerve-hint">Tap any spinal levels that feel compromised today. Muscles served by those roots will be flagged ⚠️ in the builder so you can route around them.</div>
+              <div style="font-size:.68rem;color:var(--gray-dark);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:700">Cervical</div>
+              <div class="spine-chips" style="margin-bottom:8px">
+                <span class="spine-chip cervical" data-level="C3-C4" onclick="toggleSpine(this)">C3–C4</span>
+                <span class="spine-chip cervical" data-level="C4-C5" onclick="toggleSpine(this)">C4–C5</span>
+                <span class="spine-chip cervical" data-level="C5-C6" onclick="toggleSpine(this)">C5–C6</span>
+                <span class="spine-chip cervical" data-level="C6-C7" onclick="toggleSpine(this)">C6–C7</span>
+                <span class="spine-chip cervical" data-level="C7-C8" onclick="toggleSpine(this)">C7–C8</span>
+              </div>
+              <div style="font-size:.68rem;color:var(--gray-dark);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:700">Thoracic</div>
+              <div class="spine-chips" style="margin-bottom:8px">
+                <span class="spine-chip thoracic" data-level="T1-T6" onclick="toggleSpine(this)">T1–T6</span>
+                <span class="spine-chip thoracic" data-level="T7-T12" onclick="toggleSpine(this)">T7–T12</span>
+              </div>
+              <div style="font-size:.68rem;color:var(--gray-dark);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:700">Lumbar / Sacral</div>
+              <div class="spine-chips">
+                <span class="spine-chip lumbar" data-level="L2-L4" onclick="toggleSpine(this)">L2–L4</span>
+                <span class="spine-chip lumbar" data-level="L4-L5" onclick="toggleSpine(this)">L4–L5</span>
+                <span class="spine-chip lumbar" data-level="L5-S1" onclick="toggleSpine(this)">L5–S1</span>
+                <span class="spine-chip sacral" data-level="S1-S2" onclick="toggleSpine(this)">S1–S2</span>
+              </div>
+              <div class="nerve-active-bar" id="nerveActiveBar"></div>
             </div>
           </div>
         </div>
@@ -527,6 +579,13 @@
               <code style="color:var(--primary-light)">[Comp:Bic for Lat]</code> Biceps take over rows<br>
               <code style="color:var(--primary-light)">[Comp:Ers for Glu.Mx]</code> Low back takes over deadlift<br>
               <code style="color:var(--primary-light)">[Comp:Trp.U for Trp.L]</code> Upper trap compensating lower
+            </div>
+          </details>
+          <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">🧠 Nerve Status Check-In</summary>
+            <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
+              The optional Nerve Status Check-In lets you flag which spinal levels feel compromised today. Muscles served by those nerve roots get a <span style="color:var(--secondary)">⚠️ warning</span> in the builder so you can route your training through unaffected pathways.<br><br>
+              <strong style="color:var(--white)">Example:</strong> If <code style="color:var(--secondary)">C5–C6</code> is flared, muscles served by C5–C6 (deltoids via Axillary, biceps via Musculocutaneous) are flagged. You can bias toward muscles served by C7–C8 (triceps via Radial, sternal pec via Medial Pectoral) instead.<br><br>
+              Over time, your history tracks which levels were compromised alongside your sets and compensations — building a personal dataset of what works when specific pathways are limited.
             </div>
           </details>
           <details><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">Movement Patterns</summary>
@@ -746,6 +805,15 @@ function loadUserData() {
     if (!matched) { sel.value = '__custom__'; comboChanged(sel); document.getElementById('sessionNameCustom').value = userData.currentSession.name; }
   }
   renderCurrentSets();
+  // Restore nerve status if active session has it
+  if (userData.currentSession.nerveStatus && userData.currentSession.nerveStatus.length) {
+    flareLevels = new Set(userData.currentSession.nerveStatus);
+    document.querySelectorAll('.spine-chip').forEach(c => {
+      if (flareLevels.has(c.dataset.level)) c.classList.add('flared');
+    });
+    document.getElementById('nerveStatus').classList.add('open');
+    applyNerveWarnings();
+  }
   document.getElementById('welcomeMsg').textContent = currentUser ? (currentUser.isDemo ? 'Demo mode — sign up to keep your data permanently' : 'Welcome, ' + currentUser.name) : '';
 }
 
@@ -858,6 +926,96 @@ function buildRefTable() {
 // MNN BUILDER STATE
 // =============================================
 let builder = { movement: '', muscles: {}, nerves: new Set() };
+
+// =============================================
+// NERVE STATUS CHECK-IN
+// =============================================
+// Map spinal levels to which roots they cover
+const SPINE_TO_ROOTS = {
+  'C3-C4': ['C3','C4'],
+  'C4-C5': ['C4','C5'],
+  'C5-C6': ['C5','C6'],
+  'C6-C7': ['C6','C7'],
+  'C7-C8': ['C7','C8'],
+  'T1-T6': ['T1','T2','T3','T4','T5','T6'],
+  'T7-T12': ['T7','T8','T9','T10','T11','T12'],
+  'L2-L4': ['L2','L3','L4'],
+  'L4-L5': ['L4','L5'],
+  'L5-S1': ['L5','S1'],
+  'S1-S2': ['S1','S2'],
+};
+
+// Parse root ranges like "C5–C7" into individual roots ["C5","C6","C7"]
+function parseRoots(rootStr) {
+  if (!rootStr) return [];
+  const parts = rootStr.replace(/\s/g,'').split(',');
+  const result = [];
+  for (const p of parts) {
+    const m = p.match(/^([A-Z])(\d+)[–-]([A-Z]?)(\d+)$/);
+    if (m) {
+      const prefix = m[1];
+      const start = parseInt(m[2]);
+      const end = parseInt(m[4]);
+      for (let i = start; i <= end; i++) result.push(prefix + i);
+    } else {
+      result.push(p);
+    }
+  }
+  return result;
+}
+
+let flareLevels = new Set();
+
+function toggleSpine(el) {
+  const level = el.dataset.level;
+  el.classList.toggle('flared');
+  if (el.classList.contains('flared')) flareLevels.add(level);
+  else flareLevels.delete(level);
+  applyNerveWarnings();
+}
+
+function applyNerveWarnings() {
+  // Collect all flared individual roots
+  const flaredRoots = new Set();
+  for (const level of flareLevels) {
+    const roots = SPINE_TO_ROOTS[level] || [];
+    roots.forEach(r => flaredRoots.add(r));
+  }
+
+  // Mark muscle chips
+  const warnedMuscles = [];
+  const safeMuscles = [];
+  document.querySelectorAll('#muscleChips .chip[data-val]').forEach(chip => {
+    const sym = chip.dataset.val;
+    const info = MUSCLES[sym];
+    if (!info) return;
+    const muscleRoots = parseRoots(info.roots);
+    const isAffected = muscleRoots.some(r => flaredRoots.has(r));
+    if (isAffected && flareLevels.size > 0) {
+      chip.classList.add('warned');
+      warnedMuscles.push(sym + ' (' + info.nerve + ', ' + info.roots + ')');
+    } else {
+      chip.classList.remove('warned');
+      if (flareLevels.size > 0) safeMuscles.push(sym);
+    }
+  });
+
+  // Update active bar
+  const bar = document.getElementById('nerveActiveBar');
+  if (flareLevels.size === 0) {
+    bar.classList.remove('show');
+  } else {
+    bar.classList.add('show');
+    bar.innerHTML = '⚠️ <strong>Flagged levels:</strong> ' + [...flareLevels].join(', ') + '<br>'
+      + '<span style="color:var(--primary-light)">' + warnedMuscles.length + ' muscles affected</span> · '
+      + '<span style="color:var(--green)">' + safeMuscles.length + ' muscles clear</span><br>'
+      + '<span style="font-size:.75rem;color:var(--gray)">Route through clear pathways to avoid loading compromised nerve roots.</span>';
+  }
+
+  // Save to session
+  userData.currentSession.nerveStatus = [...flareLevels];
+  saveUserData();
+}
 
 function autoSelectNerves() {
   // Clear auto-selected, keep manually selected
@@ -1004,7 +1162,8 @@ function finishSession() {
     date: userData.currentSession.date || today(),
     sets: [...userData.currentSession.sets],
     totalSets: userData.currentSession.sets.length,
-    compensations: userData.currentSession.sets.filter(s => s.hasComp).length
+    compensations: userData.currentSession.sets.filter(s => s.hasComp).length,
+    nerveStatus: userData.currentSession.nerveStatus || []
   };
   userData.sessions.unshift(session);
   userData.currentSession = { name: '', date: '', sets: [] };
@@ -1012,6 +1171,12 @@ function finishSession() {
   document.getElementById('sessionNameCustom').value = '';
   document.getElementById('sessionNameCustom').classList.remove('show');
   document.getElementById('sessionDate').value = today();
+  // Reset nerve status
+  flareLevels.clear();
+  document.querySelectorAll('.spine-chip.flared').forEach(c => c.classList.remove('flared'));
+  document.querySelectorAll('.chip.warned').forEach(c => c.classList.remove('warned'));
+  document.getElementById('nerveActiveBar').classList.remove('show');
+  document.getElementById('nerveStatus').classList.remove('open');
   saveUserData(); renderCurrentSets();
   showToast('Session saved! ' + session.totalSets + ' sets.', 'success');
 }
@@ -1024,7 +1189,7 @@ function renderHistory() {
   document.getElementById('historyCount').textContent = userData.sessions.length + ' session' + (userData.sessions.length!==1?'s':'');
   if (!userData.sessions.length) { c.innerHTML = '<div class="empty-state"><div class="icon">📋</div><h3>No sessions yet</h3><p>Finish a workout to see it here</p></div>'; return; }
   c.innerHTML = userData.sessions.map(s => `<div class="session-card" onclick="this.classList.toggle('open')">
-    <div class="session-card-header"><div><h3>${esc(s.name)}</h3><div class="meta">${fmtDate(s.date)} · ${s.totalSets} sets${s.compensations?` · <span style="color:var(--primary-light)">${s.compensations} comp</span>`:' · <span style="color:var(--green)">clean</span>'}</div></div><span class="arrow">▼</span></div>
+    <div class="session-card-header"><div><h3>${esc(s.name)}</h3><div class="meta">${fmtDate(s.date)} · ${s.totalSets} sets${s.compensations?` · <span style="color:var(--primary-light)">${s.compensations} comp</span>`:' · <span style="color:var(--green)">clean</span>'}${s.nerveStatus&&s.nerveStatus.length?' · <span style="color:var(--secondary)">🧠 '+s.nerveStatus.join(', ')+'</span>':''}</div></div><span class="arrow">▼</span></div>
     <div class="session-card-body">
       <div class="session-stats"><div><span class="stat-val">${s.totalSets}</span><br><span class="stat-label">Sets</span></div><div><span class="stat-val" style="color:${s.compensations?'var(--primary-light)':'var(--green)'}">${s.compensations}</span><br><span class="stat-label">Compensations</span></div></div>
       ${s.sets.map(x => `<div class="set-entry ${x.hasComp?'has-comp':'clean'}" style="margin-bottom:6px">
