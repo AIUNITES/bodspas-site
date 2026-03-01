@@ -186,6 +186,76 @@
         {Push.H} [Con:Pec.S+++, Pec.C++, Tri++, Dlt.A+, t[3-1-2]] → MedPec(C8–T1)/LatPec(C5–C7)/Rad(C6–C8)/Axil(C5–C6)
         <span class="note">Tells you: movement pattern, every muscle firing, activation intensity, contraction type, tempo, the nerve innervating each muscle, and the spinal root feeding each nerve. One line.</span>
       </div>
+      <h3>Why Symbols, Not Full Names?</h3>
+      <p>Every nerve-to-muscle connection in MNN already exists in anatomy textbooks. Gray's Anatomy documents all of it. So why build a notation system instead of just using the full anatomical names? For the same reason chemistry uses the periodic table instead of paragraphs, and music uses notes instead of sentences: symbols combine, compare, and compute in ways that prose cannot.</p>
+
+      <div class="highlight-box">
+        <h3>📐 The Density Problem</h3>
+        <p>"Sternal head of the pectoralis major, contracting concentrically at high activation, innervated by the medial pectoral nerve from spinal roots C8 and T1" — that's 26 words describing one muscle in one movement. A compound exercise involves five or six muscles. In full anatomical prose, a single rep of bench press becomes a paragraph nobody can read in real time, let alone log in a training app.</p>
+        <div class="mnn-code" style="margin:15px 0;padding:15px 20px;font-size:0.85rem;">
+          <span class="label">Full anatomical names — one exercise, one rep:</span>
+          Sternal head of pectoralis major via medial pectoral nerve (C8–T1), high activation, concentric. Clavicular head of pectoralis major via lateral pectoral nerve (C5–C7), moderate activation, concentric. Long head of triceps brachii via radial nerve (C6–C8), moderate activation, concentric. Anterior deltoid via axillary nerve (C5–C6), low activation, synergist. Serratus anterior via long thoracic nerve (C5–C7), low activation, stabilizer.
+          <span class="note">Five muscles. 68 words. Imagine logging this after every set — or displaying it on a phone screen.</span>
+        </div>
+        <div class="mnn-code" style="margin:15px 0;padding:15px 20px;font-size:0.85rem;">
+          <span class="label">MNN — same information:</span>
+          {Push.H} [Con:Pec.S+++, Pec.C++, Tri++, Dlt.A+, Ser+] → MedPec/LatPec/Rad/Axil/LTh
+          <span class="note">Same five muscles. Same nerves. Same activation levels. One line. Fits on a phone screen.</span>
+        </div>
+      </div>
+
+      <div class="vw-compare">
+        <div class="vw-now">
+          <h4>📖 Full Names Work For...</h4>
+          <p><strong>Textbooks</strong> — where you have a full page to describe one muscle at a time</p>
+          <p><strong>Lectures</strong> — where a professor can spend 10 minutes on one nerve pathway</p>
+          <p><strong>Research papers</strong> — where precision matters more than speed</p>
+          <p>These are read-once, study-slowly contexts. They work in paragraphs because nobody needs to compare two movements side by side in real time.</p>
+        </div>
+        <div class="vw-mnn">
+          <h4>⚡ Symbols Work For...</h4>
+          <p><strong>Training logs</strong> — written between sets, reviewed across weeks</p>
+          <p><strong>Mobile apps</strong> — where 320px of screen width is all you get</p>
+          <p><strong>Coaching cues</strong> — spoken or displayed in seconds, not paragraphs</p>
+          <p><strong>PT documentation</strong> — SOAP notes that need nerve-level detail without consuming the whole page</p>
+          <p><strong>Software</strong> — where structured symbols can be parsed, compared, graphed, and acted on by machines</p>
+        </div>
+      </div>
+
+      <h3>The Mobile Screen Test</h3>
+      <p>If you built a workout logging app that tracked muscle activation at the nerve level — which is where training technology is heading — full anatomical names would break every screen in every language. "Sternal head of pectoralis major via medial pectoral nerve (C8–T1)" doesn't fit in a table cell on a phone. <code style="color:var(--accent);">[Pec.S+++ → MedPec]</code> does. And it still tells you the muscle, the activation level, and the nerve — in about 20 characters.</p>
+
+      <p>This is the same problem every notation system solves. Musicians don't write "the third scale degree of B-flat major, played mezzo-forte for one beat" — they write a note on a staff. Chemists don't write "two atoms of hydrogen bonded to one atom of oxygen" — they write H₂O. The information is identical. The format determines whether it's usable in practice. MNN puts neuromuscular anatomy into a format that fits on a screen, chains across muscles, compares across sessions, and parses by software — because full names, however accurate, simply don't.</p>
+
+      <h3>The Workout Log That Knows Your Nerves</h3>
+      <p>Now imagine a web app where you log in, record your workout, and the system stores every set — not just the weight and reps, but which muscles fired, through which nerves, at what activation level, and whether compensations appeared. Full anatomical names make that impossible in a usable interface. A database row containing "Sternal head of pectoralis major, contracting concentrically at high activation, innervated by the medial pectoral nerve from spinal roots C8 and T1" for each of five muscles per set would be unreadable in any table, chart, or dashboard. But a row containing <code style="color:var(--accent);">[Con:Pec.S+++] → MedPec(C8–T1)</code> is compact enough to store, display, query, and compare across months of training.</p>
+
+      <div class="highlight-box">
+        <h3>📊 What a Logged Workout Could Look Like</h3>
+        <div class="mnn-code" style="margin:12px 0;padding:15px 20px;font-size:0.85rem;">
+          <span class="label">Session: Chest &amp; Triceps — Feb 28, 2026</span>
+          Set 1: Flat Bench — 3×10×225, RPE 7<br>
+          &nbsp;&nbsp;{Push.H} [Con:Pec.S+++, Pec.C++, Tri++, Dlt.A+] → MedPec/LatPec/Rad/Axil<br>
+          &nbsp;&nbsp;✅ No compensations detected<br><br>
+          Set 4: Flat Bench — 3×8×245, RPE 9<br>
+          &nbsp;&nbsp;{Push.H} [Con:Pec.S++, Tri++, <strong style="color:var(--primary-light)">Dlt.A+++</strong>] → Axil dominant<br>
+          &nbsp;&nbsp;⚠️ [Comp:Dlt.A for Pec.S] — front delt took over on reps 6–8<br><br>
+          Set 7: Cable Fly — 3×12×40, RPE 6<br>
+          &nbsp;&nbsp;{Pull.H} [Con:Pec.S+++, Pec.C++] → MedPec/LatPec<br>
+          &nbsp;&nbsp;✅ Pec isolation maintained
+          <span class="note">Every set keeps the traditional log (exercise, sets, reps, weight, RPE) and adds what actually happened at the neuromuscular level. Over weeks, you can see exactly when and where compensations appear — which set, which rep range, which fatigue threshold.</span>
+        </div>
+      </div>
+
+      <p>That's a training log that answers the questions current logs can't: Did the target muscle actually do the work? When did compensations start? Which nerve pathway fatigued first? Is the pattern improving week over week? All stored in a format compact enough to display on a phone, query in a database, and share with a coach or PT — because the notation fits where paragraphs never will.</p>
+
+      <p>BodSpas is building toward exactly this kind of neuromuscular training log. The notation system comes first — because without a compact, structured symbolic language, there's nothing usable to store, display, or compute. MNN is the foundation. The app is what sits on top of it.</p>
+
+      <div class="press-quote">
+        <p>"The periodic table doesn't contain any information that wasn't already in chemistry textbooks. But nobody builds molecules from paragraphs. They build them from symbols — because symbols combine, compare, and compute. That's exactly the relationship between anatomy textbooks and MNN."</p>
+        <div class="attr">— The case for symbolic notation</div>
+      </div>
+
     </section>
 
     <!-- ============================================ -->
