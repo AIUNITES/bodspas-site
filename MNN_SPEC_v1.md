@@ -607,20 +607,11 @@ Birdwhistell's Kinesics system offers hundreds of codes for body part movements 
 
 ### 13.6 Why No Unified Notation Exists
 
-The absence of a single notation for human movement is not a technical limitation. The underlying anatomy, physics, and mathematics are well understood. The fragmentation is structural and economic.
+Every field that touches human movement built its own silo. Whether by design or by accident, the result is the same: your data doesn't travel with you.
 
-Every field that touches human movement has built its own proprietary data formats, its own credentialing systems, and its own vendor ecosystems. A biomechanics lab uses C3D files that only their software can read. A gym equipment manufacturer stores joint angles in a proprietary firmware format that only their machines can interpret. A physical therapy clinic documents exercises in prose notes that cannot be parsed by any other system. A game studio uses BVH files that encode skeleton motion but nothing about which muscles fired or why.
+A biomechanics lab uses C3D files that only their software can read. A gym equipment manufacturer stores joint angles in a proprietary firmware format that only their machines can interpret. A physical therapy clinic documents exercises in prose notes that cannot be parsed by any other system. A game studio uses BVH files that encode skeleton motion but nothing about which muscles fired or why. These fields evolved independently, in different decades, solving different problems. Nobody planned the fragmentation — but nobody solved it either.
 
-This is not an accident. It is the business model.
-
-When your movement data is locked inside a vendor's format, you cannot take it with you. When you leave the clinic, the biomechanics lab, the gym franchise, or the game engine, your data stays behind — or becomes meaningless without the proprietary software that created it. Every new context requires re-measurement, re-assessment, and re-subscription. The patient who got a detailed movement analysis at one clinic starts from zero at another. The athlete whose gym tracked their joint angles on brand-name machines loses all that data when they switch facilities. The researcher who captured motion in one lab's software cannot share it with a collaborator using different tools without expensive format conversion.
-
-The industry benefits from this fragmentation:
-- **Equipment manufacturers** sell machines with proprietary tracking that only works within their product line
-- **Software vendors** sell annual licenses to read the data their own hardware generated
-- **Clinical systems** store patient movement data in formats that don't transfer between providers
-- **Credentialing bodies** maintain separate terminology and standards that require paid training to learn
-- **Motion capture companies** sell both the hardware and the only software that can process the output
+The practical effect is the same regardless of intent: when your movement data lives inside a vendor's format, taking it with you is expensive and painful. Exporting, converting, and re-importing between systems requires specialized software, technical expertise, or both. For most people, the data effectively stays behind when they switch providers, facilities, or platforms. The patient who got a detailed movement analysis at one clinic starts from zero at another. The athlete whose gym tracked their joint angles on brand-name machines loses all that data when they switch facilities. The researcher who captured motion in one lab's software cannot share it with a collaborator using different tools without expensive format conversion.
 
 The result is that a simple truth — "this person's left shoulder was at 25° internal rotation and 90° flexion while contracting the sternal pec via the medial pectoral nerve using a mid-height cable" — cannot be expressed in any single, portable, human-readable format that works across all of these contexts.
 
