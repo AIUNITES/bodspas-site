@@ -188,6 +188,22 @@
     .help-panel strong{color:var(--white)}
 
     .app-footer{text-align:center;padding:30px 20px;color:var(--gray);font-size:.8rem;border-top:1px solid var(--dark-border);margin-top:40px}
+
+    /* My Plan (Tom only) */
+    .plan-card{background:var(--dark-light);border:1px solid var(--dark-border);border-radius:var(--radius-lg);padding:24px;margin-bottom:16px}
+    .plan-card h3{font-size:1.05rem;margin-bottom:12px;color:var(--accent)}
+    .plan-card h4{font-size:.92rem;margin:16px 0 8px;color:var(--primary-light)}
+    .plan-card p{color:var(--gray-light);font-size:.88rem;line-height:1.8;margin-bottom:10px}
+    .plan-card code{color:var(--accent);font-size:.82rem}
+    .plan-card .layer-grid{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:12px 0;font-size:.85rem}
+    .plan-card .layer-num{color:var(--primary-light);font-weight:800;font-size:.8rem}
+    .plan-card .layer-txt{color:var(--gray-light)}
+    .plan-exercise{background:var(--dark-lighter);border-radius:10px;padding:14px;margin:10px 0;border-left:3px solid var(--green)}
+    .plan-exercise.caution{border-left-color:var(--secondary)}
+    .plan-exercise .ex-name{font-weight:700;font-size:.9rem;margin-bottom:4px}
+    .plan-exercise .ex-why{color:var(--gray-light);font-size:.82rem;line-height:1.7}
+    .plan-exercise .ex-mnn{font-family:'Courier New',monospace;font-size:.8rem;color:var(--accent);margin-top:6px}
+    .plan-private-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.25);border-radius:16px;padding:4px 12px;font-size:.72rem;font-weight:600;color:#818cf8;margin-bottom:16px}
     .app-footer a{color:var(--primary-light);text-decoration:none}
 
     /* Nerve Status Check-In */
@@ -326,6 +342,7 @@
         <button class="tab-btn active" data-tab="log">🏋️ Log</button>
         <button class="tab-btn" data-tab="history">📋 History</button>
         <button class="tab-btn" data-tab="reference">📖 Reference</button>
+        <button class="tab-btn" data-tab="myplan" id="myPlanTab" style="display:none">🎯 My Plan</button>
       </div>
 
       <!-- ---- TAB: LOG ---- -->
@@ -648,6 +665,143 @@
           <p style="color:var(--gray);font-size:.82rem;margin-top:8px">MNN notation © 2026 BodSpas / AIUNITES · <a href="press.html" style="color:var(--primary-light)">Press</a> · <a href="bodwave.html" style="color:var(--primary-light)">BodWave</a></p>
         </div>
       </div>
+
+      <!-- ---- TAB: MY PLAN (Tom only) ---- -->
+      <div class="tab-content" id="tab-myplan">
+        <div class="plan-card">
+          <div class="plan-private-badge">🔒 Private — only visible to your account</div>
+          <h3>🎯 Tom’s Training Plan</h3>
+          <p>Custom plan built around DDD (5 degenerate discs: cervical, thoracic, lumbar) + arthritis in shoulders, clavicles, and sternum. Every pec contraction pulls on arthritic bone at both ends. The goal: isolate pec heads through their separate nerve pathways, minimize joint compression, and get anti-rotation core work from unilateral movements.</p>
+
+          <h4>🧠 The Five-Layer Equation</h4>
+          <p>Every set involves five variables. Standard logs track one (load). MNN tracks two (pathway + compensation). This plan adds the remaining three.</p>
+          <div class="layer-grid">
+            <span class="layer-num">1. Nerve</span><span class="layer-txt">Is this pathway flared today? → <strong>Nerve Status Check-In</strong></span>
+            <span class="layer-num">2. Muscle</span><span class="layer-txt">Is the target muscle the prime mover? → <strong>Compensation tracking</strong></span>
+            <span class="layer-num">3. Bone</span><span class="layer-txt">Is the load tolerable at arthritic attachment points? → <strong>Weight selection</strong></span>
+            <span class="layer-num">4. Joint</span><span class="layer-txt">Is the angle compressive or tensile at the arthritic surface? → <strong>IR angle, fly vs press</strong></span>
+            <span class="layer-num">5. Core</span><span class="layer-txt">Am I getting spinal stabilizer work? → <strong>Unilateral selection</strong></span>
+          </div>
+        </div>
+
+        <div class="plan-card">
+          <h3>💪 Pec Isolation: Two Muscles, Two Nerves</h3>
+          <p>The sternal head and clavicular head are on <strong>different nerves from different spinal roots</strong>. They can be trained independently because the brain can route to one without the other.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;font-size:.85rem">
+            <div style="background:var(--dark-lighter);border-radius:10px;padding:14px;border:1px solid rgba(220,38,38,.2)">
+              <strong style="color:var(--primary-light)">Pec.S (Sternal)</strong><br>
+              <span style="color:var(--green)">MedPec nerve → C8–T1</span><br>
+              <span style="color:var(--gray-light)">Action: horizontal adduction</span><br>
+              <span style="color:var(--gray)">The mass. Flat/decline work.</span>
+            </div>
+            <div style="background:var(--dark-lighter);border-radius:10px;padding:14px;border:1px solid rgba(99,102,241,.2)">
+              <strong style="color:#818cf8">Pec.C (Clavicular)</strong><br>
+              <span style="color:var(--green)">LatPec nerve → C5–C7</span><br>
+              <span style="color:var(--gray-light)">Action: shoulder flexion + adduction</span><br>
+              <span style="color:var(--gray)">Upper shelf. Low-to-high work.</span>
+            </div>
+          </div>
+          <p style="font-size:.82rem;color:var(--gray)"><strong style="color:var(--secondary)">Arthritis note:</strong> Pec.S originates on arthritic sternum. Pec.C originates on arthritic clavicle. Both insert through arthritic shoulder. Force magnitude at origin matters as much as nerve pathway. Low weight + clean activation > heavy weight + compression.</p>
+        </div>
+
+        <div class="plan-card">
+          <h3>✅ Best Exercises — Pec.S (Sternal Head)</h3>
+          <p>Target: MedPec nerve (C8–T1). Horizontal adduction. Minimal delt involvement. Tension over compression.</p>
+
+          <div class="plan-exercise">
+            <div class="ex-name">🥇 Single-Arm Cable Fly — Mid-Chest Height + 20–25° IR</div>
+            <div class="ex-why">Cleanest Pec.S isolation. Constant cable tension, no pressing = front delt and tri nearly silent. IR clears subacromial space (no grinding). Unilateral = anti-rotation core work (Trans.Ab, obliques via intercostals T7–L1) for free. Tension-based loading is kinder to arthritic sternum than compressive pressing.</div>
+            <div class="ex-mnn">{Pull.H} [Con:Pec.S+++] → MedPec(C8–T1) | Unilateral → +Core anti-rotation</div>
+          </div>
+
+          <div class="plan-exercise">
+            <div class="ex-name">🥈 Single-Arm Cable Chest Press — 20–25° IR</div>
+            <div class="ex-why">Your discovery. IR shifts greater tuberosity away from acromion, biases sternal fibers. Pressing adds triceps (Rad, C6–C8) as synergist. Unilateral for core. Keep weight moderate — pressing compresses the shoulder joint more than fly does.</div>
+            <div class="ex-mnn">{Push.H} [Con:Pec.S+++, Tri++, Dlt.A+] → MedPec/Rad/Axil | IR:25°</div>
+          </div>
+
+          <div class="plan-exercise">
+            <div class="ex-name">🥉 Flat Dumbbell Fly — Single Arm</div>
+            <div class="ex-why">Same horizontal adduction as cable fly but gravity-loaded. Minimal delt/tri contribution. Single-arm for core.</div>
+            <div class="ex-mnn">{Pull.H} [Con:Pec.S+++, Pec.C+] → MedPec/LatPec</div>
+          </div>
+
+          <div class="plan-exercise caution">
+            <div class="ex-name">⚠️ Decline Cable Press — 15° decline + IR</div>
+            <div class="ex-why">Decline shifts force vector toward sternal fibers, reduces delt contribution. Good pathway but pressing = more shoulder compression. Watch arthritic shoulder tolerance. Use when shoulder joints feel okay.</div>
+            <div class="ex-mnn">{Push.H} [Con:Pec.S+++, Tri++] → MedPec/Rad | Decline 15°</div>
+          </div>
+        </div>
+
+        <div class="plan-card">
+          <h3>✅ Best Exercises — Pec.C (Clavicular Head)</h3>
+          <p>Target: LatPec nerve (C5–C7). Shoulder flexion + adduction from low position. <strong style="color:var(--secondary)">Caution:</strong> C5–C7 overlaps with flare-prone cervical roots. Skip Pec.C work entirely on days when C5–C6 or C6–C7 is flagged. The clavicular origin also pulls on arthritic clavicle — keep loads light.</p>
+
+          <div class="plan-exercise">
+            <div class="ex-name">🥇 Single-Arm Low-to-High Cable Fly</div>
+            <div class="ex-why">Cable at bottom, sweep upward across body. Exact fiber direction of clavicular head. Very little delt if you stay in adduction plane. Unilateral for core. Low weight to spare clavicle attachment.</div>
+            <div class="ex-mnn">{Pull.V} [Con:Pec.C+++, Pec.S+] → LatPec(C5–C7) | Unilateral</div>
+          </div>
+
+          <div class="plan-exercise caution">
+            <div class="ex-name">⚠️ Incline Dumbbell Fly — 30° max</div>
+            <div class="ex-why">Past 30° the anterior delt dominates. At 30° the clavicular fibers are in strongest position. But incline increases pull on arthritic clavicle. Skip if clavicular joints are bad that day.</div>
+            <div class="ex-mnn">{Pull.H} [Con:Pec.C+++, Pec.S+] → LatPec/MedPec | Incline 30°</div>
+          </div>
+        </div>
+
+        <div class="plan-card">
+          <h3>🛡️ Delt Defocus Cues</h3>
+          <p>The moment you think <em>"push,"</em> the brain recruits the delt because pushing is a delt motor pattern. These cues route the command to the pec instead:</p>
+          <div class="plan-exercise" style="border-left-color:#818cf8">
+            <div class="ex-why">
+              <strong style="color:var(--white)">✅ "Squeeze elbows together"</strong> — adduction cue, pec territory (MedPec)<br>
+              <strong style="color:var(--white)">✅ "Drive toward midline"</strong> — sternal fiber direction, bypasses delt<br>
+              <strong style="color:var(--white)">✅ "Arc, don’t push"</strong> — fly motion pattern, removes triceps + delt synergy<br>
+              <strong style="color:var(--primary-light)">❌ "Push it out"</strong> — recruits Axil (C5–C6) to Dlt.A<br>
+              <strong style="color:var(--primary-light)">❌ "Press hard"</strong> — compression through arthritic shoulder joint
+            </div>
+          </div>
+        </div>
+
+        <div class="plan-card">
+          <h3>🧬 Unilateral = Free Core Work</h3>
+          <p>Single-arm cable work creates an anti-rotation demand. Your torso resists twisting toward the cable. This automatically fires:</p>
+          <div style="font-family:'Courier New',monospace;font-size:.82rem;color:var(--accent);line-height:2;margin:10px 0">
+            Trans.Ab → Intercostal (T7–L1) — deep core wall<br>
+            Obl.I → Intercostal (T7–L1) — anti-rotation<br>
+            Obl.E → Intercostal (T5–T12) — anti-rotation<br>
+            Multifidus → Dorsal Rami — segmental spinal stability
+          </div>
+          <p>This is Stuart McGill’s core stiffness principle: the muscles around your degenerate discs co-contract to create a hydraulic splint. Intra-abdominal pressure goes up, disc stress goes down. You get this <strong>without axially loading the spine</strong> the way squats or deadlifts would.</p>
+          <p style="font-size:.82rem;color:var(--gray)">Every single-arm cable fly or press is a plank you didn’t have to do.</p>
+        </div>
+
+        <div class="plan-card">
+          <h3>📊 Decision Tree: What to Train Today</h3>
+          <div style="font-family:'Courier New',monospace;font-size:.8rem;color:var(--gray-light);line-height:2.2;margin:10px 0">
+            <strong style="color:var(--white)">Step 1: Nerve Check-In</strong><br>
+            ├─ C5–C6 or C6–C7 flared? → Skip Pec.C, skip overhead. Focus Pec.S via MedPec (C8–T1)<br>
+            ├─ C8–T1 flared? → Skip Pec.S. Consider light Pec.C via LatPec (C5–C7) if cervical is clear<br>
+            └─ Nothing flared? → Both heads available<br><br>
+            <strong style="color:var(--white)">Step 2: Joint Check</strong><br>
+            ├─ Shoulders grinding? → Fly only (tension, not compression). Add IR. Drop weight.<br>
+            ├─ Sternum sore? → Reduce Pec.S load. Sternal origin under tension.<br>
+            ├─ Clavicle sore? → Skip Pec.C. Clavicular origin under tension.<br>
+            └─ Joints quiet? → Can include cable press alongside fly<br><br>
+            <strong style="color:var(--white)">Step 3: Exercise Selection</strong><br>
+            ├─ Always unilateral (core work)<br>
+            ├─ Always IR 20–25° (subacromial clearance)<br>
+            ├─ Fly before press (tension before compression)<br>
+            └─ Rehab weight range (3–15 lbs) if joints are hot, moderate (20–45) if clear
+          </div>
+        </div>
+
+        <div class="plan-card" style="border-color:rgba(99,102,241,.2)">
+          <h3 style="color:#818cf8">📝 Notes to Self</h3>
+          <p style="font-size:.85rem;color:var(--gray)">Flies > presses for arthritic shoulders (tension vs compression). C8–T1 pathway is usually your safest bet — it’s below the cervical flare zone. Pec.C via C5–C7 overlaps the danger zone, so treat it as conditional. Weight at arthritic attachment matters as much as nerve routing. The five layers aren’t optional — check all five before picking an exercise. Single arm everything.</p>
+        </div>
+      </div>
     </div>
 
     <footer class="app-footer">
@@ -873,6 +1027,7 @@ function loginAs(user) {
   loadUserData();
   showScreen('app');
   renderNav();
+  checkMyPlan();
   showToast('Welcome, ' + user.name + '!', 'success');
 }
 
@@ -881,6 +1036,7 @@ function logout() {
   localStorage.removeItem(SESSION_KEY);
   showScreen('landing');
   renderNav();
+  checkMyPlan();
 }
 
 function checkSession() {
@@ -889,10 +1045,15 @@ function checkSession() {
     if (sess) {
       const users = getUsers();
       const found = users.find(x => x.username === sess.username);
-      if (found) { currentUser = found; loadUserData(); showScreen('app'); renderNav(); return; }
+      if (found) { currentUser = found; loadUserData(); showScreen('app'); renderNav(); checkMyPlan(); return; }
     }
   } catch(e) {}
   showScreen('landing');
+}
+
+function checkMyPlan() {
+  const tab = document.getElementById('myPlanTab');
+  if (tab) tab.style.display = (currentUser && currentUser.username.toLowerCase() === 'tom') ? '' : 'none';
 }
 
 function renderNav() {
