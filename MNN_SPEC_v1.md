@@ -45,7 +45,16 @@ A single MNN string like:
 
 This is the core design principle of MNN: **write once, use everywhere.**
 
-MNN is developed and published by AIUNITES LLC under the BODWAVE product line. The reference implementation is hosted at https://aiunites.github.io/bodspas-site/log.html as part of the AIUNITES network of web applications.
+MNN is developed and published by AIUNITES LLC. The notation standard lives at the AIUNITES level as the unifying layer across domain-specific applications:
+
+| Site | Role | URL |
+|------|------|-----|
+| **AIUNITES** | The standard — holds the MNN specification | aiunites.github.io/aiunites-site |
+| **BodSpas** | Exercise & rehabilitation application of MNN | aiunites.github.io/bodspas-site |
+| **InThisWorld** | Virtual world application of MNN — avatar posing, LSL bridge, simulation, remote control | aiunites.github.io/inthisworld-site |
+| **VoiceStry** | Vocal movement — VRN (Voice Resonance Notation) | aiunites.github.io/voicestry-site |
+
+AIUNITES is the unifying layer. Each site is a domain-specific frontend for the same underlying notation systems. The name means what it says: **uniting**.
 
 ---
 
