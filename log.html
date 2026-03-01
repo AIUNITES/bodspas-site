@@ -647,7 +647,7 @@
             <!-- Joint Position (collapsible) -->
             <div class="pos-panel" id="posPanel">
               <div class="pos-toggle" onclick="document.getElementById('posPanel').classList.toggle('open');">
-                <span class="arrow">▶</span> 🦨 Joint Position <span style="font-weight:400;color:var(--gray-dark);font-size:.75rem">(optional — for rotation/angle tracking)</span>
+                <span class="arrow">▶</span> 🦴 Joint Position <span style="font-weight:400;color:var(--gray-dark);font-size:.75rem">(optional — for rotation/angle tracking)</span>
               </div>
               <div class="pos-body">
                 <div class="pos-hint">Set joint angles for this set. Defines the body position precisely — useful for tracking what angle works best, and required for future machine control.</div>
@@ -775,6 +775,33 @@
               Flag which spinal levels feel off today. Muscles served by those roots get a <span style="color:var(--secondary)">● dot</span> in the builder so you can see what’s connected.<br><br>
               <strong style="color:var(--white)">Example:</strong> Flag <code style="color:var(--secondary)">C5–C6</code> and muscles served by C5–C6 (deltoids via Axillary, biceps via Musculocutaneous) are highlighted. Muscles on other roots (triceps via Radial at C7–C8, sternal pec via Medial Pectoral at C8–T1) are not flagged.<br><br>
               Useful for understanding which muscles share nerve roots, planning around a tweaky day, or just learning the map. Your history logs which levels were flagged alongside your sets — so you build context over time.
+            </div>
+          </details>
+          <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">🦴 Joint Position Tags</summary>
+            <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
+              Define body position per joint. Only non-zero axes appear in notation.<br><br>
+              <strong style="color:var(--white)">Format:</strong> <code>[Pos:Side.Joint(Axis:value,...)]</code><br><br>
+              <code style="color:var(--accent)">[Pos:L.Sh(IR:25,Flex:90)]</code> Left shoulder, 25° IR, 90° flexion<br>
+              <code style="color:var(--accent)">[Pos:R.El(Flex:15,Pro:45)]</code> Right elbow, 15° flexion, 45° pronation<br>
+              <code style="color:var(--accent)">[Pos:Bi.Hip(Flex:90)]</code> Both hips at 90° (seated)<br>
+              <code style="color:var(--accent)">[Pos:Sp(Rot:15)]</code> Spine rotated 15°<br><br>
+              <strong style="color:var(--white)">Joints:</strong> Sh (Shoulder), El (Elbow), Wr (Wrist), Hip, Kn (Knee), Ank (Ankle), Sp (Spine), Scap (Scapula)<br>
+              <strong style="color:var(--white)">Sides:</strong> L (Left), R (Right), Bi (Bilateral)<br>
+              <strong style="color:var(--white)">Why:</strong> Tracks exactly which angle produces clean activation vs compensation. Essential for machine control — a cable rig or exoskeleton needs joint angles to reproduce a position.
+            </div>
+          </details>
+          <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">🎯 Resistance Vector Tags</summary>
+            <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
+              Describe the resistance source direction and setup.<br><br>
+              <strong style="color:var(--white)">Format:</strong> <code>[Vec:H:height,A:angle,Src:source]</code><br><br>
+              <code style="color:var(--secondary)">[Vec:H:Mid,Src:Cable]</code> Cable at mid height<br>
+              <code style="color:var(--secondary)">[Vec:H:Floor,A:45°,Src:Cable]</code> Low cable, 45° to the side<br>
+              <code style="color:var(--secondary)">[Vec:H:Over,A:0°,Src:Cable]</code> Overhead cable, straight ahead<br>
+              <code style="color:var(--secondary)">[Vec:Src:Gravity]</code> Free weight (gravity only)<br><br>
+              <strong style="color:var(--white)">Heights:</strong> Floor, Low, Mid, High, Overhead<br>
+              <strong style="color:var(--white)">Angle:</strong> 0° = straight ahead, +/- for side angle<br>
+              <strong style="color:var(--white)">Sources:</strong> Cable, Band, Gravity, Machine, Manual<br>
+              <strong style="color:var(--white)">Why:</strong> Changes the force line. Same muscle, same joint angle, different cable height = different activation pattern. Machines need this to set pulley position.
             </div>
           </details>
           <details><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">Movement Patterns</summary>
@@ -1594,6 +1621,141 @@ function setAct(muscle, level) {
 }
 
 // =============================================
+// JOINT POSITION & RESISTANCE VECTOR
+// =============================================
+const JOINTS = {
+  'Sh': { name:'Shoulder', axes: [
+    {id:'Flex',label:'Flexion/Extension',min:-45,max:180,def:0,unit:'°'},
+    {id:'Abd',label:'Abduction/Adduction',min:0,max:180,def:0,unit:'°'},
+    {id:'IR',label:'Internal Rotation',min:0,max:90,def:0,unit:'°'},
+    {id:'ER',label:'External Rotation',min:0,max:90,def:0,unit:'°'},
+  ]},
+  'El': { name:'Elbow', axes: [
+    {id:'Flex',label:'Flexion',min:0,max:145,def:0,unit:'°'},
+    {id:'Pro',label:'Pronation',min:0,max:90,def:0,unit:'°'},
+    {id:'Sup',label:'Supination',min:0,max:90,def:0,unit:'°'},
+  ]},
+  'Wr': { name:'Wrist', axes: [
+    {id:'Flex',label:'Flexion/Extension',min:-70,max:80,def:0,unit:'°'},
+    {id:'Rad',label:'Radial Deviation',min:0,max:20,def:0,unit:'°'},
+    {id:'Uln',label:'Ulnar Deviation',min:0,max:35,def:0,unit:'°'},
+  ]},
+  'Hip': { name:'Hip', axes: [
+    {id:'Flex',label:'Flexion/Extension',min:-30,max:125,def:0,unit:'°'},
+    {id:'Abd',label:'Abduction/Adduction',min:0,max:45,def:0,unit:'°'},
+    {id:'IR',label:'Internal Rotation',min:0,max:45,def:0,unit:'°'},
+    {id:'ER',label:'External Rotation',min:0,max:45,def:0,unit:'°'},
+  ]},
+  'Kn': { name:'Knee', axes: [
+    {id:'Flex',label:'Flexion',min:0,max:140,def:0,unit:'°'},
+  ]},
+  'Ank': { name:'Ankle', axes: [
+    {id:'Dors',label:'Dorsiflexion',min:0,max:20,def:0,unit:'°'},
+    {id:'Plan',label:'Plantarflexion',min:0,max:50,def:0,unit:'°'},
+    {id:'Inv',label:'Inversion',min:0,max:35,def:0,unit:'°'},
+    {id:'Ev',label:'Eversion',min:0,max:25,def:0,unit:'°'},
+  ]},
+  'Sp': { name:'Spine', axes: [
+    {id:'Flex',label:'Flexion/Extension',min:-30,max:80,def:0,unit:'°'},
+    {id:'Lat',label:'Lateral Flexion',min:0,max:35,def:0,unit:'°'},
+    {id:'Rot',label:'Rotation',min:0,max:55,def:0,unit:'°'},
+  ]},
+  'Scap': { name:'Scapula', axes: [
+    {id:'Pro',label:'Protraction/Retraction',min:-15,max:15,def:0,unit:'°'},
+    {id:'Elev',label:'Elevation/Depression',min:-10,max:12,def:0,unit:'°'},
+    {id:'UpRot',label:'Upward Rotation',min:0,max:60,def:0,unit:'°'},
+  ]},
+};
+
+// Position builder state
+let posState = { side: '', joints: {} }; // joints: { 'Sh': { IR: 25, Flex: 90 }, ... }
+let vecState = { height: '', angle: 0, source: '' };
+
+function buildJointChips() {
+  const el = document.getElementById('jointChips');
+  el.innerHTML = Object.entries(JOINTS).map(([sym, j]) =>
+    `<span class="joint-chip" data-val="${sym}" onclick="toggleJoint(this)">${sym} (${j.name})</span>`
+  ).join('');
+}
+
+function selectSide(el) {
+  const was = el.classList.contains('selected');
+  document.querySelectorAll('#sideChips .side-chip').forEach(c => c.classList.remove('selected'));
+  if (!was) { el.classList.add('selected'); posState.side = el.dataset.val; }
+  else { posState.side = ''; }
+  updatePreview();
+}
+
+function toggleJoint(el) {
+  const sym = el.dataset.val;
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    posState.joints[sym] = {};
+    JOINTS[sym].axes.forEach(a => posState.joints[sym][a.id] = a.def);
+  } else {
+    delete posState.joints[sym];
+  }
+  renderAxisEditors();
+  updatePreview();
+}
+
+function renderAxisEditors() {
+  const container = document.getElementById('axisEditors');
+  const selectedJoints = Object.keys(posState.joints);
+  if (!selectedJoints.length) { container.innerHTML = ''; return; }
+  container.innerHTML = selectedJoints.map(sym => {
+    const j = JOINTS[sym];
+    return `<div class="axis-panel">
+      <div class="axis-panel-title">${sym} — ${j.name}</div>
+      ${j.axes.map(a => {
+        const val = posState.joints[sym][a.id] || 0;
+        return `<div class="axis-row">
+          <label>${a.label}</label>
+          <input type="range" min="${a.min}" max="${a.max}" value="${val}" step="1"
+            oninput="posState.joints['${sym}']['${a.id}']=parseInt(this.value);this.nextElementSibling.textContent=this.value+'${a.unit}';updatePreview()">
+          <span class="axis-val">${val}${a.unit}</span>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }).join('');
+}
+
+function selectHeight(el) {
+  const was = el.classList.contains('selected');
+  document.querySelectorAll('#heightChips .height-chip').forEach(c => c.classList.remove('selected'));
+  if (!was) { el.classList.add('selected'); vecState.height = el.dataset.val; }
+  else { vecState.height = ''; }
+  updatePreview();
+}
+
+function buildPosTag() {
+  const jKeys = Object.keys(posState.joints);
+  if (!jKeys.length) return '';
+  const side = posState.side ? posState.side + '.' : '';
+  const parts = jKeys.map(sym => {
+    const axes = posState.joints[sym];
+    const nonZero = Object.entries(axes).filter(([,v]) => v !== 0);
+    if (!nonZero.length) return null;
+    return sym + '(' + nonZero.map(([k,v]) => k + ':' + v).join(',') + ')';
+  }).filter(Boolean);
+  if (!parts.length) return '';
+  return '[Pos:' + side + parts.join(' ') + ']';
+}
+
+function buildVecTag() {
+  const angle = parseInt(document.getElementById('vecAngle').value) || 0;
+  const source = document.getElementById('vecSource').value;
+  vecState.angle = angle;
+  vecState.source = source;
+  const parts = [];
+  if (vecState.height) parts.push('H:' + vecState.height);
+  if (angle !== 0) parts.push('A:' + angle + '°');
+  if (source) parts.push('Src:' + source);
+  if (!parts.length) return '';
+  return '[Vec:' + parts.join(',') + ']';
+}
+
+// =============================================
 // MNN STRING
 // =============================================
 function buildMNN() {
@@ -1605,7 +1767,11 @@ function buildMNN() {
       .map(([n,d]) => muscleName(n) + '+'.repeat(d.activation)).join(', ');
     parts.push('[Con:' + str + ']');
   }
-  if (builder.nerves.size) parts.push('→ ' + [...builder.nerves].map(n => nerveName(n)).join('/'));
+  if (builder.nerves.size) parts.push('\u2192 ' + [...builder.nerves].map(n => nerveName(n)).join('/'));
+  const posTag = buildPosTag();
+  if (posTag) parts.push('\n' + posTag);
+  const vecTag = buildVecTag();
+  if (vecTag) parts.push(posTag ? vecTag : '\n' + vecTag);
   const cf = document.getElementById('compFrom').value;
   const ct = document.getElementById('compFor').value;
   if (cf && ct) parts.push('\n[Comp:' + muscleName(cf) + ' for ' + muscleName(ct) + ']');
@@ -1662,6 +1828,18 @@ function clearBuilder() {
   builder = { movement: '', muscles: {}, nerves: new Set() };
   document.querySelectorAll('.chip.selected,.chip.auto-selected').forEach(c => c.classList.remove('selected','auto-selected'));
   document.getElementById('activationPanel').style.display = 'none';
+  // Reset position
+  posState = { side: '', joints: {} };
+  document.querySelectorAll('.side-chip.selected,.joint-chip.selected').forEach(c => c.classList.remove('selected'));
+  document.getElementById('axisEditors').innerHTML = '';
+  document.getElementById('posPanel').classList.remove('open');
+  // Reset vector
+  vecState = { height: '', angle: 0, source: '' };
+  document.querySelectorAll('.height-chip.selected').forEach(c => c.classList.remove('selected'));
+  document.getElementById('vecAngle').value = 0;
+  document.getElementById('vecAngleVal').textContent = '0\u00b0';
+  document.getElementById('vecSource').value = '';
+  document.getElementById('vecSection').classList.remove('open');
   document.getElementById('mnnPreview').textContent = '';
 }
 
@@ -1892,6 +2070,7 @@ function renderNotes() {
 // =============================================
 loadDisplayMode();
 buildChips();
+buildJointChips();
 checkSession();
 document.getElementById('noteDate').value = today();
 </script>
