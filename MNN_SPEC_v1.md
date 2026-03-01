@@ -594,7 +594,34 @@ Labanotation describes *where* the body goes through space and with what quality
 
 Birdwhistell's Kinesics system offers hundreds of codes for body part movements but is used in psychology for gesture analysis, not exercise.
 
-### 13.6 Summary — The MNN Gap
+### 13.6 Why No Unified Notation Exists
+
+The absence of a single notation for human movement is not a technical limitation. The underlying anatomy, physics, and mathematics are well understood. The fragmentation is structural and economic.
+
+Every field that touches human movement has built its own proprietary data formats, its own credentialing systems, and its own vendor ecosystems. A biomechanics lab uses C3D files that only their software can read. A gym equipment manufacturer stores joint angles in a proprietary firmware format that only their machines can interpret. A physical therapy clinic documents exercises in prose notes that cannot be parsed by any other system. A game studio uses BVH files that encode skeleton motion but nothing about which muscles fired or why.
+
+This is not an accident. It is the business model.
+
+When your movement data is locked inside a vendor's format, you cannot take it with you. When you leave the clinic, the biomechanics lab, the gym franchise, or the game engine, your data stays behind — or becomes meaningless without the proprietary software that created it. Every new context requires re-measurement, re-assessment, and re-subscription. The patient who got a detailed movement analysis at one clinic starts from zero at another. The athlete whose gym tracked their joint angles on brand-name machines loses all that data when they switch facilities. The researcher who captured motion in one lab's software cannot share it with a collaborator using different tools without expensive format conversion.
+
+The industry benefits from this fragmentation:
+- **Equipment manufacturers** sell machines with proprietary tracking that only works within their product line
+- **Software vendors** sell annual licenses to read the data their own hardware generated
+- **Clinical systems** store patient movement data in formats that don't transfer between providers
+- **Credentialing bodies** maintain separate terminology and standards that require paid training to learn
+- **Motion capture companies** sell both the hardware and the only software that can process the output
+
+The result is that a simple truth — "this person's left shoulder was at 25° internal rotation and 90° flexion while contracting the sternal pec via the medial pectoral nerve using a mid-height cable" — cannot be expressed in any single, portable, human-readable format that works across all of these contexts.
+
+MNN exists because that sentence should be writable as:
+```
+[Con:Pec.S+++] → MedPec [Pos:L.Sh(IR:25,Flex:90)] [Vec:H:Mid,Src:Cable]
+```
+...and that string should work in a gym log, a clinical record, a game engine, a cable rig controller, and a research paper without conversion, without proprietary software, and without paying anyone for the privilege of reading your own movement data.
+
+MNN is an open notation. It is plain text. It requires no special software to read. It requires no license to write. It belongs to the person whose body produced the movement.
+
+### 13.7 Summary — The MNN Gap
 
 | Domain | Standard | What It Captures | What It Lacks |
 |--------|----------|-----------------|---------------|
@@ -611,9 +638,11 @@ MNN is the first notation system that combines neuromuscular targeting (which mu
 
 ## 14. Intellectual Property
 
-Muscular Neuro Notation (MNN) is an original notation system created by Tom / BodSpas / AIUNITES. This specification document serves as timestamped prior art establishing authorship and publication date.
+Muscular Neuro Notation (MNN) is an original notation system created by Tom and published by AIUNITES LLC under the BODWAVE product line. This specification document serves as timestamped prior art establishing authorship and publication date.
 
-The notation format, symbol tables, tag grammar, and the concept of a human-readable/machine-parseable neuromuscular exercise notation system are the intellectual property of the author.
+The notation format, symbol tables, tag grammar, three-domain architecture (exercise, avatar, remote control), and the concept of a unified human-readable/machine-parseable human movement notation system are the intellectual property of AIUNITES LLC.
+
+All AIUNITES web applications (BodSpas, Gameatica, VideoBate, AIByJob, ERPize, and all other sites in the AIUNITES network) operate as part of AIUNITES LLC.
 
 Reference implementation: https://aiunites.github.io/bodspas-site/log.html
 
@@ -627,4 +656,4 @@ Reference implementation: https://aiunites.github.io/bodspas-site/log.html
 
 ---
 
-*MNN Specification v1.0.0 — © 2026 BodSpas / AIUNITES*
+*MNN Specification v1.0.0 — © 2026 AIUNITES LLC / BODWAVE*
