@@ -356,6 +356,8 @@
               <div class="nerve-hint">Tap any spinal levels that feel compromised today. Muscles served by those roots will be flagged ⚠️ in the builder so you can route around them.</div>
               <div style="font-size:.68rem;color:var(--gray-dark);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px;font-weight:700">Cervical</div>
               <div class="spine-chips" style="margin-bottom:8px">
+                <span class="spine-chip cervical" data-level="C1-C2" onclick="toggleSpine(this)">C1–C2</span>
+                <span class="spine-chip cervical" data-level="C2-C3" onclick="toggleSpine(this)">C2–C3</span>
                 <span class="spine-chip cervical" data-level="C3-C4" onclick="toggleSpine(this)">C3–C4</span>
                 <span class="spine-chip cervical" data-level="C4-C5" onclick="toggleSpine(this)">C4–C5</span>
                 <span class="spine-chip cervical" data-level="C5-C6" onclick="toggleSpine(this)">C5–C6</span>
@@ -458,32 +460,47 @@
               <label>Reps × Weight</label>
               <select id="repsWeight" onchange="comboChanged(this)">
                 <option value="">Select or type...</option>
-                <optgroup label="Light">
-                  <option>12×95</option><option>12×115</option><option>12×135</option><option>15×65</option><option>15×95</option>
+                <optgroup label="Rehab / Very Light (3–15 lbs)">
+                  <option>15×3</option><option>15×5</option><option>12×8</option><option>12×10</option><option>12×12</option><option>10×15</option>
                 </optgroup>
-                <optgroup label="Moderate">
-                  <option>10×135</option><option>10×155</option><option>10×185</option><option>10×205</option><option>10×225</option>
-                  <option>8×185</option><option>8×205</option><option>8×225</option><option>8×245</option>
+                <optgroup label="Light (15–45 lbs)">
+                  <option>15×20</option><option>12×25</option><option>12×30</option><option>12×35</option><option>10×40</option><option>10×45</option>
                 </optgroup>
-                <optgroup label="Heavy">
-                  <option>5×225</option><option>5×275</option><option>5×315</option>
-                  <option>3×275</option><option>3×315</option><option>3×365</option>
-                  <option>1×315</option><option>1×365</option><option>1×405</option>
+                <optgroup label="Moderate (45–135 lbs)">
+                  <option>12×50</option><option>12×65</option><option>10×75</option><option>10×95</option><option>10×115</option><option>8×135</option>
                 </optgroup>
-                <optgroup label="Bodyweight / Cable">
-                  <option>12×BW</option><option>10×BW</option><option>8×BW+25</option>
-                  <option>12×30</option><option>12×40</option><option>12×50</option><option>15×20</option>
+                <optgroup label="Heavy (135+ lbs)">
+                  <option>8×155</option><option>8×185</option><option>8×225</option><option>5×225</option><option>5×275</option><option>5×315</option>
+                  <option>3×275</option><option>3×315</option><option>1×315</option><option>1×405</option>
+                </optgroup>
+                <optgroup label="Bodyweight">
+                  <option>15×BW</option><option>12×BW</option><option>10×BW</option><option>8×BW+25</option>
                 </optgroup>
                 <option value="__custom__">✏️ Custom...</option>
               </select>
               <input type="text" class="combo-custom" id="repsWeightCustom" placeholder="e.g. 10×225" />
             </div>
             <div class="form-group">
-              <label>RPE</label>
+              <label>RPE <span class="help-toggle" onclick="event.stopPropagation();document.getElementById('rpeHelp').classList.toggle('show')" style="cursor:pointer">?</span></label>
               <select id="rpe">
                 <option value="">—</option>
-                <option>6</option><option>7</option><option>7.5</option><option>8</option><option>8.5</option><option>9</option><option>9.5</option><option>10</option>
+                <option value="6">6 — Easy (4 left)</option>
+                <option value="7">7 — Moderate (3 left)</option>
+                <option value="7.5">7.5</option>
+                <option value="8">8 — Hard (2 left)</option>
+                <option value="8.5">8.5</option>
+                <option value="9">9 — Very Hard (1 left)</option>
+                <option value="9.5">9.5</option>
+                <option value="10">10 — Max (nothing left)</option>
               </select>
+              <div class="help-panel" id="rpeHelp" style="margin-top:6px;padding:10px 12px;font-size:.78rem">
+                <strong>RPE = Rate of Perceived Exertion</strong><br>
+                How hard the set felt, based on how many reps you had left:<br>
+                <code style="color:var(--green)">6</code> = Could do 4 more &nbsp;
+                <code style="color:var(--yellow)">8</code> = Could do 2 more &nbsp;
+                <code style="color:var(--primary-light)">10</code> = Absolute max<br>
+                <span style="color:var(--gray)">Compensations usually appear at RPE 8+. Tracking this helps you see when form breaks.</span>
+              </div>
             </div>
           </div>
 
@@ -565,6 +582,17 @@
           <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">Muscle → Nerve → Spinal Roots (Full Map)</summary>
             <div id="refTable" style="margin-top:10px;font-size:.85rem;line-height:2.2;font-family:'Courier New',monospace;color:var(--gray-light)"></div>
           </details>
+          <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">RPE (Rate of Perceived Exertion)</summary>
+            <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
+              RPE measures how hard a set felt, based on how many reps you could still have done:<br>
+              <code style="color:var(--green)">6</code> Easy — could do 4 more reps<br>
+              <code style="color:var(--green)">7</code> Moderate — could do 3 more<br>
+              <code style="color:var(--yellow)">8</code> Hard — could do 2 more<br>
+              <code style="color:var(--primary-light)">9</code> Very hard — could do 1 more<br>
+              <code style="color:var(--primary-light)">10</code> Max effort — nothing left<br><br>
+              <strong style="color:var(--white)">Why track it?</strong> Compensations usually appear at RPE 8+. Your sternal pec might fire correctly at RPE 7, but by RPE 9 the front delt takes over because the pec pathway is fatigued. Logging RPE alongside MNN notation shows <em>at what effort level</em> your form breaks.
+            </div>
+          </details>
           <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">Activation Levels</summary>
             <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
               <code style="color:var(--green)">+</code> Low — stabilizer or light assist<br>
@@ -632,9 +660,11 @@ const MUSCLES = {
   'Bic':    {name:'Biceps', nerve:'MusCut', roots:'C5–C7', group:'Arms'},
   // Back
   'Lat':    {name:'Latissimus Dorsi', nerve:'ThDors', roots:'C6–C8', group:'Back'},
-  'Trp.U':  {name:'Upper Trap', nerve:'CNXI', roots:'cervical', group:'Back'},
-  'Trp.M':  {name:'Middle Trap', nerve:'CNXI', roots:'cervical', group:'Back'},
-  'Trp.L':  {name:'Lower Trap', nerve:'CNXI', roots:'cervical', group:'Back'},
+  'SCM':    {name:'Sternocleidomastoid', nerve:'CNXI', roots:'C1–C3', group:'Neck'},
+  'SubOcc': {name:'Suboccipitals', nerve:'SubOccN', roots:'C1–C2', group:'Neck'},
+  'Trp.U':  {name:'Upper Trap', nerve:'CNXI', roots:'C1–C4', group:'Back'},
+  'Trp.M':  {name:'Middle Trap', nerve:'CNXI', roots:'C3–C4', group:'Back'},
+  'Trp.L':  {name:'Lower Trap', nerve:'CNXI', roots:'C3–C4', group:'Back'},
   'Rhm':    {name:'Rhomboids', nerve:'DorsScap', roots:'C4–C5', group:'Back'},
   'Ser':    {name:'Serratus Anterior', nerve:'LTh', roots:'C5–C7', group:'Back'},
   'Ers':    {name:'Erector Spinae', nerve:'DorsRami', roots:'T1–L5', group:'Back'},
@@ -932,6 +962,8 @@ let builder = { movement: '', muscles: {}, nerves: new Set() };
 // =============================================
 // Map spinal levels to which roots they cover
 const SPINE_TO_ROOTS = {
+  'C1-C2': ['C1','C2'],
+  'C2-C3': ['C2','C3'],
   'C3-C4': ['C3','C4'],
   'C4-C5': ['C4','C5'],
   'C5-C6': ['C5','C6'],
