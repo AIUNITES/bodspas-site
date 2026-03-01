@@ -7,8 +7,8 @@
 | **Repository** | bodspas-site |
 | **Live URL** | https://bodspas.com/ |
 | **Local Path** | C:/Users/Tom/Documents/GitHub/bodspas-site |
-| **Last Updated** | February 27, 2026 |
-| **Version** | 1.4.0 |
+| **Last Updated** | February 28, 2026 |
+| **Version** | 1.5.0 |
 | **Based On** | Custom Landing |
 
 ---
@@ -19,7 +19,7 @@
 |------|------|-------------|--------|
 | Landing/Home | index.html | Main landing page | ✅ |
 | BodWave | bodwave.html | Mind-Neuro-Muscle Notation (MNN) — 11 notation categories across 3 complexity tiers (🟢 Gym Floor / 🟡 Coach / 🔴 Clinical/BCI). BodWave Scale BW1–BW4. 4-Stage Training Progression. Sister system to VNN at VoiceStry. | ✅ |
-| Press | press.html | Technical brief: what bodybuilders use now vs MNN, MNN for virtual worlds & game engines, who needs MNN, IP/DMCA notice. | ✅ New |
+| Press | press.html | Technical brief: what bodybuilders use now vs MNN, muscle focus/joint protection, "The Machine That Doesn't Exist Yet" (cable chest press worked example, PT comparison, episodic vs continuous care, 3-layer tech table, real-time correction vision), MNN for virtual worlds & game engines, who needs MNN, disclaimer, references (18 citations), IP/DMCA notice. | ✅ Updated |
 | Gallery | gallery.html | Photo slideshow gallery | ✅ |
 
 ---
@@ -169,9 +169,10 @@
 | 1.2.0 | Feb 24, 2026 | Press page: "What Bodybuilders Use Now" comparison (sets×reps, RPE, tempo, EMG vs MNN), "Muscle Focus: More Gains, Less Joint Damage" (wrong pathway problem, shoulder-dominant vs pec-dominant bench in MNN, muscle control artists = joint protection, joint protection table for 7 exercises), "MNN for Virtual Worlds" (skeletal animation, blend shapes, mocap, procedural anim vs neural control layer), "Who Needs MNN" audience cards, IP section. Nav updated on all pages. Sitemap updated. |
 | 1.3.0 | Feb 27, 2026 | MNN rebrand: "Muscular Neuro Notation" → "Mind-Neuro-Muscle Notation" (Mind→Neuro→Muscle chain). Category 9: Directional Axis & Force Vector (laterality L:/R:/Bi:, 16 joint action codes, 6 force vectors ⇢Med/Lat/Sup/Inf/Ant/Post, 3 movement planes #Sag/#Fro/#Trn). Oblique rotation, rotator cuff, BCI gait worked examples. Hero stat 8→9 categories. h4 CSS. IP notice updated. |
 | 1.4.0 | Feb 27, 2026 | MNN Complexity Tiers (🟢 Gym Floor / 🟡 Coach / 🔴 Clinical/BCI). Tier badges on all 11 category headings. Category 10: Range of Motion (ROM:Full, ROM:X°–Y°, ROM:Short/Mid/Long, ROM:Limited, ROM:Δ+). Category 11: Antagonist & Synergist Pairing (Ag:/Ant:/Syn:/Stb:, Ant:CoC, Ant:❌) with bicep curl + BCI elbow extension examples. Hero stat 9→11 categories. NEW SECTION: "How to Train Mind-Muscle Connection" — neuroscience of touch during training, GTO insertion point targeting, Graston/IASTM sensory amplification method (original contribution), 4-Stage Training Progression (Tactile Guided → Tool Amplified → Proprioceptive Only → Isolated Voluntary), 4-week practical protocol table. IP notice updated with training methodology + all new notation layers. |
+| 1.5.0 | Feb 28, 2026 | Press page: NEW SECTION "The Machine That Doesn't Exist Yet" — cable chest press worked example (perpendicular grinding vs 25° IR clean) fully notated in MNN. PT comparison (current assessment vs MNN-equipped future). 3-layer technology table (Mind/EEG, Neuro/EMG, Muscle/IMU). Real-time angle correction, nerve pathway verification, personal neural profile vision. "PT + MNN Machine = Complete" side-by-side. NEW SUBSECTION "The Moment You Walk Out the Door" — episodic care vs continuous monitoring, 45-min/week retention window problem, posture drift in MNN (office correction vs parking lot reversion), wearable haptic correction vision, PT sets target pattern / machine enforces between visits. MNN positioned as middleware protocol for future integrated biofeedback systems. NEW SECTIONS: Disclaimer (not medical advice, consult professionals, anatomical generalizations, technology claims, PT characterization caveat) and References (18 peer-reviewed citations across 5 categories: mind-muscle connection/attentional focus, IMU wearable joint angle measurement, EEG/BCI motor intention detection, anatomy/biomechanics textbooks, shoulder impingement mechanics). |
 
 ---
 
 *AIUNITES Network Site*
 *Created: February 1, 2026*
-*Last tested: February 24, 2026*
+*Last tested: February 28, 2026*
