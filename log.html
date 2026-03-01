@@ -204,6 +204,29 @@
     .plan-exercise .ex-why{color:var(--gray-light);font-size:.82rem;line-height:1.7}
     .plan-exercise .ex-mnn{font-family:'Courier New',monospace;font-size:.8rem;color:var(--accent);margin-top:6px}
     .plan-private-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.25);border-radius:16px;padding:4px 12px;font-size:.72rem;font-weight:600;color:#818cf8;margin-bottom:16px}
+
+    /* Notes Log */
+    .note-entry{background:var(--dark-light);border:1px solid var(--dark-border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;transition:var(--transition)}
+    .note-entry:hover{border-color:rgba(255,255,255,.1)}
+    .note-entry.private{border-left:3px solid #818cf8}
+    .note-entry.public{border-left:3px solid var(--green)}
+    .note-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:6px}
+    .note-date{font-size:.78rem;color:var(--gray);font-weight:600}
+    .note-author{font-size:.72rem;color:var(--gray-dark)}
+    .note-vis-badge{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:2px 8px;border-radius:10px}
+    .note-vis-badge.pub{background:rgba(74,222,128,.12);color:var(--green);border:1px solid rgba(74,222,128,.2)}
+    .note-vis-badge.priv{background:rgba(99,102,241,.12);color:#818cf8;border:1px solid rgba(99,102,241,.2)}
+    .note-text{color:var(--gray-light);font-size:.88rem;line-height:1.7;white-space:pre-wrap}
+    .note-actions{margin-top:8px;display:flex;gap:6px}
+    .note-actions button{background:none;border:none;color:var(--gray-dark);cursor:pointer;font-size:.75rem;padding:2px 6px;transition:var(--transition)}
+    .note-actions button:hover{color:var(--primary-light)}
+    .note-filter-bar{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
+    .note-filter{padding:5px 12px;border-radius:16px;font-size:.78rem;font-weight:600;cursor:pointer;border:1px solid var(--dark-border);background:var(--dark-light);color:var(--gray-light);transition:var(--transition)}
+    .note-filter.active{background:rgba(220,38,38,.15);border-color:var(--primary);color:var(--primary-light)}
+    .note-filter:hover:not(.active){border-color:var(--gray);color:var(--white)}
+    .vis-toggle{display:flex;align-items:center;gap:8px;margin:8px 0}
+    .vis-toggle label{font-size:.8rem;color:var(--gray-light);cursor:pointer;display:flex;align-items:center;gap:6px}
+    .vis-toggle input[type=radio]{accent-color:var(--primary)}
     .app-footer a{color:var(--primary-light);text-decoration:none}
 
     /* Nerve Status Check-In */
@@ -342,6 +365,7 @@
         <button class="tab-btn active" data-tab="log">🏋️ Log</button>
         <button class="tab-btn" data-tab="history">📋 History</button>
         <button class="tab-btn" data-tab="reference">📖 Reference</button>
+        <button class="tab-btn" data-tab="notes">📝 Notes</button>
         <button class="tab-btn" data-tab="myplan" id="myPlanTab" style="display:none">🎯 My Plan</button>
       </div>
 
@@ -664,6 +688,36 @@
           <p style="color:var(--gray-light);font-size:.9rem;line-height:1.8">Your workout data is saved in your browser's localStorage under your login. Nothing is sent to any server. Data persists between visits but is tied to this browser. Use <strong>Export JSON</strong> to back up or transfer to another device. Clearing browser data will permanently delete your logs.</p>
           <p style="color:var(--gray);font-size:.82rem;margin-top:8px">MNN notation © 2026 BodSpas / AIUNITES · <a href="press.html" style="color:var(--primary-light)">Press</a> · <a href="bodwave.html" style="color:var(--primary-light)">BodWave</a></p>
         </div>
+      </div>
+
+      <!-- ---- TAB: NOTES ---- -->
+      <div class="tab-content" id="tab-notes">
+        <div class="card">
+          <h3>Add Note</h3>
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" id="noteDate" />
+          </div>
+          <div class="form-group" style="margin-top:10px">
+            <label>Note</label>
+            <textarea id="noteText" rows="3" placeholder="Observation, cue that worked, joint feeling, anything worth remembering..."></textarea>
+          </div>
+          <div class="vis-toggle">
+            <label><input type="radio" name="noteVis" value="private" checked /> 🔒 Private (only you)</label>
+            <label><input type="radio" name="noteVis" value="public" /> 🌐 Public (all users)</label>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="saveNote()" style="margin-top:10px">💾 Save Note</button>
+        </div>
+
+        <div class="note-filter-bar">
+          <span class="note-filter active" data-filter="all" onclick="filterNotes('all',this)">All</span>
+          <span class="note-filter" data-filter="public" onclick="filterNotes('public',this)">🌐 Public</span>
+          <span class="note-filter" data-filter="private" onclick="filterNotes('private',this)">🔒 Private</span>
+        </div>
+        <div class="data-bar">
+          <span class="count" id="noteCount">0 notes</span>
+        </div>
+        <div id="notesList"></div>
       </div>
 
       <!-- ---- TAB: MY PLAN (Tom only) ---- -->
@@ -1147,6 +1201,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.add('active');
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
     if (btn.dataset.tab === 'history') renderHistory();
+    if (btn.dataset.tab === 'notes') renderNotes();
   });
 });
 
@@ -1553,11 +1608,125 @@ function showToast(msg, type) { const t = document.getElementById('toast'); t.te
 document.getElementById('mobileToggle').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('active'));
 
 // =============================================
+// NOTES LOG
+// =============================================
+const NOTES_PUBLIC_KEY = 'bodspas_mnn_notes_public';
+function notesPrivateKey() { return 'bodspas_mnn_notes_private_' + (currentUser ? currentUser.username : 'anon'); }
+
+let noteFilter = 'all';
+
+function getPublicNotes() {
+  try { return JSON.parse(localStorage.getItem(NOTES_PUBLIC_KEY)) || []; } catch(e) { return []; }
+}
+function savePublicNotes(notes) { localStorage.setItem(NOTES_PUBLIC_KEY, JSON.stringify(notes)); }
+function getPrivateNotes() {
+  try { return JSON.parse(localStorage.getItem(notesPrivateKey())) || []; } catch(e) { return []; }
+}
+function savePrivateNotes(notes) { localStorage.setItem(notesPrivateKey(), JSON.stringify(notes)); }
+
+function saveNote() {
+  const text = document.getElementById('noteText').value.trim();
+  if (!text) { showToast('Write something first', 'error'); return; }
+  const date = document.getElementById('noteDate').value || today();
+  const vis = document.querySelector('input[name="noteVis"]:checked').value;
+  const note = {
+    id: Date.now(),
+    date: date,
+    text: text,
+    author: currentUser ? currentUser.name : 'Anonymous',
+    username: currentUser ? currentUser.username : 'anon',
+    created: new Date().toISOString()
+  };
+  if (vis === 'public') {
+    const notes = getPublicNotes();
+    notes.unshift(note);
+    savePublicNotes(notes);
+  } else {
+    const notes = getPrivateNotes();
+    notes.unshift(note);
+    savePrivateNotes(notes);
+  }
+  document.getElementById('noteText').value = '';
+  renderNotes();
+  showToast('Note saved (' + vis + ')', 'success');
+}
+
+function deleteNote(id, vis) {
+  if (!confirm('Delete this note?')) return;
+  if (vis === 'public') {
+    const notes = getPublicNotes().filter(n => n.id !== id);
+    savePublicNotes(notes);
+  } else {
+    const notes = getPrivateNotes().filter(n => n.id !== id);
+    savePrivateNotes(notes);
+  }
+  renderNotes();
+  showToast('Deleted', 'success');
+}
+
+function filterNotes(filter, el) {
+  noteFilter = filter;
+  document.querySelectorAll('.note-filter').forEach(f => f.classList.remove('active'));
+  if (el) el.classList.add('active');
+  renderNotes();
+}
+
+function renderNotes() {
+  const pub = getPublicNotes().map(n => ({...n, vis: 'public'}));
+  const priv = getPrivateNotes().map(n => ({...n, vis: 'private'}));
+  let all = [];
+  if (noteFilter === 'all') all = [...pub, ...priv];
+  else if (noteFilter === 'public') all = pub;
+  else all = priv;
+  // Sort by date desc, then by created desc
+  all.sort((a,b) => {
+    if (a.date !== b.date) return b.date.localeCompare(a.date);
+    return (b.created || '').localeCompare(a.created || '');
+  });
+
+  const countEl = document.getElementById('noteCount');
+  const listEl = document.getElementById('notesList');
+  countEl.textContent = all.length + ' note' + (all.length !== 1 ? 's' : '');
+
+  if (!all.length) {
+    listEl.innerHTML = '<div class="empty-state"><div class="icon">\ud83d\udcdd</div><h3>No notes yet</h3><p>Add your first note above</p></div>';
+    return;
+  }
+
+  // Group by date
+  const grouped = {};
+  all.forEach(n => {
+    if (!grouped[n.date]) grouped[n.date] = [];
+    grouped[n.date].push(n);
+  });
+
+  let html = '';
+  for (const [date, notes] of Object.entries(grouped)) {
+    html += '<div style="font-size:.78rem;color:var(--gray);font-weight:700;margin:16px 0 8px;text-transform:uppercase;letter-spacing:.05em">' + fmtDate(date) + '</div>';
+    for (const n of notes) {
+      const isOwn = currentUser && n.username === currentUser.username;
+      html += '<div class="note-entry ' + n.vis + '">';
+      html += '<div class="note-meta">';
+      html += '<span class="note-vis-badge ' + (n.vis === 'public' ? 'pub' : 'priv') + '">' + (n.vis === 'public' ? '\ud83c\udf10 Public' : '\ud83d\udd12 Private') + '</span>';
+      if (n.vis === 'public') html += '<span class="note-author">by ' + esc(n.author) + '</span>';
+      html += '</div>';
+      html += '<div class="note-text">' + esc(n.text) + '</div>';
+      if (isOwn) {
+        html += '<div class="note-actions"><button onclick="deleteNote(' + n.id + ',\'' + n.vis + '\')">\ud83d\uddd1\ufe0f Delete</button></div>';
+      }
+      html += '</div>';
+    }
+  }
+  listEl.innerHTML = html;
+}
+
+// =============================================
 // INIT
 // =============================================
 loadDisplayMode();
 buildChips();
 checkSession();
+document.getElementById('noteDate').value = today();
 </script>
 </body>
 </html>
