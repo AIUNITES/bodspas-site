@@ -211,6 +211,14 @@
     .nerve-active-bar.show{display:block}
     .chip.warned{box-shadow:0 0 0 2px rgba(249,115,22,.4);position:relative}
     .chip.warned::after{content:'';position:absolute;top:-4px;right:-4px;width:8px;height:8px;border-radius:50%;background:var(--secondary)}
+
+    /* Display toggle */
+    .display-toggle{display:flex;align-items:center;gap:8px;margin-left:auto}
+    .display-toggle .label{font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:.05em}
+    .toggle-switch{width:40px;height:22px;border-radius:11px;background:var(--dark-border);cursor:pointer;position:relative;transition:var(--transition);border:1px solid var(--dark-border)}
+    .toggle-switch.on{background:rgba(220,38,38,.25);border-color:var(--primary)}
+    .toggle-switch::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--gray-light);transition:var(--transition)}
+    .toggle-switch.on::after{left:20px;background:var(--primary-light)}
   </style>
 </head>
 <body>
@@ -509,7 +517,13 @@
 
           <!-- MNN Builder -->
           <div class="mnn-builder">
-            <h4>MNN Notation Builder</h4>
+            <div style="display:flex;align-items:center;gap:10px">
+              <h4 style="margin-bottom:0">MNN Notation Builder</h4>
+              <div class="display-toggle">
+                <span class="label" id="displayLabel">Compact</span>
+                <div class="toggle-switch" id="displayToggle" onclick="toggleDisplayMode()"></div>
+              </div>
+            </div>
 
             <div class="chip-section">
               <div class="chip-section-label">Movement Pattern <span class="opt">(optional)</span></div>
@@ -727,6 +741,82 @@ const MOVEMENTS = [
   {val:'{Iso}',label:'Iso'},{val:'{Rotate}',label:'Rotate'},
 ];
 
+// Full nerve names
+const NERVES = {
+  'MedPec':'Medial Pectoral','LatPec':'Lateral Pectoral','Axil':'Axillary',
+  'Rad':'Radial','MusCut':'Musculocutaneous','ThDors':'Thoracodorsal',
+  'CNXI':'Cranial Nerve XI (Accessory)','DorsScap':'Dorsal Scapular',
+  'LTh':'Long Thoracic','DorsRami':'Dorsal Rami','SupScap':'Suprascapular',
+  'Subscap':'Subscapular','Fem':'Femoral','Sci.T':'Sciatic (Tibial)',
+  'Sci.P':'Sciatic (Peroneal)','InfGlu':'Inferior Gluteal','SupGlu':'Superior Gluteal',
+  'Obturator':'Obturator','Intercostal':'Intercostal','SubOccN':'Suboccipital'
+};
+
+// Display mode
+let displayMode = 'compact'; // 'compact' or 'full'
+
+function toggleDisplayMode() {
+  displayMode = displayMode === 'compact' ? 'full' : 'compact';
+  const toggle = document.getElementById('displayToggle');
+  const label = document.getElementById('displayLabel');
+  toggle.classList.toggle('on', displayMode === 'full');
+  label.textContent = displayMode === 'compact' ? 'Compact' : 'Full Anatomy';
+  // Save preference
+  localStorage.setItem('bodspas_display_mode', displayMode);
+  // Re-render everything
+  rebuildChipLabels();
+  renderActivation();
+  updatePreview();
+  renderCurrentSets();
+  if (flareLevels.size) applyNerveWarnings();
+  renderHistory();
+}
+
+function loadDisplayMode() {
+  const saved = localStorage.getItem('bodspas_display_mode');
+  if (saved === 'full') { displayMode = 'full'; document.getElementById('displayToggle').classList.add('on'); document.getElementById('displayLabel').textContent = 'Full Anatomy'; }
+}
+
+// Name helpers
+function muscleName(sym) {
+  if (displayMode === 'full') return MUSCLES[sym]?.name || sym;
+  return sym;
+}
+function nerveName(sym) {
+  if (displayMode === 'full') return NERVES[sym] || sym;
+  return sym;
+}
+
+function rebuildChipLabels() {
+  // Muscle chips
+  document.querySelectorAll('#muscleChips .chip[data-val]').forEach(c => {
+    const sym = c.dataset.val;
+    c.textContent = muscleName(sym);
+  });
+  // Nerve chips
+  document.querySelectorAll('#nerveChips .chip[data-val]').forEach(c => {
+    const sym = c.dataset.val;
+    c.textContent = nerveName(sym);
+  });
+  // Comp selects
+  buildCompSelects();
+  // Ref table
+  buildRefTable();
+}
+
+function buildCompSelects() {
+  const cf = document.getElementById('compFrom');
+  const ct = document.getElementById('compFor');
+  const cfVal = cf.value;
+  const ctVal = ct.value;
+  cf.innerHTML = '<option value="">None</option>';
+  COMP_FROM.forEach(m => { cf.innerHTML += `<option value="${m}">${muscleName(m)}</option>`; });
+  ct.innerHTML = '<option value="">—</option>';
+  COMP_FOR.forEach(m => { ct.innerHTML += `<option value="${m}">${muscleName(m)}</option>`; });
+  cf.value = cfVal;
+  ct.value = ctVal;
+}
+
 const COMP_FROM = ['Dlt.A','Trp.U','Bic','Tri','Ers','Dlt.L','Pec.Min'];
 const COMP_FOR = ['Pec.S','Pec.C','Lat','Dlt.L','Glu.Mx','Quad.RF','Trp.L','Ham'];
 
@@ -934,7 +1024,7 @@ function buildChips() {
   let html = '';
   for (const [sym, info] of Object.entries(MUSCLES)) {
     if (info.group !== lastGroup) { lastGroup = info.group; html += `<div style="width:100%;font-size:.65rem;color:var(--gray-dark);text-transform:uppercase;letter-spacing:.1em;margin-top:${html?'6px':'0'};font-weight:700">${info.group}</div>`; }
-    html += `<span class="chip" data-val="${sym}" title="${info.name} → ${info.nerve} (${info.roots})">${sym}</span>`;
+    html += `<span class="chip" data-val="${sym}" title="${info.name} → ${info.nerve} (${info.roots})">${muscleName(sym)}</span>`;
   }
   muscleEl.innerHTML = html;
   muscleEl.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
@@ -950,7 +1040,7 @@ function buildChips() {
   // Nerves
   const nerveEl = document.getElementById('nerveChips');
   const allNerves = [...new Set(Object.values(MUSCLES).map(m => m.nerve))];
-  nerveEl.innerHTML = allNerves.map(n => `<span class="chip nerve" data-val="${n}">${n}</span>`).join('');
+  nerveEl.innerHTML = allNerves.map(n => `<span class="chip nerve" data-val="${n}">${nerveName(n)}</span>`).join('');
   nerveEl.querySelectorAll('.chip').forEach(c => c.addEventListener('click', () => {
     c.classList.toggle('selected');
     c.classList.remove('auto-selected');
@@ -959,10 +1049,7 @@ function buildChips() {
   }));
 
   // Comp selects
-  const cf = document.getElementById('compFrom');
-  COMP_FROM.forEach(m => { cf.innerHTML += `<option value="${m}">${m} (${MUSCLES[m]?.name || m})</option>`; });
-  const ct = document.getElementById('compFor');
-  COMP_FOR.forEach(m => { ct.innerHTML += `<option value="${m}">${m} (${MUSCLES[m]?.name || m})</option>`; });
+  buildCompSelects();
 
   // Reference table
   buildRefTable();
@@ -973,7 +1060,11 @@ function buildRefTable() {
   let html = '', lastGroup = '';
   for (const [sym, info] of Object.entries(MUSCLES)) {
     if (info.group !== lastGroup) { lastGroup = info.group; html += `<br><strong style="color:var(--primary-light)">${info.group.toUpperCase()}</strong><br>`; }
-    html += `${sym} (${info.name}) → <span style="color:var(--green)">${info.nerve}</span> <span style="color:var(--gray)">(${info.roots})</span><br>`;
+    if (displayMode === 'full') {
+      html += `${info.name} <span style="color:var(--gray-dark)">[${sym}]</span> → <span style="color:var(--green)">${nerveName(info.nerve)}</span> <span style="color:var(--gray)">(${info.roots})</span><br>`;
+    } else {
+      html += `${sym} (${info.name}) → <span style="color:var(--green)">${info.nerve}</span> <span style="color:var(--gray)">(${info.roots})</span><br>`;
+    }
   }
   el.innerHTML = html;
 }
@@ -1051,7 +1142,7 @@ function applyNerveWarnings() {
     const isAffected = muscleRoots.some(r => flaredRoots.has(r));
     if (isAffected && flareLevels.size > 0) {
       chip.classList.add('warned');
-      warnedMuscles.push(sym + ' (' + info.nerve + ', ' + info.roots + ')');
+      warnedMuscles.push(muscleName(sym) + ' (' + nerveName(info.nerve) + ', ' + info.roots + ')');
     } else {
       chip.classList.remove('warned');
       if (flareLevels.size > 0) safeMuscles.push(sym);
@@ -1108,11 +1199,11 @@ function renderActivation() {
     const act = builder.muscles[m].activation;
     const info = MUSCLES[m] || {};
     return `<div class="activation-row">
-      <span class="muscle-tag">${m}</span>
+      <span class="muscle-tag">${muscleName(m)}</span>
       <button class="activation-btn ${act===1?'a1':''}" onclick="setAct('${m}',1)">+</button>
       <button class="activation-btn ${act===2?'a2':''}" onclick="setAct('${m}',2)">++</button>
       <button class="activation-btn ${act===3?'a3':''}" onclick="setAct('${m}',3)">+++</button>
-      <span class="nerve-tag">→ ${info.nerve || '?'} (${info.roots || '?'})</span>
+      <span class="nerve-tag">→ ${nerveName(info.nerve || '?')} (${info.roots || '?'})</span>
     </div>`;
   }).join('');
 }
@@ -1132,13 +1223,13 @@ function buildMNN() {
   const muscles = Object.entries(builder.muscles);
   if (muscles.length) {
     const str = muscles.sort((a,b) => b[1].activation - a[1].activation)
-      .map(([n,d]) => n + '+'.repeat(d.activation)).join(', ');
+      .map(([n,d]) => muscleName(n) + '+'.repeat(d.activation)).join(', ');
     parts.push('[Con:' + str + ']');
   }
-  if (builder.nerves.size) parts.push('→ ' + [...builder.nerves].join('/'));
+  if (builder.nerves.size) parts.push('→ ' + [...builder.nerves].map(n => nerveName(n)).join('/'));
   const cf = document.getElementById('compFrom').value;
   const ct = document.getElementById('compFor').value;
-  if (cf && ct) parts.push('\n⚠️ [Comp:' + cf + ' for ' + ct + ']');
+  if (cf && ct) parts.push('\n[Comp:' + muscleName(cf) + ' for ' + muscleName(ct) + ']');
   return parts.join(' ');
 }
 function updatePreview() { document.getElementById('mnnPreview').textContent = buildMNN(); }
@@ -1303,6 +1394,7 @@ document.getElementById('mobileToggle').addEventListener('click', () => document
 // =============================================
 // INIT
 // =============================================
+loadDisplayMode();
 buildChips();
 checkSession();
 </script>
