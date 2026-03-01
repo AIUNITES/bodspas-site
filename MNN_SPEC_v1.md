@@ -33,8 +33,8 @@ MNN is a notation for **human movement**, not just exercise. The same MNN string
 | Domain | Use Case | Example |
 |--------|----------|---------|
 | **Exercise & Rehabilitation** | Gym logging, physical therapy, clinical documentation, personal training | Track which angle clears the acromion, log nerve flare-ups alongside sets, document compensation patterns over time |
-| **Virtual Worlds & Avatars** | Game engines, VR training, Second Life / OpenSim, digital twins, animation | Pose an avatar precisely using joint angles, animate contraction sequences, build training simulations |
-| **Remote Control & Robotics** | Cable rigs, exoskeletons, robotic rehabilitation, isokinetic machines, teleoperation | Drive a pulley to the exact height and angle, set joint limits on an exoskeleton, reproduce a therapist’s prescribed position |
+| **Virtual Worlds & Avatars** | Virtual worlds, VR training, Second Life / OpenSim, digital twins, animation | Pose an avatar precisely using joint angles, animate contraction sequences, build training simulations |
+| **Remote Control & Robotics** | Cable rigs, exoskeletons, robotic rehabilitation, isokinetic machines, teleoperation | Drive a pulley to the exact height and angle, set joint limits on an exoskeleton, reproduce a therapist's prescribed position |
 
 A single MNN string like:
 ```
@@ -45,16 +45,18 @@ A single MNN string like:
 
 This is the core design principle of MNN: **write once, use everywhere.**
 
-MNN is developed and published by AIUNITES LLC. The notation standard lives at the AIUNITES level as the unifying layer across domain-specific applications:
+MNN is developed and published by AIUNITES LLC. AIUNITES is a middleware company — the integration layer between domain-specific applications that don't normally talk to each other. The sites are the endpoints. The notation systems are the protocols. The notation standard lives at the AIUNITES level:
 
 | Site | Role | URL |
 |------|------|-----|
 | **AIUNITES** | The standard — holds the MNN specification | aiunites.github.io/aiunites-site |
 | **BodSpas** | Exercise & rehabilitation application of MNN | aiunites.github.io/bodspas-site |
-| **InThisWorld** | Virtual world application of MNN — avatar posing, LSL bridge, simulation, remote control | aiunites.github.io/inthisworld-site |
+| **InThisWorld** | Virtual world application of MNN — avatar posing, LSL bridge, simulation | inthisworld.com |
 | **VoiceStry** | Vocal movement — VRN (Voice Resonance Notation) | aiunites.github.io/voicestry-site |
 
-AIUNITES is the unifying layer. Each site is a domain-specific frontend for the same underlying notation systems. The name means what it says: **uniting**.
+AIUNITES is the middleware layer. Each site is a domain-specific endpoint for the same underlying protocols. The name means what it says: **uniting**.
+
+*How can you have AI gains in this world without having unity?*
 
 ---
 
