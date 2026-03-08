@@ -293,6 +293,35 @@
     .toggle-switch.on{background:rgba(220,38,38,.25);border-color:var(--primary)}
     .toggle-switch::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--gray-light);transition:var(--transition)}
     .toggle-switch.on::after{left:20px;background:var(--primary-light)}
+
+    /* ========== SCRAPBOOK TAB ========== */
+    #tab-scrapbook .sb-header{text-align:center;margin-bottom:20px}
+    #tab-scrapbook .sb-header h2{font-size:1.6rem;font-weight:800;background:var(--gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    #tab-scrapbook .sb-header p{color:var(--gray);font-size:.88rem;margin-top:4px}
+    #tab-scrapbook .sb-stats{display:flex;justify-content:center;gap:36px;margin-bottom:20px}
+    #tab-scrapbook .sb-stat-num{font-size:1.8rem;font-weight:800;color:var(--primary-light)}
+    #tab-scrapbook .sb-stat-label{font-size:.7rem;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;text-align:center}
+    #tab-scrapbook .sb-slideshow{position:relative;border-radius:var(--radius-lg);overflow:hidden;margin-bottom:10px;background:#000;aspect-ratio:16/9}
+    #tab-scrapbook .sb-slide{position:absolute;inset:0;opacity:0;transition:opacity .8s ease}
+    #tab-scrapbook .sb-slide.active{opacity:1}
+    #tab-scrapbook .sb-slide img{width:100%;height:100%;object-fit:cover}
+    #tab-scrapbook .sb-caption{position:absolute;bottom:0;left:0;right:0;padding:16px 20px;background:linear-gradient(transparent,rgba(0,0,0,.8))}
+    #tab-scrapbook .sb-caption h3{font-size:1rem;font-weight:800;margin-bottom:2px}
+    #tab-scrapbook .sb-caption p{font-size:.8rem;color:rgba(255,255,255,.7)}
+    #tab-scrapbook .sb-progress{height:3px;background:var(--dark-border);border-radius:2px;margin-bottom:10px;overflow:hidden}
+    #tab-scrapbook .sb-progress-bar{height:100%;background:var(--gradient);width:0%;transition:none}
+    #tab-scrapbook .sb-controls{display:flex;justify-content:center;gap:10px;margin-bottom:14px}
+    #tab-scrapbook .sb-btn{width:38px;height:38px;border-radius:50%;background:var(--dark-lighter);border:1px solid var(--dark-border);color:var(--white);font-size:.82rem;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;justify-content:center}
+    #tab-scrapbook .sb-btn:hover{background:var(--dark-light);border-color:var(--gray)}
+    #tab-scrapbook .sb-dots{display:flex;justify-content:center;gap:5px;margin-bottom:20px;flex-wrap:wrap}
+    #tab-scrapbook .sb-dot{width:7px;height:7px;border-radius:50%;background:var(--dark-border);cursor:pointer;transition:var(--transition)}
+    #tab-scrapbook .sb-dot.active{background:var(--primary-light);transform:scale(1.3)}
+    #tab-scrapbook .sb-wall-title{text-align:center;font-size:.9rem;font-weight:700;color:var(--gray-light);margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em}
+    #tab-scrapbook .sb-thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:6px}
+    #tab-scrapbook .sb-thumb{border-radius:8px;overflow:hidden;cursor:pointer;aspect-ratio:1;border:2px solid transparent;transition:var(--transition)}
+    #tab-scrapbook .sb-thumb img{width:100%;height:100%;object-fit:cover}
+    #tab-scrapbook .sb-thumb.active{border-color:var(--primary-light)}
+    #tab-scrapbook .sb-thumb:hover:not(.active){border-color:var(--gray)}
   </style>
 </head>
 <body>
@@ -402,6 +431,7 @@
         <button class="tab-btn" data-tab="reference">📖 Reference</button>
         <button class="tab-btn" data-tab="notes">📝 Notes</button>
         <button class="tab-btn" data-tab="myplan" id="myPlanTab" style="display:none">🎯 My Plan</button>
+        <button class="tab-btn" data-tab="scrapbook">🖼️ Scrapbook</button>
       </div>
 
       <!-- ---- TAB: LOG ---- -->
@@ -1001,6 +1031,52 @@
       </div>
     </div>
 
+      <!-- ---- TAB: SCRAPBOOK ---- -->
+      <div class="tab-content" id="tab-scrapbook">
+        <div class="sb-header"><h2>Fitness 🖼️ Scrapbook</h2><p>The wall. Sweat, reps, and results — documented.</p></div>
+        <div class="sb-stats">
+          <div class="sb-stat"><div class="sb-stat-num">25</div><div class="sb-stat-label">Photos</div></div>
+          <div class="sb-stat"><div class="sb-stat-num" id="sbSlideTimer">5s</div><div class="sb-stat-label">Per Slide</div></div>
+          <div class="sb-stat"><div class="sb-stat-num" id="sbCurrentSlide">1</div><div class="sb-stat-label">Current</div></div>
+        </div>
+        <div class="sb-slideshow" id="sbSlideshow">
+          <div class="sb-slide active"><img src="images/sport-6820867_1280.jpg" alt="Intense workout"><div class="sb-caption"><h3>Dedication</h3><p>Every rep counts towards your goal</p></div></div>
+          <div class="sb-slide"><img src="images/man-5883500_1280.jpg" alt="Strength training"><div class="sb-caption"><h3>Foundation</h3><p>Build your base with compound movements</p></div></div>
+          <div class="sb-slide"><img src="images/muscles-7877929_1280.jpg" alt="Muscle definition"><div class="sb-caption"><h3>Hypertrophy</h3><p>Maximize muscle growth with volume</p></div></div>
+          <div class="sb-slide"><img src="images/abs-6349095_1280.jpg" alt="Defined abs"><div class="sb-caption"><h3>Definition</h3><p>Abs are made in the kitchen</p></div></div>
+          <div class="sb-slide"><img src="images/athlete-6232790_1280.jpg" alt="Athletic physique"><div class="sb-caption"><h3>Athletic</h3><p>Performance meets aesthetics</p></div></div>
+          <div class="sb-slide"><img src="images/model-2842198_1280.jpg" alt="Fitness model"><div class="sb-caption"><h3>Discipline</h3><p>Consistency is the key to transformation</p></div></div>
+          <div class="sb-slide"><img src="images/akram-huseyn-V-SkkqKbt7g-unsplash.jpg" alt="Gym motivation"><div class="sb-caption"><h3>Push Limits</h3><p>Growth happens outside your comfort zone</p></div></div>
+          <div class="sb-slide"><img src="images/anastase-maragos-7kEpUPB8vNk-unsplash.jpg" alt="Weightlifting"><div class="sb-caption"><h3>Strength</h3><p>Heavy weights build dense muscle</p></div></div>
+          <div class="sb-slide"><img src="images/karolis-milisauskas-eoVdk1z4ihI-unsplash.jpg" alt="Training hard"><div class="sb-caption"><h3>Focus</h3><p>Mind-muscle connection matters</p></div></div>
+          <div class="sb-slide"><img src="images/siamak-C_mhSj7MI18-unsplash.jpg" alt="Fitness journey"><div class="sb-caption"><h3>Journey</h3><p>Every day is a chance to improve</p></div></div>
+          <div class="sb-slide"><img src="images/sven-mieke-A5O3rCnIkg4-unsplash.jpg" alt="Gym life"><div class="sb-caption"><h3>Lifestyle</h3><p>Fitness is not a hobby, it’s a way of life</p></div></div>
+          <div class="sb-slide"><img src="images/man-1868632_1280.jpg" alt="Muscular physique"><div class="sb-caption"><h3>Physique</h3><p>Sculpt your best body</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-adenir-32816487.jpg" alt="Fitness"><div class="sb-caption"><h3>Power</h3><p>Unleash your potential</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-alexapopovich-14898412.jpg" alt="Training"><div class="sb-caption"><h3>Grind</h3><p>No shortcuts, just hard work</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-alexapopovich-14898419.jpg" alt="Workout"><div class="sb-caption"><h3>Perseverance</h3><p>Keep pushing forward</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-blanxybuilding-20400636.jpg" alt="Gym session"><div class="sb-caption"><h3>Gains</h3><p>Every session counts</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-david-lago-rodriguez-84330347-12966654.jpg" alt="Lifting"><div class="sb-caption"><h3>Iron</h3><p>The weights don’t lie</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-fitness-underground-1907989105-28762686.jpg" alt="Underground gym"><div class="sb-caption"><h3>Raw</h3><p>Real gyms, real results</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-leonmart-1552106.jpg" alt="Strong physique"><div class="sb-caption"><h3>Strong</h3><p>Strength is earned</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-leonmart-2468344.jpg" alt="Muscular"><div class="sb-caption"><h3>Built</h3><p>Brick by brick</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-mike-jones-8875224.jpg" alt="Fitness journey"><div class="sb-caption"><h3>Transform</h3><p>Become who you’re meant to be</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-mralpha-26222788.jpg" alt="Alpha physique"><div class="sb-caption"><h3>Elite</h3><p>Rise above the rest</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-niko-twisty-12895269.jpg" alt="Gym workout"><div class="sb-caption"><h3>Hustle</h3><p>Outwork everyone</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-shuvalova-natalia-415991090-18723748.jpg" alt="Training hard"><div class="sb-caption"><h3>Relentless</h3><p>Never settle for less</p></div></div>
+          <div class="sb-slide"><img src="images/pexels-yogendras31-4384679.jpg" alt="Peak fitness"><div class="sb-caption"><h3>Peak</h3><p>Reach your summit</p></div></div>
+        </div>
+        <div class="sb-progress"><div class="sb-progress-bar" id="sbProgressBar"></div></div>
+        <div class="sb-controls">
+          <button class="sb-btn" id="sbPrevBtn">◄</button>
+          <button class="sb-btn" id="sbPlayPauseBtn">❚❚</button>
+          <button class="sb-btn" id="sbNextBtn">►</button>
+        </div>
+        <div class="sb-dots" id="sbDots"></div>
+        <div class="sb-wall-title">🧱 The Wall</div>
+        <div class="sb-thumbs" id="sbThumbs"></div>
+      </div>
+
     <footer class="app-footer">
       © 2026 BodSpas / AIUNITES. MNN Workout Log v1.0<br>
       <a href="index.html">Home</a> | <a href="bodwave.html">BodWave</a> | <a href="press.html">Press</a><br>
@@ -1338,7 +1414,7 @@ function showScreen(name) {
 // =============================================
 // TABS
 // =============================================
-document.querySelectorAll('.tab-btn').forEach(btn => {
+document.querySelectorAll('.tab-btn[data-tab]').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
@@ -1346,6 +1422,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
     if (btn.dataset.tab === 'history') renderHistory();
     if (btn.dataset.tab === 'notes') renderNotes();
+    if (btn.dataset.tab === 'scrapbook') sbInit();
   });
 });
 
@@ -2079,8 +2156,86 @@ function renderNotes() {
 }
 
 // =============================================
+// SCRAPBOOK SLIDESHOW
+// =============================================
+(function() {
+  const SB_COUNT = 25;
+  const SB_DURATION = 5000;
+  let sbIndex = 0, sbPlaying = false, sbInterval, sbProgInterval, sbInited = false;
+
+  window.sbInit = function() {
+    if (sbInited) { if (!sbPlaying) sbStart(); return; }
+    sbInited = true;
+    const dotsEl = document.getElementById('sbDots');
+    const thumbsEl = document.getElementById('sbThumbs');
+    document.querySelectorAll('#tab-scrapbook .sb-slide').forEach((slide, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'sb-dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => { sbGoTo(i); if (sbPlaying) sbStart(); };
+      dotsEl.appendChild(dot);
+      const thumb = document.createElement('div');
+      thumb.className = 'sb-thumb' + (i === 0 ? ' active' : '');
+      const img = slide.querySelector('img').cloneNode();
+      thumb.appendChild(img);
+      thumb.onclick = () => { sbGoTo(i); if (sbPlaying) sbStart(); };
+      thumbsEl.appendChild(thumb);
+    });
+    document.getElementById('sbPrevBtn').onclick = () => { sbPrev(); if (sbPlaying) sbStart(); };
+    document.getElementById('sbNextBtn').onclick = () => { sbNext(); if (sbPlaying) sbStart(); };
+    document.getElementById('sbPlayPauseBtn').onclick = sbToggle;
+    sbStart();
+  };
+
+  function sbUpdate() {
+    document.querySelectorAll('#tab-scrapbook .sb-slide').forEach((s,i) => s.classList.toggle('active', i===sbIndex));
+    document.querySelectorAll('#sbDots .sb-dot').forEach((d,i) => d.classList.toggle('active', i===sbIndex));
+    document.querySelectorAll('#sbThumbs .sb-thumb').forEach((t,i) => t.classList.toggle('active', i===sbIndex));
+    const el = document.getElementById('sbCurrentSlide'); if (el) el.textContent = sbIndex + 1;
+  }
+  function sbNext() { sbIndex = (sbIndex + 1) % SB_COUNT; sbUpdate(); sbResetProgress(); }
+  function sbPrev() { sbIndex = (sbIndex - 1 + SB_COUNT) % SB_COUNT; sbUpdate(); sbResetProgress(); }
+  function sbGoTo(i) { sbIndex = i; sbUpdate(); sbResetProgress(); }
+  function sbResetProgress() {
+    const bar = document.getElementById('sbProgressBar'); if (bar) bar.style.width = '0%';
+    if (sbPlaying) sbStartProgress();
+  }
+  function sbStartProgress() {
+    let p = 0; clearInterval(sbProgInterval);
+    sbProgInterval = setInterval(() => {
+      p += 100 / (SB_DURATION / 100);
+      const bar = document.getElementById('sbProgressBar'); if (bar) bar.style.width = p + '%';
+      if (p >= 100) clearInterval(sbProgInterval);
+    }, 100);
+  }
+  function sbStart() {
+    sbPlaying = true;
+    const btn = document.getElementById('sbPlayPauseBtn'); if (btn) btn.textContent = '\u275a\u275a';
+    clearInterval(sbInterval);
+    sbInterval = setInterval(sbNext, SB_DURATION);
+    sbStartProgress();
+  }
+  function sbStop() {
+    sbPlaying = false;
+    const btn = document.getElementById('sbPlayPauseBtn'); if (btn) btn.textContent = '\u25ba';
+    clearInterval(sbInterval); clearInterval(sbProgInterval);
+  }
+  function sbToggle() { sbPlaying ? sbStop() : sbStart(); }
+
+  // Pause when tab is hidden, resume when shown
+  document.addEventListener('visibilitychange', () => { if (document.hidden) sbStop(); });
+})();
+
+// =============================================
 // INIT
 // =============================================
+// Seed default admin if no users exist yet
+(function() {
+  const users = getUsers();
+  if (!users.find(u => u.username === 'admin')) {
+    users.push({ id: 1, username: 'admin', password: 'admin123', name: 'Admin', isAdmin: true, isDemo: false, created: new Date().toISOString() });
+    saveUsers(users);
+  }
+})();
 loadDisplayMode();
 buildChips();
 buildJointChips();

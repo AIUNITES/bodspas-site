@@ -79,7 +79,7 @@
         <a href="index.html">Home</a>
         <a href="bodwave.html">BodWave</a>
         <a href="press.html">Press</a>
-        <a href="log.html">Workout Log</a>
+        <span id="navAuth"></span>
         <a href="#start" class="btn btn-primary btn-sm">Notify Me</a>
       </div>
       <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
@@ -417,7 +417,56 @@
     </div>
   </footer>
 
+  <style>
+    .nav-user{display:flex;align-items:center;gap:8px;cursor:pointer;position:relative}
+    .nav-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#f97316);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#fff;flex-shrink:0}
+    .nav-username{font-size:.85rem;font-weight:600;color:rgba(255,255,255,.7)}
+    .nav-dropdown{position:absolute;top:42px;right:0;background:#1f1f1f;border:1px solid #2a2a2a;border-radius:10px;padding:6px;min-width:180px;display:none;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+    .nav-dropdown.show{display:block}
+    .nav-dropdown a,.nav-dropdown button{display:block;width:100%;padding:9px 14px;background:none;border:none;color:rgba(255,255,255,.65);font-family:inherit;font-size:.85rem;text-align:left;text-decoration:none;border-radius:6px;cursor:pointer;transition:all .2s;box-sizing:border-box}
+    .nav-dropdown a:hover,.nav-dropdown button:hover{background:#141414;color:#fff}
+    .nav-dropdown .drop-divider{height:1px;background:#2a2a2a;margin:4px 0}
+  </style>
   <script>
+    // ── Auth nav ────────────────────────────────────────────────────
+    function esc(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+    function getLoggedInUser(){
+      try{
+        const sess=JSON.parse(localStorage.getItem('bodspas_mnn_session'));
+        if(sess&&sess.username){
+          const users=JSON.parse(localStorage.getItem('bodspas_mnn_users')||'[]');
+          const u=users.find(x=>x.username===sess.username);
+          if(u&&!u.isDemo)return{name:u.name,initial:u.name[0].toUpperCase()};
+        }
+      }catch(e){}
+      return null;
+    }
+    function renderNav(){
+      const el=document.getElementById('navAuth');
+      if(!el)return;
+      const user=getLoggedInUser();
+      if(user){
+        el.innerHTML=`<div class="nav-user" id="navUserWrap" onclick="document.getElementById('navDrop').classList.toggle('show')">
+          <span class="nav-username">${esc(user.name)}</span>
+          <div class="nav-avatar">${user.initial}</div>
+          <div class="nav-dropdown" id="navDrop">
+            <a href="log.html">🏋️ Workout Log</a>
+            <button onclick="doLogout()">🚪 Log Out</button>
+          </div>
+        </div>`;
+      }else{
+        el.innerHTML='<a href="log.html" class="btn btn-outline btn-sm">Login</a>';
+      }
+    }
+    function doLogout(){
+      localStorage.removeItem('bodspas_mnn_session');
+      renderNav();
+    }
+    document.addEventListener('click',e=>{
+      if(!e.target.closest('#navUserWrap')){const d=document.getElementById('navDrop');if(d)d.classList.remove('show');}
+    });
+    renderNav();
+
     // Mobile menu toggle
     const mobileToggle = document.getElementById('mobileToggle');
     const navLinks = document.getElementById('navLinks');

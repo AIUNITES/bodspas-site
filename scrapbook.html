@@ -13,7 +13,7 @@
   </script>
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery | BodSpas - Fitness Inspiration</title>
+  <title>Scrapbook | BodSpas - Fitness Inspiration</title>
   <meta name="description" content="Get inspired with our fitness gallery. See the results of dedicated training and proper nutrition.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +21,131 @@
   <link rel="stylesheet" href="css/style.css">
   
   <style>
+    /* Auth Gate */
+    #auth-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0,0,0,0.92);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    .auth-gate-card {
+      background: var(--dark-light, #1a1a2e);
+      border: 1px solid rgba(220,38,38,0.3);
+      border-radius: 16px;
+      padding: 40px;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .auth-gate-card .gate-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+    .auth-gate-card h2 {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .auth-gate-card p {
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+    }
+    .auth-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 24px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+    .auth-tab.active {
+      background: #dc2626;
+      color: #fff;
+      font-weight: 600;
+    }
+    .auth-form { display: none; }
+    .auth-form.active { display: block; }
+    .auth-form input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.95rem;
+      margin-bottom: 12px;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .auth-form input:focus { border-color: #dc2626; }
+    .auth-submit {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      margin-top: 4px;
+    }
+    .auth-submit:hover { opacity: 0.9; }
+    .auth-error {
+      color: #f87171;
+      font-size: 0.85rem;
+      margin-top: 8px;
+      min-height: 20px;
+    }
+    .auth-gate-card .demo-btn {
+      margin-top: 16px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 8px;
+      color: rgba(255,255,255,0.5);
+      padding: 10px;
+      width: 100%;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .auth-gate-card .demo-btn:hover {
+      border-color: rgba(255,255,255,0.3);
+      color: rgba(255,255,255,0.8);
+    }
+
+    /* Gallery Page Styles */
+    #gallery-content { display: none; }
+    #gallery-content.visible { display: block; }
+
+    /* Nav user dropdown */
+    .nav-user{display:flex;align-items:center;gap:8px;cursor:pointer;position:relative}
+    .nav-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#dc2626,#f97316);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.8rem;color:#fff;flex-shrink:0}
+    .nav-username{font-size:.85rem;font-weight:600;color:rgba(255,255,255,.7)}
+    .nav-dropdown{position:absolute;top:42px;right:0;background:#1f1f1f;border:1px solid #2a2a2a;border-radius:10px;padding:6px;min-width:180px;display:none;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+    .nav-dropdown.show{display:block}
+    .nav-dropdown a,.nav-dropdown button{display:block;width:100%;padding:9px 14px;background:none;border:none;color:rgba(255,255,255,.65);font-family:inherit;font-size:.85rem;text-align:left;text-decoration:none;border-radius:6px;cursor:pointer;transition:all .2s;box-sizing:border-box}
+    .nav-dropdown a:hover,.nav-dropdown button:hover{background:#141414;color:#fff}
+    .nav-dropdown .drop-divider{height:1px;background:#2a2a2a;margin:4px 0}
+
     /* Gallery Page Styles */
     .gallery-page {
       padding: 120px 0 80px;
@@ -263,7 +388,7 @@
         <a href="index.html">Home</a>
         <a href="bodwave.html">BodWave</a>
         <a href="press.html">Press</a>
-        <a href="index.html#start" class="btn btn-primary btn-sm">Notify Me</a>
+        <span id="navAuth"></span>
       </div>
       <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle menu">
         <span></span>
@@ -273,12 +398,43 @@
     </div>
   </nav>
 
+  <!-- Auth Gate Overlay -->
+  <div id="auth-gate">
+    <div class="auth-gate-card">
+      <div class="gate-icon">🏋️</div>
+      <h2>Members Only</h2>
+      <p>Create a free account or log in to access the BodSpas Scrapbook.</p>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchTab('login')">Log In</button>
+        <button class="auth-tab" onclick="switchTab('signup')">Sign Up</button>
+      </div>
+      <!-- Login Form -->
+      <div class="auth-form active" id="login-form">
+        <input type="email" id="login-email" placeholder="Email address" autocomplete="email">
+        <input type="password" id="login-password" placeholder="Password">
+        <button class="auth-submit" onclick="doLogin()">Log In</button>
+        <div class="auth-error" id="login-error"></div>
+      </div>
+      <!-- Signup Form -->
+      <div class="auth-form" id="signup-form">
+        <input type="text" id="signup-name" placeholder="Your name">
+        <input type="email" id="signup-email" placeholder="Email address" autocomplete="email">
+        <input type="password" id="signup-password" placeholder="Create password">
+        <button class="auth-submit" onclick="doSignup()">Create Account</button>
+        <div class="auth-error" id="signup-error"></div>
+      </div>
+
+    </div>
+  </div>
+
+
+
   <!-- Gallery Section -->
-  <section class="gallery-page">
+  <section class="gallery-page" id="gallery-content">
     <div class="container">
       <div class="section-header">
-        <h1>Fitness <span class="gradient-text">Gallery</span></h1>
-        <p>Get inspired by dedication, discipline, and results</p>
+        <h1>Fitness <span class="gradient-text">Scrapbook</span></h1>
+        <p>The wall. Sweat, reps, and results — documented.</p>
       </div>
       
       <!-- Stats -->
@@ -417,13 +573,13 @@
       <div class="slide-dots" id="slideDots"></div>
       
       <!-- Thumbnail Grid -->
-      <h3 style="text-align: center; margin-bottom: 20px;">All Photos</h3>
+      <h3 style="text-align: center; margin-bottom: 20px;">The Wall</h3>
       <div class="thumbnail-grid" id="thumbnailGrid"></div>
     </div>
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
+  <footer class="footer" id="gallery-footer" style="display:none">
     <div class="container">
       <div class="footer-bottom" style="border-top: none; padding-top: 0;">
         <p>&copy; 2025 BodSpas. All rights reserved.</p>
@@ -433,7 +589,140 @@
   </footer>
 
   <script>
-    // Mobile menu toggle
+    // ── Auth Gate — unified with log.html (bodspas_mnn_* keys) ────
+    const MNN_USERS_KEY   = 'bodspas_mnn_users';
+    const MNN_SESSION_KEY = 'bodspas_mnn_session';
+
+    function getUsers() {
+      try { return JSON.parse(localStorage.getItem(MNN_USERS_KEY)) || []; }
+      catch(e) { return []; }
+    }
+    function saveUsers(users) {
+      localStorage.setItem(MNN_USERS_KEY, JSON.stringify(users));
+    }
+    function setCurrentUser(user) {
+      // Store session in the same format log.html uses
+      localStorage.setItem(MNN_SESSION_KEY, JSON.stringify({ userId: user.id, username: user.username }));
+    }
+    function getCurrentUser() {
+      try {
+        const sess = JSON.parse(localStorage.getItem(MNN_SESSION_KEY));
+        if (!sess) return null;
+        const users = getUsers();
+        return users.find(u => u.username === sess.username) || null;
+      } catch(e) { return null; }
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (tab==='login'?i===0:i===1)));
+      document.getElementById('login-form').classList.toggle('active', tab === 'login');
+      document.getElementById('signup-form').classList.toggle('active', tab === 'signup');
+    }
+
+    function showGallery(user) {
+      document.getElementById('auth-gate').style.display = 'none';
+      document.getElementById('gallery-content').classList.add('visible');
+      document.getElementById('gallery-footer').style.display = '';
+      renderNav(user);
+    }
+
+    function renderNav(user) {
+      const el = document.getElementById('navAuth');
+      if (!el) return;
+      if (user) {
+        const initial = (user.name || user.email || '?')[0].toUpperCase();
+        const displayName = user.name || user.email;
+        el.innerHTML = `<div class="nav-user" id="navUserWrap" onclick="document.getElementById('navDrop').classList.toggle('show')">
+          <span class="nav-username">${esc(displayName)}</span>
+          <div class="nav-avatar">${initial}</div>
+          <div class="nav-dropdown" id="navDrop">
+            <a href="log.html">🏋️ Workout Log</a>
+            <button onclick="doLogout()">🚪 Log Out</button>
+          </div>
+        </div>`;
+      } else {
+        el.innerHTML = '<a href="log.html" class="btn btn-primary btn-sm">Log In</a>';
+      }
+    }
+
+    function esc(s) { const d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+    function doLogin() {
+      // Accept username OR email in the email field
+      const input = document.getElementById('login-email').value.trim().toLowerCase();
+      const pass  = document.getElementById('login-password').value;
+      const err   = document.getElementById('login-error');
+      err.textContent = '';
+      if (!input || !pass) { err.textContent = 'Please fill in all fields.'; return; }
+      const users = getUsers();
+      const user = users.find(u => (u.username === input || u.email === input) && u.password === pass);
+      if (!user) { err.textContent = 'Incorrect username or password.'; return; }
+      setCurrentUser(user);
+      showGallery(user);
+    }
+
+    function doSignup() {
+      const name  = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim().toLowerCase();
+      const pass  = document.getElementById('signup-password').value;
+      const err   = document.getElementById('signup-error');
+      err.textContent = '';
+      if (!name || !email || !pass) { err.textContent = 'Please fill in all fields.'; return; }
+      if (pass.length < 4) { err.textContent = 'Password must be at least 4 characters.'; return; }
+      const users = getUsers();
+      const uname = email.includes('@') ? email.split('@')[0] : email;
+      if (users.find(u => u.username === uname || u.email === email)) { err.textContent = 'Account already exists.'; return; }
+      const user = { id: Date.now(), username: uname, name, email, password: pass, isDemo: false, created: new Date().toISOString() };
+      users.push(user);
+      saveUsers(users);
+      setCurrentUser(user);
+      showGallery(user);
+    }
+
+    function demoLogin() {
+      const users = getUsers();
+      let demo = users.find(u => u.username === 'demo');
+      if (!demo) {
+        demo = { id: 1, username: 'demo', name: 'Demo User', email: 'demo@bodspas.com', password: 'demo', isDemo: true, created: new Date().toISOString() };
+        users.push(demo);
+        saveUsers(users);
+      }
+      setCurrentUser(demo);
+      showGallery(demo);
+    }
+
+    function doLogout() {
+      localStorage.removeItem(MNN_SESSION_KEY);
+      renderNav(null);
+      document.getElementById('gallery-content').classList.remove('visible');
+      document.getElementById('gallery-footer').style.display = 'none';
+      document.getElementById('auth-gate').style.display = 'flex';
+    }
+
+    // Seed default admin using MNN user format
+    (function() {
+      const users = getUsers();
+      if (!users.find(u => u.username === 'admin')) {
+        users.push({ id: Date.now(), username: 'admin', name: 'Admin', email: 'admin', password: 'admin123', isAdmin: true, isDemo: false, created: new Date().toISOString() });
+        saveUsers(users);
+      }
+    })();
+
+    // Check on load — single auth system now, no bridge needed
+    (function() {
+      const user = getCurrentUser();
+      if (user && !user.isDemo) showGallery(user);
+    })();
+
+    // Close nav dropdown on outside click
+    document.addEventListener('click', e => {
+      if (!e.target.closest('#navUserWrap')) {
+        const d = document.getElementById('navDrop');
+        if (d) d.classList.remove('show');
+      }
+    });
+
+    // ── Mobile menu ────────────────────────────────────────────────
     const mobileToggle = document.getElementById('mobileToggle');
     const navLinks = document.getElementById('navLinks');
     
