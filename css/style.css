@@ -934,10 +934,10 @@ h3 { font-size: 1.5rem; }
 @media (max-width: 768px) {
   .nav-links {
     position: fixed;
-    top: 0;
+    top: 33px;
     right: 0;
     width: 280px;
-    height: 100vh;
+    height: calc(100vh - 33px);
     background: var(--dark-light);
     flex-direction: column;
     justify-content: center;
