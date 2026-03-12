@@ -1,7 +1,7 @@
 # Muscular Neuro Notation (MNN) — Formal Specification
 
-**Version:** 1.0.0  
-**Date:** March 1, 2026  
+**Version:** 1.1.0  
+**Date:** March 12, 2026  
 **Author:** Tom / AIUNITES LLC / BODWAVE  
 **Copyright:** © 2026 AIUNITES LLC. All rights reserved.  
 **License:** This specification is published for prior art and DMCA registration purposes. Use of the notation format in personal training logs is permitted. Commercial implementations, machine firmware integration, avatar control systems, and derivative specification documents require written permission from the author.
@@ -252,7 +252,163 @@ NerveTag := "→" NerveSymbol ("/" NerveSymbol)*
 
 ---
 
-## 6. Joint Position Tags
+## 6. Joint Taxonomy
+
+This section defines the complete inventory of joints recognized by MNN — their symbols, anatomical hierarchy, degrees of freedom, and axis names. This is the reference table. The notation format for encoding joint angles in an MNN string is defined in Section 7.
+
+### 6.1 Design Principles
+
+- **Every joint has a symbol.** Symbols are short, consistent, and anatomically grounded.
+- **Degrees of freedom (DOF) are explicit.** Each joint lists exactly which axes are valid for that joint — you cannot express wrist rotation in a joint that has no rotation axis.
+- **Hierarchy is tracked.** Joints are organized by kinematic chain. Motion at a proximal joint propagates to all distal joints in the chain. Parsers and avatar rigs MUST respect this hierarchy when computing global pose.
+- **Side is always specified for paired joints.** Any joint that exists on both left and right sides requires a side prefix (`L.` / `R.`) in the notation. Omitting side is only valid for midline joints (spine, jaw, sternum).
+- **Range limits are hard constraints.** Values outside the physiological range listed for each axis MUST be rejected by compliant parsers and machine controllers.
+
+---
+
+### 6.2 Kinematic Chain Hierarchy
+
+The body is modeled as a tree of rigid segments connected at joints. The root is the **pelvis**. All other joints are children of their proximal neighbor.
+
+```
+Pelvis (root)
+├── Spine
+│   ├── Lumbar (L1–L5)
+│   ├── Thoracic (T1–T12)
+│   ├── Cervical (C1–C7)
+│   │   └── Atlantoaxial (C1–C2)
+│   └── Head
+│       └── Temporomandibular (jaw)
+├── Sternoclavicular (L/R)
+│   └── Acromioclavicular (L/R)
+│       └── Scapulothoracic / Scapula (L/R)
+│           └── Glenohumeral / Shoulder (L/R)
+│               └── Elbow (L/R)
+│                   └── Radioulnar / Forearm (L/R)
+│                       └── Wrist (L/R)
+│                           └── Fingers (L/R) — MCP → PIP → DIP (digits 1–5)
+├── Hip (L/R)
+│   └── Knee (L/R)
+│       └── Ankle (L/R)
+│           └── Midfoot / Subtalar (L/R)
+│               └── Toes (L/R) — MTP → PIP → DIP (digits 1–5)
+```
+
+---
+
+### 6.3 Joint Reference Table
+
+#### Axial Skeleton — Midline Joints
+
+| Symbol | Joint Name | DOF | Axes | Range | Notes |
+|--------|-----------|-----|------|-------|-------|
+| `Sp.L` | Lumbar Spine | 3 | Flex, Lat, Rot | Flex: −30 to 80°; Lat: 0–35°; Rot: 0–25° | Aggregated lumbar segment |
+| `Sp.T` | Thoracic Spine | 3 | Flex, Lat, Rot | Flex: −30 to 45°; Lat: 0–30°; Rot: 0–55° | Aggregated thoracic segment |
+| `Sp.C` | Cervical Spine | 3 | Flex, Lat, Rot | Flex: −60 to 80°; Lat: 0–45°; Rot: 0–80° | Aggregated C3–C7 |
+| `AA` | Atlantoaxial (C1–C2) | 1 | Rot | Rot: 0–45° each side | Nodding (C0–C1) + rotation (C1–C2) |
+| `TMJ` | Temporomandibular (Jaw) | 2 | Open, Lat | Open: 0–50mm; Lat: 0–12mm | Value in mm, not degrees |
+
+#### Shoulder Girdle (paired)
+
+| Symbol | Joint Name | DOF | Axes | Range | Notes |
+|--------|-----------|-----|------|-------|-------|
+| `SC` | Sternoclavicular | 3 | Elev, Pro, Rot | Elev: −5 to 45°; Pro: −15 to 30°; Rot: 0–50° | Often implicit in scapula motion |
+| `AC` | Acromioclavicular | 3 | UpRot, Tilt, Rot | UpRot: 0–30°; Tilt: 0–30°; Rot: 0–30° | Often implicit in scapula motion |
+| `Scap` | Scapulothoracic | 3 | Pro, Elev, UpRot | Pro: −15 to 15°; Elev: −10 to 12°; UpRot: 0–60° | Composite SC + AC motion |
+| `Sh` | Glenohumeral (Shoulder) | 3 | Flex, Abd, IR, ER | Flex: −45 to 180°; Abd: 0–180°; IR: 0–90°; ER: 0–90° | Primary limb joint |
+
+#### Upper Limb (paired)
+
+| Symbol | Joint Name | DOF | Axes | Range | Notes |
+|--------|-----------|-----|------|-------|-------|
+| `El` | Elbow (Humeroulnar) | 1 | Flex | Flex: 0–145° | Hinge only; carrying angle ~15° not encoded |
+| `RU` | Radioulnar / Forearm | 1 | Pro, Sup | Pro: 0–90°; Sup: 0–90° | Forearm rotation — often grouped with elbow |
+| `Wr` | Wrist (Radiocarpal) | 2 | Flex, Rad, Uln | Flex: −70 to 80°; Rad: 0–20°; Uln: 0–35° | Negative flex = extension |
+
+#### Hand — Fingers (paired, digits 1–5)
+
+Finger joints use a digit number suffix: `F1` = thumb, `F2` = index, `F3` = middle, `F4` = ring, `F5` = little.
+
+| Symbol | Joint Name | DOF | Axes | Range | Notes |
+|--------|-----------|-----|------|-------|-------|
+| `MCP.F2–F5` | Metacarpophalangeal | 2 | Flex, Abd | Flex: −15 to 90°; Abd: 0–30° | Knuckle joint, fingers 2–5 |
+| `MCP.F1` | Thumb MCP | 1 | Flex | Flex: 0–80° | Thumb knuckle |
+| `CMC.F1` | Thumb Carpometacarpal | 2 | Abd, Opp | Abd: 0–60°; Opp: 0–70° | Saddle joint — thumb base |
+| `PIP.F2–F5` | Proximal Interphalangeal | 1 | Flex | Flex: 0–110° | Middle finger joint |
+| `DIP.F2–F5` | Distal Interphalangeal | 1 | Flex | Flex: 0–90° | Fingertip joint |
+| `IP.F1` | Thumb Interphalangeal | 1 | Flex | Flex: 0–80° | Thumb tip joint |
+
+**Compact finger notation:** When encoding a full hand pose, use bracket grouping:
+```
+[Pos:R.MCP.F2(Flex:70,Abd:5) PIP.F2(Flex:90) DIP.F2(Flex:45)]
+```
+
+#### Lower Limb (paired)
+
+| Symbol | Joint Name | DOF | Axes | Range | Notes |
+|--------|-----------|-----|------|-------|-------|
+| `Hip` | Hip (Femoroacetabular) | 3 | Flex, Abd, IR, ER | Flex: −30 to 125°; Abd: 0–45°; IR: 0–45°; ER: 0–45° | Ball-and-socket |
+| `Kn` | Knee (Tibiofemoral) | 1 | Flex | Flex: 0–140° | Hinge; small axial rotation not encoded |
+| `Ank` | Ankle (Talocrural) | 1 | Dors, Plan | Dors: 0–20°; Plan: 0–50° | True ankle = dorsi/plantarflexion only |
+| `Sub` | Subtalar | 1 | Inv, Ev | Inv: 0–35°; Ev: 0–25° | Inversion/eversion — separate from ankle |
+
+#### Foot — Toes (paired, digits 1–5)
+
+Toe joints use the same digit suffix convention as fingers. `T1` = hallux (big toe).
+
+| Symbol | Joint Name | DOF | Axes | Range | Notes |
+|--------|-----------|-----|------|-------|-------|
+| `MTP.T1–T5` | Metatarsophalangeal | 1 | Flex | Flex: −30 to 70° | Negative = extension (toe-off phase) |
+| `PIP.T2–T5` | Proximal Interphalangeal (toes) | 1 | Flex | Flex: 0–50° | |
+| `DIP.T2–T5` | Distal Interphalangeal (toes) | 1 | Flex | Flex: 0–40° | |
+| `IP.T1` | Hallux Interphalangeal | 1 | Flex | Flex: 0–60° | Big toe tip |
+
+---
+
+### 6.4 DOF Summary by Region
+
+| Region | Joints | Total DOF |
+|--------|--------|----------|
+| Axial (spine + jaw) | 5 | 13 |
+| Shoulder girdle (×2) | 6 | 18 |
+| Upper limb (×2) | 6 | 12 |
+| Hand / fingers (×2) | 12 per hand | 48 |
+| Lower limb (×2) | 4 | 16 |
+| Foot / toes (×2) | 8 per foot | 32 |
+| **Total (full body)** | | **~139** |
+
+For most exercise and rehabilitation use cases, only the **primary joints** (spine, shoulder, elbow, wrist, hip, knee, ankle) are needed — approximately 25 DOF. Finger and toe joints are most relevant for hand therapy, gait analysis, avatar animation, and robotic hand control.
+
+---
+
+### 6.5 Axis Naming Conventions
+
+All axis names in MNN follow the **ISB Joint Coordinate System** conventions (Wu et al., 2002/2005). Positive values always follow the right-hand rule with the local X-axis pointing along the bone's long axis distally.
+
+| Anatomical Motion | MNN Axis Symbol | Sign Convention |
+|------------------|-----------------|----------------|
+| Flexion | `Flex` | Positive = flexion; negative = extension |
+| Abduction | `Abd` | Positive = abduction |
+| Internal Rotation | `IR` | Positive = internal |
+| External Rotation | `ER` | Positive = external |
+| Pronation | `Pro` | Positive = pronation |
+| Supination | `Sup` | Positive = supination |
+| Radial Deviation | `Rad` | Positive = radial |
+| Ulnar Deviation | `Uln` | Positive = ulnar |
+| Dorsiflexion | `Dors` | Positive = dorsiflexion |
+| Plantarflexion | `Plan` | Positive = plantarflexion |
+| Inversion | `Inv` | Positive = inversion |
+| Eversion | `Ev` | Positive = eversion |
+| Lateral Flexion | `Lat` | Positive = right lateral flexion |
+| Rotation | `Rot` | Positive = right rotation |
+| Elevation | `Elev` | Positive = elevation |
+| Protraction | `Pro` | Positive = protraction |
+| Upward Rotation | `UpRot` | Positive = upward |
+| Opposition | `Opp` | Positive = opposition |
+
+---
+
+## 7. Joint Position Tags
 
 Position tags define the angular state of each joint using anatomical degrees of freedom. Each joint has a defined set of axes with physiological range limits.
 
@@ -270,6 +426,8 @@ Position tags define the angular state of each joint using anatomical degrees of
 | *(omitted)* | Unspecified |
 
 ### Joint Definitions
+
+The following subsections define the notation format. For the full joint inventory including all axes and ranges, see Section 6.3.
 
 #### Shoulder (Sh) — 3 DOF
 | Axis | Full Name | Range | Unit |
@@ -654,6 +812,7 @@ Reference implementation: https://aiunites.github.io/bodspas-site/log.html
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.1.0 | March 12, 2026 | Added Section 6 — Joint Taxonomy: complete joint inventory with hierarchy, all DOF, axis naming conventions, finger/toe joints, TMJ, sternoclavicular, acromioclavicular, subtalar; DOF summary table; ISB axis sign convention table. Section 7 onwards renumbered. |
 | 1.0.0 | March 1, 2026 | Initial specification — movement, contraction, nerve, position, vector, compensation, nerve status tags, joint position, resistance vector, prior art analysis |
 
 ---
