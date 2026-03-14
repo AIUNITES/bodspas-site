@@ -1,6 +1,6 @@
 # Muscular Neuro Notation (MNN) — Formal Specification
 
-**Version:** 1.3.0  
+**Version:** 1.4.0  
 **Date:** March 14, 2026  
 **Author:** Tom / AIUNITES LLC / BODWAVE  
 **Copyright:** © 2026 AIUNITES LLC. All rights reserved.  
@@ -787,7 +787,75 @@ Implementations SHOULD support two display modes:
 
 ---
 
-## 14. Prior Art and Related Standards
+## 14. Clinical Anatomy Extension — Genital Structures
+
+> **Web access:** This section is restricted to authenticated users on bodspas-site. The full content is committed to this repository for DMCA prior art purposes. See `bodwave.html` for the gated web implementation.
+
+### 14.1 Genital Muscle Symbols
+
+#### Male
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Corp.Cav` | Corpus Cavernosum | CavN | S2–S4 | Erectile tissue column — bilateral paired |
+| `Corp.Sp` | Corpus Spongiosum | CavN | S2–S4 | Surrounds urethra, forms glans |
+| `Glan.P` | Glans Penis | DorsN.P | S2–S4 | Sensory end-organ |
+| `Prep` | Prepuce | DorsN.P | S2–S4 | Retractile skin fold |
+
+#### Female
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Glan.C` | Glans Clitoris | DorsN.C | S2–S4 | Primary sensory end-organ |
+| `Corp.C` | Clitoral Body / Crura | CavN.C | S2–S4 | Bilateral erectile tissue |
+| `Bulb.V` | Vestibular Bulbs | PelSpl | S2–S4 | Paired erectile tissue flanking vaginal opening |
+| `Lab.Mj` | Labia Majora | IlioIng/Pud | L1/S2–S4 | Outer labial fold |
+| `Lab.Mn` | Labia Minora | Pud | S2–S4 | Inner labial fold |
+| `Vag.Or` | Vaginal Orifice / Introitus | Pud | S2–S4 | Opening; tone via surrounding pelvic floor |
+| `Hymen` | Hymenal Remnants | Pud | S2–S4 | Vestigial tissue ring at introitus |
+
+#### Anal Canal
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Anod` | Anoderm | InfRec | S2–S4 | Highly sensory anal canal skin, proximal to verge |
+| `AV.Cush` | Anal Vascular Cushions | InfRec/PelSpl | S2–S4 | Hemorrhoidal plexus — contributes to resting closure |
+| `Anococ` | Anococcygeal Body | Pud | S3–S4 | Fibromuscular raphe between anus and coccyx |
+
+### 14.2 Additional Nerves
+
+| Symbol | Full Name | Notes |
+|--------|-----------|-------|
+| `CavN` | Cavernous Nerve (male) | Parasympathetic — erection; branch of pelvic splanchnic |
+| `CavN.C` | Cavernous Nerve (female) | Clitoral erection; branch of pelvic splanchnic |
+| `DorsN.P` | Dorsal Nerve of Penis | Somatic sensory — branch of pudendal |
+| `DorsN.C` | Dorsal Nerve of Clitoris | Somatic sensory — branch of pudendal |
+| `IlioIng` | Ilioinguinal Nerve | Sensory to anterior labia majora / upper scrotum |
+
+### 14.3 Notation Examples
+
+```
+// Anal canal resting tone (avatar default)
+[Con:Sph.EA+, Sph.IA+, AV.Cush+] → InfRec/PelSpl
+
+// Post-prostatectomy rehab
+[Con:Sph.EU+, PF.PC+] → Pud
+[Comp:Trans.Ab for Sph.EU]
+
+// Female avatar pelvic floor + genital neutral
+[Con:PF.PC++, Sph.EA+, Glan.C+] → Pud/InfRec/DorsN.C
+```
+
+### 14.4 Avatar Default States
+
+| Symbol | Default | Rationale |
+|--------|---------|----------|
+| `Corp.Cav` / `Corp.C` | `0` | Fully relaxed unless explicitly set |
+| `AV.Cush` | `+` | Vascular cushions provide baseline closure |
+| `Sph.IA` | `+` | Involuntary resting tone always present |
+
+Activation level `0` is valid for genital structures only and means fully relaxed / no tone.
+
+---
+
+## 15. Prior Art and Related Standards
 
 MNN exists at the intersection of several established fields, each with its own standards and notation systems. None of them combine neuromuscular targeting, joint position, resistance vector, and compensation tracking into a single notation. MNN bridges this gap.
 
@@ -898,6 +966,7 @@ Reference implementation: https://aiunites.github.io/bodspas-site/log.html
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.4.0 | March 14, 2026 | Added Section 14 — Clinical Anatomy Extension (Genital Structures): male genital symbols (4), female genital symbols (7), anal canal symbols (3); 5 new nerve symbols (`CavN`, `CavN.C`, `DorsN.P`, `DorsN.C`, `IlioIng`); avatar default states table; activation level `0` defined for genital structures. Section marked as web-gated / login-required on bodspas-site. |
 | 1.3.0 | March 14, 2026 | Added pelvic floor & perineum muscle symbols (11 muscles, Section 4); added `Pud`, `InfRec`, `PelSpl` to nerve table (Section 5); pelvic floor note added to DOF summary (Section 6.4); added Section 11 — Pelvic Floor & Sphincter Examples with clinical, avatar seated pose, relaxation, and rehab contexts. Section numbering shifted. |
 | 1.2.0 | March 14, 2026 | Added facial expression muscle symbols (14 muscles, Section 4); added `CNVII` to nerve table (Section 5); added Section 10 — Facial Expression Examples with compact/full anatomy notation, combined body+face example, and FACS AU mapping table. Section numbering shifted accordingly. |
 | 1.1.0 | March 12, 2026 | Added Section 6 — Joint Taxonomy: complete joint inventory with hierarchy, all DOF, axis naming conventions, finger/toe joints, TMJ, sternoclavicular, acromioclavicular, subtalar; DOF summary table; ISB axis sign convention table. Section 7 onwards renumbered. |
