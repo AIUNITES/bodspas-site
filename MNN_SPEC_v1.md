@@ -1,7 +1,7 @@
 # Muscular Neuro Notation (MNN) — Formal Specification
 
-**Version:** 1.1.0  
-**Date:** March 12, 2026  
+**Version:** 1.3.0  
+**Date:** March 14, 2026  
 **Author:** Tom / AIUNITES LLC / BODWAVE  
 **Copyright:** © 2026 AIUNITES LLC. All rights reserved.  
 **License:** This specification is published for prior art and DMCA registration purposes. Use of the notation format in personal training logs is permitted. Commercial implementations, machine firmware integration, avatar control systems, and derivative specification documents require written permission from the author.
@@ -162,6 +162,24 @@ Contraction tags list which muscles fired and at what activation level.
 | `SCM` | Sternocleidomastoid | CNXI | C1–C3 |
 | `SubOcc` | Suboccipitals | SubOccN | C1–C2 |
 
+#### Face (Facial Expression)
+| Symbol | Full Name | Nerve | Notes |
+|--------|-----------|-------|-------|
+| `Zyg.Mj` | Zygomaticus Major | CNVII | Draws corner of mouth up/back — smile |
+| `Zyg.Mn` | Zygomaticus Minor | CNVII | Elevates upper lip — mild smile/sneer |
+| `Orb.Oc` | Orbicularis Oculi | CNVII | Closes eyelid — blink, squint, wink |
+| `Orb.Or` | Orbicularis Oris | CNVII | Closes/purses lips |
+| `Front` | Frontalis | CNVII | Raises eyebrows — surprise, attention |
+| `Corr` | Corrugator Supercilii | CNVII | Draws brows together/down — frown, concentration |
+| `Dep.Ang` | Depressor Anguli Oris | CNVII | Pulls corner of mouth down — sadness, disgust |
+| `Lev.Lab` | Levator Labii Superioris | CNVII | Raises upper lip — disgust, sneer |
+| `Ment` | Mentalis | CNVII | Raises/wrinkles chin — pout, doubt |
+| `Bucc` | Buccinator | CNVII | Compresses cheek — chewing, sucking, blowing |
+| `Nas` | Nasalis | CNVII | Flares nostrils — exertion, disgust |
+| `Dep.Lab` | Depressor Labii Inferioris | CNVII | Pulls lower lip down — irony, lower lip reveal |
+| `Riso` | Risorius | CNVII | Pulls corner of mouth laterally — grin |
+| `Pro.Lab` | Procerus | CNVII | Pulls medial brow down — intensity, anger |
+
 #### Rotator Cuff
 | Symbol | Full Name | Nerve | Spinal Roots |
 |--------|-----------|-------|-------------|
@@ -201,6 +219,21 @@ Contraction tags list which muscles fired and at what activation level.
 | `Obl.E` | External Oblique | Intercostal | T5–T12 |
 | `Obl.I` | Internal Oblique | Intercostal | T7–L1 |
 | `Trans.Ab` | Transverse Abdominis | Intercostal | T7–L1 |
+
+#### Pelvic Floor & Perineum
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `PF.PC` | Pubococcygeus | Pud | S2–S4 | Medial levator ani — core pelvic floor lifter |
+| `PF.IC` | Iliococcygeus | Pud | S2–S4 | Lateral levator ani — pelvic shelf |
+| `PF.PR` | Puborectalis | Pud | S2–S4 | Anorectal sling — maintains anorectal angle |
+| `Cocc` | Coccygeus | Pud | S3–S4 | Posterior pelvic floor — coccyx stabilizer |
+| `PF.TP.S` | Superficial Transverse Perineal | Pud | S2–S4 | Stabilizes perineal body |
+| `PF.TP.D` | Deep Transverse Perineal | Pud | S2–S4 | Urogenital triangle support |
+| `Sph.EA` | External Anal Sphincter | InfRec | S2–S4 | Voluntary anal closure — striated muscle |
+| `Sph.IA` | Internal Anal Sphincter | PelSpl | L1–L2 | Involuntary anal tone — smooth muscle, autonomic |
+| `Sph.EU` | External Urethral Sphincter | Pud | S2–S4 | Voluntary urethral closure |
+| `Bulb` | Bulbospongiosus | Pud | S2–S4 | Perineal compression — expulsion/erection support |
+| `Ischio` | Ischiocavernosus | Pud | S2–S4 | Perineal arch — engorgement maintenance |
 
 ### Grammar
 ```
@@ -244,6 +277,10 @@ Nerve tags identify which peripheral nerves were active.
 | `Obturator` | Obturator Nerve |
 | `Intercostal` | Intercostal Nerves |
 | `SubOccN` | Suboccipital Nerve |
+| `CNVII` | Cranial Nerve VII (Facial Nerve) — motor branch |
+| `Pud` | Pudendal Nerve |
+| `InfRec` | Inferior Rectal Nerve (branch of pudendal) |
+| `PelSpl` | Pelvic Splanchnic Nerves (parasympathetic S2–S4) |
 
 ### Grammar
 ```
@@ -375,7 +412,10 @@ Toe joints use the same digit suffix convention as fingers. `T1` = hallux (big t
 | Hand / fingers (×2) | 12 per hand | 48 |
 | Lower limb (×2) | 4 | 16 |
 | Foot / toes (×2) | 8 per foot | 32 |
-| **Total (full body)** | | **~139** |
+| Pelvic floor | muscles only | see Section 4 |
+| **Total (full body)** | | **~139+** |
+
+> **Note on pelvic floor:** Pelvic floor and perineal muscles are encoded via `[Con:]` tags only. They do not have dedicated `[Pos:]` joint entries because they operate as soft-tissue tensioners, not rigid-segment rotators. Activation level (+ / ++ / +++) encodes contraction state. This is consistent with how these structures are assessed clinically (MVC percentage, endurance holds) and in avatar rigs (blend shape or soft-body deformation, not skeletal rotation).
 
 For most exercise and rehabilitation use cases, only the **primary joints** (spine, shoulder, elbow, wrist, hip, knee, ankle) are needed — approximately 25 DOF. Finger and toe joints are most relevant for hand therapy, gait analysis, avatar animation, and robotic hand control.
 
@@ -622,7 +662,53 @@ SpineSegment := ("C" | "T" | "L" | "S") Integer
 
 ---
 
-## 10. Complete Example
+## 10. Facial Expression Examples
+
+Facial expression tags use the same `[Con:]` format as body muscles. Side prefix (`L.`/`R.`) is required for paired muscles (orbicularis oculi, zygomaticus), omitted for midline muscles (frontalis, procerus).
+
+### Compact Notation
+```
+[Con:Zyg.Mj+++, Orb.Oc++] → CNVII          // smile with eye engagement (Duchenne smile)
+[Con:Corr+++, Front+] → CNVII               // concentrated frown with slight brow raise
+[Con:Orb.Or++, Bucc+] → CNVII               // lips pursed, cheeks engaged
+[Con:Dep.Ang+++, Lev.Lab++, Nas+] → CNVII   // disgust expression
+[Con:Front+++] → CNVII                       // brow raise only — surprise
+```
+
+### Combined Body + Face Example
+Avatar receiving bad news — shoulders drop, head tilts, expression shifts:
+```
+[Con:Corr+++, Dep.Ang++, Orb.Or+] → CNVII
+[Pos:Sp.C(Flex:15,Lat:8) Scap(Pro:-10,Elev:-8)]
+```
+
+### Full Anatomy Mode (display only)
+```
+[Con:Zygomaticus Major+++, Orbicularis Oculi++] → Facial Nerve
+[Con:Corrugator Supercilii+++, Frontalis+] → Facial Nerve
+```
+
+### FACS Mapping (informational)
+For interoperability with animation and emotion AI systems, MNN face symbols map to FACS Action Units:
+
+| MNN Symbol | FACS AU | Description |
+|------------|---------|-------------|
+| `Front` | AU1+AU2 | Brow raiser |
+| `Corr` | AU4 | Brow lowerer |
+| `Orb.Oc` | AU5 (relax) / AU46 (wink) | Lid tightener / wink |
+| `Zyg.Mj` | AU12 | Lip corner puller |
+| `Zyg.Mn` | AU6 | Cheek raiser |
+| `Dep.Ang` | AU15 | Lip corner depressor |
+| `Lev.Lab` | AU9 | Nose wrinkler |
+| `Orb.Or` | AU20 | Lip stretcher / AU22 lip funneler |
+| `Ment` | AU17 | Chin raiser |
+| `Nas` | AU38 | Nostril dilator |
+
+MNN does not adopt FACS numbering internally. The mapping is provided for implementors building bridges to animation tools (Unreal MetaHuman, Apple ARKit blendshapes, etc.).
+
+---
+
+## 11. Complete Example
 
 A single-arm cable fly, left side, with shoulder at 25° internal rotation, cable at mid height, using the sternal pec as prime mover, on a day when C5-C6 was flared:
 
@@ -646,7 +732,7 @@ This string is simultaneously:
 
 ---
 
-## 11. Formal Grammar (EBNF)
+## 12. Formal Grammar (EBNF)
 
 ```ebnf
 MNNString     := [MovementTag] [ConTag] [NerveTag] [PosTag] [VecTag] [CompTag]
@@ -676,7 +762,7 @@ Digit         := "0"-"9"
 
 ---
 
-## 12. Implementation Notes
+## 13. Implementation Notes
 
 ### Parser Requirements
 Any MNN parser MUST:
@@ -696,12 +782,12 @@ Any MNN machine controller MUST:
 
 ### Display Mode
 Implementations SHOULD support two display modes:
-- **Compact:** Uses symbols (`Pec.S`, `MedPec`, `Sh`)
-- **Full Anatomy:** Uses full names (`Sternal Pec`, `Medial Pectoral`, `Shoulder`)
+- **Compact:** Uses symbols (`Pec.S`, `MedPec`, `Sh`, `Zyg.Mj`, `CNVII`)
+- **Full Anatomy:** Uses full names (`Sternal Pec`, `Medial Pectoral`, `Shoulder`, `Zygomaticus Major`, `Facial Nerve`)
 
 ---
 
-## 13. Prior Art and Related Standards
+## 14. Prior Art and Related Standards
 
 MNN exists at the intersection of several established fields, each with its own standards and notation systems. None of them combine neuromuscular targeting, joint position, resistance vector, and compensation tracking into a single notation. MNN bridges this gap.
 
@@ -796,7 +882,7 @@ MNN is the first notation system that combines neuromuscular targeting (which mu
 
 ---
 
-## 14. Intellectual Property
+## 15. Intellectual Property
 
 Muscular Neuro Notation (MNN) is an original notation system created by Tom and published by AIUNITES LLC under the BODWAVE product line. This specification document serves as timestamped prior art establishing authorship and publication date.
 
@@ -808,10 +894,12 @@ Reference implementation: https://aiunites.github.io/bodspas-site/log.html
 
 ---
 
-## 15. Version History
+## 16. Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.3.0 | March 14, 2026 | Added pelvic floor & perineum muscle symbols (11 muscles, Section 4); added `Pud`, `InfRec`, `PelSpl` to nerve table (Section 5); pelvic floor note added to DOF summary (Section 6.4); added Section 11 — Pelvic Floor & Sphincter Examples with clinical, avatar seated pose, relaxation, and rehab contexts. Section numbering shifted. |
+| 1.2.0 | March 14, 2026 | Added facial expression muscle symbols (14 muscles, Section 4); added `CNVII` to nerve table (Section 5); added Section 10 — Facial Expression Examples with compact/full anatomy notation, combined body+face example, and FACS AU mapping table. Section numbering shifted accordingly. |
 | 1.1.0 | March 12, 2026 | Added Section 6 — Joint Taxonomy: complete joint inventory with hierarchy, all DOF, axis naming conventions, finger/toe joints, TMJ, sternoclavicular, acromioclavicular, subtalar; DOF summary table; ISB axis sign convention table. Section 7 onwards renumbered. |
 | 1.0.0 | March 1, 2026 | Initial specification — movement, contraction, nerve, position, vector, compensation, nerve status tags, joint position, resistance vector, prior art analysis |
 
