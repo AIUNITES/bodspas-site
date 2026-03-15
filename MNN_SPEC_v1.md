@@ -28,6 +28,8 @@ MNN is designed to be:
 
 ### 1.1 The Three Domains of MNN
 
+MNN is a protocol within the **Human Movement Notation (HMN)** family, published by AIUNITES LLC. HMN is the umbrella standard for all open notation systems for human movement; MNN covers the body (muscles, nerves, joints, resistance vectors), VRN (Voice Resonance Notation) covers vocal production, and VNN (Voice Neural Notation) covers AI voice synthesis. All three are applications of the same underlying principle: encode human movement as portable, human-readable, machine-parseable text.
+
 MNN is a notation for **human movement**, not just exercise. The same MNN string is valid and useful across three domains:
 
 | Domain | Use Case | Example |
@@ -1192,7 +1194,7 @@ Reference implementation: https://aiunites.github.io/bodspas-site/log.html
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.5.0 | March 15, 2026 | Added Section 4.1–4.5 — Muscle Level of Detail (LOD) framework: LOD 1 (Functional, ~55 muscles, existing symbols), LOD 2 (Anatomical, +32: forearm ×13, finger extrinsics ×5, deep hip ×8, lower leg ×8, neck accessory ×6), LOD 3 (High-Fidelity, +38: thenar ×4, hypothenar ×3, lumbricals/interossei ×11, foot intrinsics ×11, deep spinal ×8), LOD 4 (Research, +24: adductor detail, erector components, breathing muscles); LOD quick reference table; additional nerve symbols per LOD (Median, Ulnar, PIN, AIN, Plantmed, Plantlat, Phrenic). Total at LOD 4: ~149 named muscles. |
+| 1.5.0 | March 15, 2026 | Added HMN umbrella relationship to Section 1.1 — MNN formally positioned as a protocol within Human Movement Notation (HMN) alongside VRN and VNN. Added Section 4.1–4.5 — Muscle Level of Detail (LOD) framework: LOD 1 (Functional, ~55 muscles, existing symbols), LOD 2 (Anatomical, +32: forearm ×13, finger extrinsics ×5, deep hip ×8, lower leg ×8, neck accessory ×6), LOD 3 (High-Fidelity, +38: thenar ×4, hypothenar ×3, lumbricals/interossei ×11, foot intrinsics ×11, deep spinal ×8), LOD 4 (Research, +24: adductor detail, erector components, breathing muscles); LOD quick reference table; additional nerve symbols per LOD (Median, Ulnar, PIN, AIN, Plantmed, Plantlat, Phrenic). Total at LOD 4: ~149 named muscles. |
 | 1.4.0 | March 14, 2026 | Added Section 14 — Clinical Anatomy Extension (Genital Structures): male genital symbols (4), female genital symbols (7), anal canal symbols (3); 5 new nerve symbols (`CavN`, `CavN.C`, `DorsN.P`, `DorsN.C`, `IlioIng`); avatar default states table; activation level `0` defined for genital structures. Section marked as web-gated / login-required on bodspas-site. |
 | 1.3.0 | March 14, 2026 | Added pelvic floor & perineum muscle symbols (11 muscles, Section 4); added `Pud`, `InfRec`, `PelSpl` to nerve table (Section 5); pelvic floor note added to DOF summary (Section 6.4); added Section 11 — Pelvic Floor & Sphincter Examples with clinical, avatar seated pose, relaxation, and rehab contexts. Section numbering shifted. |
 | 1.2.0 | March 14, 2026 | Added facial expression muscle symbols (14 muscles, Section 4); added `CNVII` to nerve table (Section 5); added Section 10 — Facial Expression Examples with compact/full anatomy notation, combined body+face example, and FACS AU mapping table. Section numbering shifted accordingly. |
