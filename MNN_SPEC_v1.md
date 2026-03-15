@@ -1,7 +1,7 @@
 # Muscular Neuro Notation (MNN) — Formal Specification
 
-**Version:** 1.4.0  
-**Date:** March 14, 2026  
+**Version:** 1.5.0  
+**Date:** March 15, 2026  
 **Author:** Tom / AIUNITES LLC / BODWAVE  
 **Copyright:** © 2026 AIUNITES LLC. All rights reserved.  
 **License:** This specification is published for prior art and DMCA registration purposes. Use of the notation format in personal training logs is permitted. Commercial implementations, machine firmware integration, avatar control systems, and derivative specification documents require written permission from the author.
