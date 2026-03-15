@@ -1137,13 +1137,21 @@ Session: Upper Push — 3×12×20lb RPE:6
 ```
 The first line is NSCA-style dose. The MNN string adds the neuromuscular detail.
 
-### 13.5 Dance and Movement — Labanotation
+### 13.5 Dance and Movement — Labanotation, Eshkol-Wachman, and HamNoSys
 
-Labanotation (Kinetography Laban), created by Rudolf Laban in the 1920s, is the only established notation system for human movement. It uses a vertical staff with symbols for direction, level, timing, body part, and effort quality. It is comprehensive for choreographic description and is used in dance, theater, and movement therapy.
+Labanotation (Kinetography Laban), created by Rudolf Laban in the 1920s, is the most widely known notation system for human movement. It uses a vertical staff with symbols for direction, level, timing, body part, and effort quality. It is comprehensive for choreographic description and is used in dance, theater, and movement therapy.
 
 Labanotation describes *where* the body goes through space and with what quality of effort (Float, Punch, Glide, Slash, Dab, Wring, Flick, Press). It has no concept of which nerve fired, which muscle contracted, what the resistance vector was, or whether compensation occurred. It is a visual notation requiring specialized training to read and write.
 
 Birdwhistell's Kinesics system offers hundreds of codes for body part movements but is used in psychology for gesture analysis, not exercise.
+
+**Eshkol-Wachman Movement Notation (EWMN)**, developed by Noa Eshkol and Abraham Wachman in the 1950s, uses a spherical coordinate system to describe the position of each body segment relative to its proximal joint. The body is modeled as a stick figure with segments and joints; positions are encoded as pairs of numbers on a spherical grid. EWMN has been applied in computer graphics, architecture, animal behavior analysis, Israeli Sign Language, and Tai Chi analysis. It is more mathematically rigorous than Labanotation and closer to MNN's `[Pos:]` tag in concept — both use per-joint angular values. However, EWMN uses a proprietary symbol/number system written on a staff, requires specialist training, has no concept of muscle activation or nerve involvement, and has never been adapted to machine-parseable plain text.
+
+**HamNoSys (Hamburg Notation System)** was developed in the 1980s at the University of Hamburg specifically for sign language transcription. It encodes handshape, hand orientation, location, and movement using a visual symbol set. Unlike Labanotation, HamNoSys is explicitly designed to be avatar-independent — it describes gestures at a level of abstraction that any avatar rig can execute. HamNoSys has been extended into **SiGML (Signing Gesture Markup Language)**, an XML-based format that can drive avatar hand and arm animations in real time, and has been used to animate sign language avatars in virtual worlds.
+
+HamNoSys/SiGML is the closest existing system to MNN's avatar control use case. It operates on hands and arms only, has no muscle activation semantics, no lower body, no face (beyond facial grammar markers in sign language), no resistance vectors, and no neuromuscular data. It is also not human-readable without specialist training in the symbol set.
+
+MNN's `[Pos:]` tag system covers all joints that HamNoSys covers (hand, wrist, elbow, shoulder) and extends to the full body, face, and lower limbs, while adding the neuromuscular layer that no movement notation has previously encoded.
 
 ### 13.6 Why No Unified Notation Exists
 
@@ -1172,6 +1180,8 @@ MNN is an open notation. It is plain text. It requires no special software to re
 | Muscle activity | EMG + SENIAM | Voltage waveforms, electrode standards | No standardized symbol table, no nerve mapping |
 | Exercise dose | ACSM FITT / NSCA | Frequency, intensity, sets×reps×load | No joint position, no muscle targeting |
 | Choreography | Labanotation | Spatial path, timing, effort quality | No neuromuscular data, no resistance vector |
+| Body movement research | Eshkol-Wachman | Per-joint spherical coordinates | Proprietary staff notation, no muscle/nerve, not machine-parseable |
+| Sign language / avatar gestures | HamNoSys / SiGML | Avatar-ready hand/arm gesture control | Hands and arms only, no muscle activation, not human-readable |
 | **All of the above** | **MNN** | **Muscle + nerve + joint + vector + compensation** | **—** |
 
 MNN is the first notation system that combines neuromuscular targeting (which muscles, which nerves, from which spinal roots), joint position (ISB-compatible degrees per axis), resistance vector (source, height, angle), and compensation tracking into a single human-readable, machine-parseable string.
@@ -1184,6 +1194,14 @@ Muscular Neuro Notation (MNN) is an original notation system created by Tom and 
 
 The notation format, symbol tables, tag grammar, three-domain architecture (exercise, avatar, remote control), and the concept of a unified human-readable/machine-parseable human movement notation system are the intellectual property of AIUNITES LLC.
 
+### Trademark Strategy
+
+**BODWAVE™** is the primary consumer-facing trademark for the MNN product line and is the mark planned for federal trademark registration. BODWAVE is an arbitrary coined mark with no descriptive meaning in the relevant class, making it the strongest trademark candidate in the AIUNITES IP portfolio.
+
+**MNN™, VRN™, VNN™, HMN™** are acronym marks planned for registration as word marks in software/technology services classes. As acronyms they are arbitrary relative to their expanded forms and are registrable independent of the descriptive nature of the underlying phrases.
+
+The phrase "Human Movement Notation" and its abbreviation "HMN" are used as descriptive names for the notation family. The prior art established by this specification and the dated GitHub commit history constitutes the primary IP protection for the system architecture and notation format.
+
 All AIUNITES web applications (BodSpas, Gameatica, VideoBate, AIByJob, ERPize, and all other sites in the AIUNITES network) operate as part of AIUNITES LLC.
 
 Reference implementation: https://aiunites.github.io/bodspas-site/log.html
@@ -1194,6 +1212,7 @@ Reference implementation: https://aiunites.github.io/bodspas-site/log.html
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.5.1 | March 15, 2026 | Added Eshkol-Wachman Movement Notation (EWMN) and HamNoSys/SiGML to Section 13.5 prior art; added both to Section 13.7 summary table. |
 | 1.5.0 | March 15, 2026 | Added HMN umbrella relationship to Section 1.1 — MNN formally positioned as a protocol within Human Movement Notation (HMN) alongside VRN and VNN. Added Section 4.1–4.5 — Muscle Level of Detail (LOD) framework: LOD 1 (Functional, ~55 muscles, existing symbols), LOD 2 (Anatomical, +32: forearm ×13, finger extrinsics ×5, deep hip ×8, lower leg ×8, neck accessory ×6), LOD 3 (High-Fidelity, +38: thenar ×4, hypothenar ×3, lumbricals/interossei ×11, foot intrinsics ×11, deep spinal ×8), LOD 4 (Research, +24: adductor detail, erector components, breathing muscles); LOD quick reference table; additional nerve symbols per LOD (Median, Ulnar, PIN, AIN, Plantmed, Plantlat, Phrenic). Total at LOD 4: ~149 named muscles. |
 | 1.4.0 | March 14, 2026 | Added Section 14 — Clinical Anatomy Extension (Genital Structures): male genital symbols (4), female genital symbols (7), anal canal symbols (3); 5 new nerve symbols (`CavN`, `CavN.C`, `DorsN.P`, `DorsN.C`, `IlioIng`); avatar default states table; activation level `0` defined for genital structures. Section marked as web-gated / login-required on bodspas-site. |
 | 1.3.0 | March 14, 2026 | Added pelvic floor & perineum muscle symbols (11 muscles, Section 4); added `Pud`, `InfRec`, `PelSpl` to nerve table (Section 5); pelvic floor note added to DOF summary (Section 6.4); added Section 11 — Pelvic Floor & Sphincter Examples with clinical, avatar seated pose, relaxation, and rehab contexts. Section numbering shifted. |
