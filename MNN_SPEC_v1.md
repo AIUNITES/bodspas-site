@@ -244,6 +244,232 @@ ActivationLevel := "+" | "++" | "+++"
 
 ---
 
+## 4.1 Muscle Detail Levels (LOD)
+
+MNN muscles are organized into four **Levels of Detail**. Implementations declare which LOD they support. A compliant LOD 2 parser must accept all LOD 1 and LOD 2 symbols. Higher LOD symbols in a lower-LOD string must be preserved without error (forward compatibility rule, Section 13).
+
+| LOD | Name | Muscle Count | Use Case |
+|-----|------|-------------|----------|
+| **LOD 1** | Functional | ~55 | Gym logging, basic avatar posing, exercise prescription, rehab |
+| **LOD 2** | Anatomical | +32 | Clinical documentation, realistic skin deformation, forearm/hip/leg detail |
+| **LOD 3** | High-Fidelity | +38 | Hand animation, gait analysis, exoskeleton control, surgical sim |
+| **LOD 4** | Research | +24 | Full clinical/research — every named muscle |
+
+> **LOD 1** = all muscles defined in Section 4 above this point (chest, shoulders, arms, back, neck, face, rotator cuff, quadriceps, hamstrings/glutes, legs, core, pelvic floor — v1.0.0 through v1.4.0).
+
+The LOD tag is optional metadata for implementations. It does not appear in MNN strings. A string is valid regardless of LOD level as long as all symbols used are defined.
+
+---
+
+## 4.2 LOD 2 — Anatomical Fidelity
+
+Adds forearm, deep hip rotators, lower leg, and neck accessory muscles. Required for accurate wrist/ankle biomechanics and clinical-grade documentation.
+
+#### Forearm
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Pron.T` | Pronator Teres | Median | C6–C7 | Primary forearm pronator |
+| `Pron.Q` | Pronator Quadratus | Median (AIN) | C8–T1 | Deep pronator — distal forearm |
+| `Sup.M` | Supinator | Rad | C5–C6 | Forearm supination without elbow flexion |
+| `Brachiorad` | Brachioradialis | Rad | C5–C6 | Elbow flexor — neutral forearm position |
+| `FCR` | Flexor Carpi Radialis | Median | C6–C7 | Wrist flexion + radial deviation |
+| `FCU` | Flexor Carpi Ulnaris | Ulnar | C8–T1 | Wrist flexion + ulnar deviation |
+| `ECR.L` | Extensor Carpi Radialis Longus | Rad | C6–C7 | Wrist extension + radial deviation |
+| `ECR.B` | Extensor Carpi Radialis Brevis | Rad | C7–C8 | Wrist extension — tennis elbow insertion |
+| `ECU` | Extensor Carpi Ulnaris | Rad (PIN) | C7–C8 | Wrist extension + ulnar deviation |
+| `FPL` | Flexor Pollicis Longus | Median (AIN) | C8–T1 | Thumb IP flexion — extrinsic |
+| `EPL` | Extensor Pollicis Longus | Rad (PIN) | C7–C8 | Thumb IP extension — extrinsic |
+| `EPB` | Extensor Pollicis Brevis | Rad (PIN) | C7–C8 | Thumb MCP extension — anatomical snuffbox |
+| `AbdPol.L` | Abductor Pollicis Longus | Rad (PIN) | C7–C8 | Thumb abduction + wrist radial deviation |
+
+#### Finger Extrinsics
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `FDS` | Flexor Digitorum Superficialis | Median | C7–T1 | PIP flexion, digits 2–5 |
+| `FDP` | Flexor Digitorum Profundus | Median/Ulnar | C8–T1 | DIP flexion, digits 2–5 — split innervation |
+| `EDC` | Extensor Digitorum Communis | Rad (PIN) | C7–C8 | MCP extension, digits 2–5 |
+| `EDM` | Extensor Digiti Minimi | Rad (PIN) | C7–C8 | Little finger extension |
+| `EIP` | Extensor Indicis Proprius | Rad (PIN) | C7–C8 | Index finger independent extension |
+
+#### Deep Hip Rotators
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Pirif` | Piriformis | Sci/Pir | S1–S2 | External hip rotator — sciatic relationship |
+| `ObInt` | Obturator Internus | Pud/ObInt | L5–S2 | Deep external rotator |
+| `GemSup` | Gemellus Superior | ObInt | L5–S2 | Assists obturator internus |
+| `GemInf` | Gemellus Inferior | QuadFem | L4–S1 | Assists quadratus femoris |
+| `QuadFem` | Quadratus Femoris | QuadFemN | L4–S1 | External rotator + adductor |
+| `TFL` | Tensor Fasciae Latae | SupGlu | L4–S1 | Hip flexion + abduction + IT band tension |
+| `Iliopsoas` | Iliopsoas (Iliacus + Psoas Major) | Fem/L1–L3 | L1–L4 | Primary hip flexor |
+| `Sart` | Sartorius | Fem | L2–L3 | Hip flexion + ER + knee flexion |
+
+#### Lower Leg Detail
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Per.L` | Peroneus (Fibularis) Longus | Sci.P | L4–S1 | Plantarflexion + eversion — spans sole |
+| `Per.B` | Peroneus (Fibularis) Brevis | Sci.P | L4–S1 | Eversion — inserts 5th metatarsal |
+| `Tib.P` | Tibialis Posterior | Sci.T | L4–L5 | Inversion + plantarflexion — arch support |
+| `FHL` | Flexor Hallucis Longus | Sci.T | S1–S2 | Big toe flexion — push-off power |
+| `FDL` | Flexor Digitorum Longus | Sci.T | L5–S1 | Toes 2–5 flexion — grip/propulsion |
+| `EDL` | Extensor Digitorum Longus | Sci.P | L4–S1 | Toes 2–5 extension + dorsiflexion assist |
+| `EHL` | Extensor Hallucis Longus | Sci.P | L4–S1 | Big toe extension + ankle dorsiflexion |
+| `Pop` | Popliteus | Sci.T | L4–S1 | Knee unlock — internal tibial rotation |
+
+#### Neck Accessory
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Scal.A` | Anterior Scalene | Cerv | C4–C6 | Neck flexion + 1st rib elevation — breathing |
+| `Scal.M` | Middle Scalene | Cerv | C3–C8 | Neck lateral flexion + 1st rib |
+| `Scal.P` | Posterior Scalene | Cerv | C6–C8 | Neck lateral flexion + 2nd rib |
+| `Lev.Scap` | Levator Scapulae | DorsScap/Cerv | C3–C5 | Scapular elevation + neck lateral flexion |
+| `Spl.Cap` | Splenius Capitis | DorsRami | C3–C6 | Head extension + rotation |
+| `Spl.Cerv` | Splenius Cervicis | DorsRami | C4–C8 | Cervical extension + rotation |
+
+#### Additional Nerve Symbols (LOD 2)
+| Symbol | Full Name |
+|--------|----------|
+| `Ulnar` | Ulnar Nerve |
+| `Median` | Median Nerve |
+| `PIN` | Posterior Interosseous Nerve (deep branch of radial) |
+| `AIN` | Anterior Interosseous Nerve (branch of median) |
+| `Pir` | Nerve to Piriformis |
+| `ObIntN` | Nerve to Obturator Internus |
+| `QuadFemN` | Nerve to Quadratus Femoris |
+| `Cerv` | Cervical Plexus |
+
+---
+
+## 4.3 LOD 3 — High-Fidelity Simulation
+
+Adds intrinsic hand muscles, foot intrinsics, and deep spinal stabilizers. Required for realistic hand animation, barefoot gait, exoskeleton fine motor control, and full spine model.
+
+#### Thenar (Thumb Intrinsics)
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `AbdPol.Br` | Abductor Pollicis Brevis | Median | C8–T1 | Thumb palmar abduction — intrinsic |
+| `FlexPol.Br` | Flexor Pollicis Brevis | Median/Ulnar | C8–T1 | Thumb MCP flexion — dual innervation |
+| `OppPol` | Opponens Pollicis | Median | C8–T1 | Thumb opposition — pad-to-pad contact |
+| `AddPol` | Adductor Pollicis | Ulnar | C8–T1 | Thumb adduction — pinch strength |
+
+#### Hypothenar (Little Finger Intrinsics)
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `AbdDig.Mn` | Abductor Digiti Minimi | Ulnar | C8–T1 | Little finger abduction |
+| `FlexDig.Mn` | Flexor Digiti Minimi Brevis | Ulnar | C8–T1 | Little finger MCP flexion |
+| `OppDig.Mn` | Opponens Digiti Minimi | Ulnar | C8–T1 | Little finger cupping — hollow palm |
+
+#### Hand Intrinsics — Lumbricals and Interossei
+Digit suffix: F1 = thumb, F2 = index, F3 = middle, F4 = ring, F5 = little.
+
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Lumb.F2` | Lumbrical 1 (index) | Median | C8–T1 | MCP flex + IP extend — intrinsic plus |
+| `Lumb.F3` | Lumbrical 2 (middle) | Median | C8–T1 | MCP flex + IP extend |
+| `Lumb.F4` | Lumbrical 3 (ring) | Ulnar | C8–T1 | MCP flex + IP extend |
+| `Lumb.F5` | Lumbrical 4 (little) | Ulnar | C8–T1 | MCP flex + IP extend |
+| `DI.F1` | First Dorsal Interosseous | Ulnar | C8–T1 | Index abduction — largest interosseous |
+| `DI.F2` | Second Dorsal Interosseous | Ulnar | C8–T1 | Middle finger radial abduction |
+| `DI.F3` | Third Dorsal Interosseous | Ulnar | C8–T1 | Middle finger ulnar abduction |
+| `DI.F4` | Fourth Dorsal Interosseous | Ulnar | C8–T1 | Ring abduction |
+| `PI.F2` | First Palmar Interosseous | Ulnar | C8–T1 | Index adduction |
+| `PI.F3` | Second Palmar Interosseous | Ulnar | C8–T1 | Ring adduction |
+| `PI.F4` | Third Palmar Interosseous | Ulnar | C8–T1 | Little finger adduction |
+
+#### Foot Intrinsics
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Abd.Hall` | Abductor Hallucis | Plantmed | S1–S2 | Big toe abduction + arch support |
+| `Add.Hall` | Adductor Hallucis | Plantlat | S2–S3 | Big toe adduction + transverse arch |
+| `FlexHall.Br` | Flexor Hallucis Brevis | Plantmed | S1–S2 | Big toe MTP flexion — intrinsic |
+| `FDB` | Flexor Digitorum Brevis | Plantmed | S1–S2 | Toes 2–5 PIP flexion — central plantar |
+| `Abd.Dig.Mn.F` | Abductor Digiti Minimi (foot) | Plantlat | S2–S3 | Little toe abduction + lateral arch |
+| `Lumb.T1` | Foot Lumbrical 1 | Plantmed | S2–S3 | Toe 2 MTP flex + IP extend |
+| `Lumb.T2` | Foot Lumbrical 2 | Plantlat | S2–S3 | Toe 3 MTP flex + IP extend |
+| `Lumb.T3` | Foot Lumbrical 3 | Plantlat | S2–S3 | Toe 4 MTP flex + IP extend |
+| `Lumb.T4` | Foot Lumbrical 4 | Plantlat | S2–S3 | Toe 5 MTP flex + IP extend |
+| `DI.T1` | First Dorsal Interosseous (foot) | Plantlat | S2–S3 | 2nd toe abduction |
+| `DI.T2` | Second Dorsal Interosseous (foot) | Plantlat | S2–S3 | 3rd toe abduction |
+
+#### Deep Spinal Stabilizers
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Multi` | Multifidus | DorsRami | C2–S5 | Deepest spinal extensor — segmental control |
+| `Rot.Br` | Rotatores Brevis | DorsRami | T1–T12 | Short rotators — proprioception dominant |
+| `Rot.Lg` | Rotatores Longus | DorsRami | T1–T12 | Long rotators — thoracic extension |
+| `Semispin` | Semispinalis | DorsRami | C2–T12 | Spans 5–6 segments — extension + rotation |
+| `Intertrans` | Intertransversarii | DorsRami/Vent | C2–L5 | Lateral stabilizers between vertebrae |
+| `Interspinal` | Interspinales | DorsRami | C2–L5 | Short extensors between spinous processes |
+| `Longi.Cap` | Longus Capitis | Cerv | C1–C3 | Deep cervical flexor — head on neck |
+| `Longi.Col` | Longus Colli | Cerv | C2–C6 | Deep cervical flexor — cervical on thoracic |
+
+#### Additional Nerve Symbols (LOD 3)
+| Symbol | Full Name |
+|--------|----------|
+| `Plantmed` | Medial Plantar Nerve |
+| `Plantlat` | Lateral Plantar Nerve |
+
+---
+
+## 4.4 LOD 4 — Research / Full Clinical
+
+Adds remaining named muscles for complete anatomical coverage. Primarily relevant for surgical simulation, full-body musculoskeletal modeling, and research-grade biomechanics.
+
+#### Remaining Hip / Thigh
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `ObExt` | Obturator Externus | Obturator | L3–L4 | External hip rotator — deep posterior |
+| `Pectin` | Pectineus | Fem/Obturator | L2–L3 | Hip flexion + adduction |
+| `GracilisM` | Gracilis | Obturator | L2–L3 | Adduction + knee flexion + IR |
+| `Add.Lg` | Adductor Longus | Obturator | L2–L4 | Anterior adductor — most palpable |
+| `Add.Br` | Adductor Brevis | Obturator | L2–L4 | Short adductor |
+| `Add.Mx` | Adductor Magnus | Obturator/Sci.T | L2–S1 | Large — split innervation, two portions |
+
+#### Remaining Lower Leg
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Per.T` | Peroneus (Fibularis) Tertius | Sci.P | L4–S1 | Weak dorsiflexor + eversion |
+| `Plant` | Plantaris | Sci.T | S1–S2 | Vestigial — knee flexion + plantarflexion |
+
+#### Deep Back (Remaining)
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Iliocos.Cerv` | Iliocostalis Cervicis | DorsRami | C4–C8 | Cervical portion of iliocostalis |
+| `Iliocos.Thor` | Iliocostalis Thoracis | DorsRami | T1–T12 | Thoracic portion |
+| `Iliocos.Lumb` | Iliocostalis Lumborum | DorsRami | L1–L5 | Lumbar portion — lateral erector |
+| `Longi.Cap` | Longissimus Capitis | DorsRami | C1–C8 | Head extension + rotation |
+| `Longi.Thor` | Longissimus Thoracis | DorsRami | T1–L5 | Largest erector component |
+| `Spin.Thor` | Spinalis Thoracis | DorsRami | T2–T12 | Medial erector — spinous process to spinous |
+
+#### Chest / Trunk (Remaining)
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Intercost.E` | External Intercostals | Intercostal | T1–T12 | Inspiration — rib elevation |
+| `Intercost.I` | Internal Intercostals | Intercostal | T1–T12 | Expiration — rib depression |
+| `Diaphragm` | Diaphragm | Phrenic | C3–C5 | Primary breathing muscle |
+| `SubCost` | Subcostales | Intercostal | T8–T12 | Deep expiratory |
+
+#### Additional Nerve Symbols (LOD 4)
+| Symbol | Full Name |
+|--------|----------|
+| `Phrenic` | Phrenic Nerve |
+
+---
+
+## 4.5 LOD Quick Reference
+
+When declaring LOD support in an implementation, use the following summary to determine which symbols must be recognized:
+
+```
+LOD 1 — 55 muscles  (v1.0–v1.4 symbols: chest, shoulder, arm, back, neck, face, cuff, quad, ham/glute, leg, core, pelvic floor)
+LOD 2 — +32 muscles (forearm ×13, finger extrinsics ×5, deep hip ×8, lower leg detail ×8, neck accessory ×6)
+LOD 3 — +38 muscles (thenar ×4, hypothenar ×3, lumbricals/interossei ×11, foot intrinsics ×11, deep spinal ×8, deep cervical ×1)
+LOD 4 — +24 muscles (adductor detail ×6, remaining lower leg ×2, erector components ×6, trunk/breathing ×4, misc ×6)
+```
+
+**Total at LOD 4: ~149 named muscles** across all body regions.
+
+---
+
 ## 5. Nerve Tags
 
 Nerve tags identify which peripheral nerves were active.
@@ -966,6 +1192,7 @@ Reference implementation: https://aiunites.github.io/bodspas-site/log.html
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.5.0 | March 15, 2026 | Added Section 4.1–4.5 — Muscle Level of Detail (LOD) framework: LOD 1 (Functional, ~55 muscles, existing symbols), LOD 2 (Anatomical, +32: forearm ×13, finger extrinsics ×5, deep hip ×8, lower leg ×8, neck accessory ×6), LOD 3 (High-Fidelity, +38: thenar ×4, hypothenar ×3, lumbricals/interossei ×11, foot intrinsics ×11, deep spinal ×8), LOD 4 (Research, +24: adductor detail, erector components, breathing muscles); LOD quick reference table; additional nerve symbols per LOD (Median, Ulnar, PIN, AIN, Plantmed, Plantlat, Phrenic). Total at LOD 4: ~149 named muscles. |
 | 1.4.0 | March 14, 2026 | Added Section 14 — Clinical Anatomy Extension (Genital Structures): male genital symbols (4), female genital symbols (7), anal canal symbols (3); 5 new nerve symbols (`CavN`, `CavN.C`, `DorsN.P`, `DorsN.C`, `IlioIng`); avatar default states table; activation level `0` defined for genital structures. Section marked as web-gated / login-required on bodspas-site. |
 | 1.3.0 | March 14, 2026 | Added pelvic floor & perineum muscle symbols (11 muscles, Section 4); added `Pud`, `InfRec`, `PelSpl` to nerve table (Section 5); pelvic floor note added to DOF summary (Section 6.4); added Section 11 — Pelvic Floor & Sphincter Examples with clinical, avatar seated pose, relaxation, and rehab contexts. Section numbering shifted. |
 | 1.2.0 | March 14, 2026 | Added facial expression muscle symbols (14 muscles, Section 4); added `CNVII` to nerve table (Section 5); added Section 10 — Facial Expression Examples with compact/full anatomy notation, combined body+face example, and FACS AU mapping table. Section numbering shifted accordingly. |
