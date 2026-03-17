@@ -744,6 +744,63 @@
       </div>
     </section>
 
+    <!-- COMP PATTERNS: Bench Press -->
+    <section class="mw-section">
+      <h2>Common Compensation Patterns — Bench Press</h2>
+      <p>The bench press is one of the most misloaded movements in the gym. The goal is pectoral dominance. The most common failure mode: <strong>anterior deltoid takeover</strong> — the shoulder drives the press instead of the chest.</p>
+      <p>BodWave notation makes this visible. Watch the difference in muscle activation between a correctly loaded press and a shoulder-compensated one:</p>
+
+      <div class="comp-grid">
+        <div class="comp-card correct">
+          <div class="comp-label correct-label">✓ Correct — Pec Dominant</div>
+          <div class="comp-mnn">{Push.H} [Con:Pec.S+++, Pec.C++, Tri++, Dlt.A+]<br>→ MedPec/LatPec/Rad</div>
+          <ul class="comp-list">
+            <li>Shoulder blades retracted and depressed</li>
+            <li>Elbows at ~55° — not flared to 90°</li>
+            <li>Sternal pec fires first and hardest</li>
+            <li>Anterior delt contributes minimally (+)</li>
+            <li>Sensation: chest squeezes bar together</li>
+          </ul>
+          <a href="https://aiunites.github.io/inthisworld-site/mnn-avatar.html" target="_blank" class="comp-link">▶ View Bench ✓ in MNN Avatar</a>
+        </div>
+        <div class="comp-card wrong">
+          <div class="comp-label wrong-label">✗ Compensation — Shoulder Dominant</div>
+          <div class="comp-mnn" style="border-color:rgba(220,38,38,0.4);color:#fca5a5">{Push.H} [Con:Dlt.A+++, Pec.S+, Tri+, Trp.U++]<br>[Comp:Dlt.A for Pec.S]</div>
+          <ul class="comp-list">
+            <li>Shoulders roll forward, blades protract</li>
+            <li>Elbows flare wide, shoulder takes load</li>
+            <li>Anterior delt drives the press (+++ vs +)</li>
+            <li>Upper trap activates to stabilize shoulder</li>
+            <li>Sensation: front of shoulder burns, not chest</li>
+          </ul>
+          <a href="https://aiunites.github.io/inthisworld-site/mnn-avatar.html" target="_blank" class="comp-link" style="border-color:rgba(220,38,38,0.35);color:#f87171">▶ View Bench ✗ in MNN Avatar</a>
+        </div>
+      </div>
+
+      <div class="comp-fix">
+        <h3>🔧 The Fix — BodWave Cue</h3>
+        <p>Before each rep, run this neural prime: <strong>retract your shoulder blades → actively push them down away from ears → pre-contract the lower pec</strong>. In BodWave notation:</p>
+        <div class="comp-mnn" style="margin:12px 0">[Con:Trp.L++, Trp.M++] → <em>hold 2s</em> → [Con:Pec.S+++] → press</div>
+        <p>If you can't feel the difference in your sternum vs. your shoulder, drop weight 40% and do 3 reps of slow eccentrics (3–4s down) with a hand on your chest. The proprioceptive feedback will retrain the motor recruitment pattern within 4–6 sessions.</p>
+      </div>
+    </section>
+
+    <style>
+      .comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin:25px 0}
+      .comp-card{border-radius:var(--radius-lg);padding:25px;border:1px solid var(--dark-border)}
+      .comp-card.correct{background:linear-gradient(135deg,rgba(34,197,94,0.06),rgba(34,197,94,0.02));border-color:rgba(34,197,94,0.25)}
+      .comp-card.wrong{background:linear-gradient(135deg,rgba(220,38,38,0.08),rgba(220,38,38,0.02));border-color:rgba(220,38,38,0.25)}
+      .comp-label{font-size:0.75rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px}
+      .correct-label{color:#4ade80}
+      .wrong-label{color:#f87171}
+      .comp-mnn{font-family:'Courier New',monospace;font-size:0.78rem;color:var(--accent);background:rgba(251,191,36,0.06);padding:10px 14px;border-radius:8px;border:1px solid rgba(251,191,36,0.2);margin-bottom:16px;line-height:1.6}
+      .comp-list{margin:0 0 16px 16px;color:var(--gray-light);font-size:0.9rem;line-height:2}
+      .comp-link{font-size:0.8rem;color:#4ade80;border:1px solid rgba(34,197,94,0.3);padding:6px 14px;border-radius:6px;text-decoration:none;display:inline-block;transition:all 0.15s}
+      .comp-link:hover{background:rgba(34,197,94,0.1)}
+      .comp-fix{background:var(--dark-light);border-radius:var(--radius-lg);padding:28px;border:1px solid var(--dark-border);border-left:4px solid var(--accent);margin-top:10px}
+      .comp-fix h3{font-size:1.1rem;margin-bottom:12px;color:var(--accent)}
+    </style>
+
     <!-- 6. The VNN Connection -->
     <section class="mw-section">
       <h2>The VoiceStry Connection</h2>
