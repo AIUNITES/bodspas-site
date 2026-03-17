@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BodWave Avatar — Muscle Focus Trainer | BodSpas</title>
+<meta name="description" content="See exactly which muscles fire during each exercise. BodWave Avatar shows correct vs. compensation muscle activation patterns using MNN notation.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a0404; --panel:#140808; --card:#1c0c0c;
+    --border:rgba(220,38,38,0.2); --red:#dc2626; --red-dim:#b91c1c;
+    --red-faint:#2a0808; --orange:#f97316; --orange-dim:#ea580c;
+    --green:#22c55e; --text:#f1d0d0; --text-dim:#7a4444;
+    --gold:#c8a84b; --gold-light:#e8d5a3; --gold-dark:#7a5010;
+    --font-mono:'Share Tech Mono','Courier New',monospace;
+    --font-head:'Orbitron',sans-serif;
+    --font-body:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-mono);height:100vh;overflow:hidden;user-select:none;}
+
+  /* ── MOBILE ── */
+  @media (max-width:768px){
+    body{overflow:hidden;}
+    .header{height:38px;padding:6px 12px;gap:10px;}
+    .header-sub,.header-version{display:none;}
+    .main{flex-direction:column;height:calc(100vh - 38px);}
+    .avatar-panel{flex:0 0 auto;height:52vw;min-height:180px;max-height:260px;border-right:none;border-bottom:1px solid var(--border);width:100%;}
+    #avatar-svg{width:100%;height:100%;max-height:250px;}
+    .style-selector{bottom:3px;}
+    .style-btn{font-size:8px;padding:3px 7px;}
+    .control-panel{flex:1;min-height:0;}
+    .tabs{overflow-x:auto;}
+    .tabs::-webkit-scrollbar{display:none;}
+    .tab{padding:8px 10px;font-size:9px;white-space:nowrap;}
+    .tab-content{overflow-y:auto;}
+    .learn-card{padding:12px;}
+    .learn-desc{font-size:11px;}
+    .anim-grid{grid-template-columns:1fr 1fr;}
+  }
+
+  .header{display:flex;align-items:center;gap:16px;padding:8px 20px;background:linear-gradient(90deg,#0f0404,#1a0808);border-bottom:1px solid var(--border);height:42px;flex-shrink:0;}
+  .header-back{font-size:10px;color:var(--text-dim);letter-spacing:1px;text-decoration:none;border:1px solid var(--border);padding:2px 10px;border-radius:2px;transition:all 0.15s;white-space:nowrap;}
+  .header-back:hover{color:var(--red);border-color:var(--red);}
+  .header-logo{font-family:var(--font-head);font-size:13px;color:var(--red);letter-spacing:3px;}
+  .header-sub{font-size:10px;color:var(--text-dim);letter-spacing:1px;}
+  .header-version{margin-left:auto;font-size:10px;color:var(--orange);border:1px solid var(--border);padding:2px 8px;border-radius:2px;}
+
+  .main{display:flex;height:calc(100vh - 42px);}
+
+  /* ── AVATAR PANEL ── */
+  .avatar-panel{flex:0 0 460px;background:radial-gradient(ellipse at 50% 30%,#1a0808 0%,#0a0404 70%);border-right:1px solid var(--border);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+  .avatar-panel::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(220,38,38,0.03) 39px,rgba(220,38,38,0.03) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(220,38,38,0.03) 39px,rgba(220,38,38,0.03) 40px);pointer-events:none;}
+  .view-tag{position:absolute;top:12px;left:16px;font-size:9px;color:var(--text-dim);letter-spacing:3px;border:1px solid var(--red-faint);padding:3px 8px;}
+  .anim-label-display{position:absolute;top:12px;right:16px;font-size:10px;color:var(--orange);letter-spacing:1px;max-width:180px;text-align:right;line-height:1.3;}
+  .corner-tl,.corner-tr,.corner-bl,.corner-br{position:absolute;width:16px;height:16px;border-color:var(--red);border-style:solid;opacity:0.4;}
+  .corner-tl{top:6px;left:6px;border-width:1px 0 0 1px;}
+  .corner-tr{top:6px;right:6px;border-width:1px 1px 0 0;}
+  .corner-bl{bottom:6px;left:6px;border-width:0 0 1px 1px;}
+  .corner-br{bottom:6px;right:6px;border-width:0 1px 1px 0;}
+  #avatar-svg{width:440px;height:500px;overflow:visible;}
+
+  .style-selector{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:10;}
+  .style-btn{padding:4px 12px;font-size:9px;letter-spacing:2px;font-family:var(--font-head);background:rgba(10,4,4,0.9);border:1px solid rgba(220,38,38,0.2);color:var(--text-dim);cursor:pointer;transition:all 0.15s;border-radius:2px;}
+  .style-btn:hover{color:var(--red);border-color:var(--red);}
+  .style-btn.active{color:var(--gold-light);border-color:var(--gold);background:rgba(200,168,75,0.12);}
+
+  /* ── CONTROL PANEL ── */
+  .control-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+  .tabs{display:flex;border-bottom:1px solid var(--border);background:var(--panel);flex-shrink:0;}
+  .tab{padding:10px 20px;font-size:10px;letter-spacing:2px;color:var(--text-dim);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.15s;}
+  .tab:hover{color:var(--text);}
+  .tab.active{color:var(--orange);border-bottom-color:var(--orange);background:rgba(249,115,22,0.04);}
+  .tab-content{display:none;flex:1;overflow:hidden;flex-direction:column;}
+  .tab-content.active{display:flex;}
+
+  /* ── LEARN TAB ── */
+  .learn-scroll{flex:1;overflow-y:auto;}
+  .learn-card{padding:16px 20px;border-bottom:1px solid var(--border);}
+  .learn-card.active-card{background:rgba(249,115,22,0.04);border-left:3px solid var(--orange);}
+  .learn-card.comp-card{border-left:3px solid var(--red);}
+  .learn-card-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .learn-badge{font-size:9px;letter-spacing:2px;padding:2px 8px;border-radius:2px;font-family:var(--font-head);flex-shrink:0;}
+  .badge-correct{background:rgba(34,197,94,0.12);color:#4ade80;border:1px solid rgba(34,197,94,0.3);}
+  .badge-wrong{background:rgba(220,38,38,0.12);color:#f87171;border:1px solid rgba(220,38,38,0.3);}
+  .badge-normal{background:rgba(249,115,22,0.1);color:var(--orange);border:1px solid rgba(249,115,22,0.25);}
+  .learn-title{font-size:12px;color:var(--text);letter-spacing:1px;}
+  .learn-desc{font-size:11px;color:var(--text-dim);line-height:1.7;margin-bottom:10px;font-family:var(--font-body);}
+  .learn-mnn{font-size:9px;color:var(--gold);background:rgba(200,168,75,0.05);border:1px solid rgba(200,168,75,0.15);padding:6px 10px;border-radius:3px;line-height:1.6;margin-bottom:10px;}
+  .learn-play-btn{padding:5px 16px;font-size:9px;letter-spacing:2px;font-family:var(--font-head);background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);color:var(--orange);cursor:pointer;border-radius:2px;transition:all 0.15s;}
+  .learn-play-btn:hover{background:rgba(249,115,22,0.2);}
+  .learn-play-btn.playing{background:rgba(249,115,22,0.2);border-color:var(--orange);}
+  .playback-bar{display:flex;align-items:center;gap:8px;padding:10px 20px;border-top:1px solid var(--border);background:var(--panel);flex-shrink:0;}
+  .pb-btn{padding:5px 14px;font-size:9px;letter-spacing:2px;font-family:var(--font-head);background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);color:var(--red);cursor:pointer;border-radius:2px;transition:all 0.15s;}
+  .pb-btn:hover{background:rgba(220,38,38,0.2);}
+  .pb-btn.active-pb{background:rgba(220,38,38,0.2);border-color:var(--red);}
+  .pb-label{font-size:9px;color:var(--text-dim);letter-spacing:1px;flex:1;}
+  .pb-loop{padding:4px 10px;font-size:8px;letter-spacing:1px;font-family:var(--font-head);background:transparent;border:1px solid var(--border);color:var(--text-dim);cursor:pointer;border-radius:2px;transition:all 0.15s;}
+  .pb-loop.loop-on{color:var(--orange);border-color:var(--orange);background:rgba(249,115,22,0.08);}
+
+  /* ── MUSCLES TAB ── */
+  .muscle-scroll{flex:1;overflow-y:auto;padding:14px 18px;}
+  .muscle-section-title{font-size:9px;letter-spacing:3px;color:var(--text-dim);margin-bottom:10px;margin-top:14px;}
+  .muscle-section-title:first-child{margin-top:0;}
+  .muscle-list{display:flex;flex-direction:column;gap:5px;margin-bottom:8px;}
+  .muscle-row{display:flex;align-items:center;gap:8px;font-size:10px;}
+  .muscle-sym{width:72px;color:var(--orange);font-size:9px;}
+  .muscle-name-full{flex:1;color:var(--text-dim);font-size:9px;font-family:var(--font-body);}
+  .muscle-bar-bg{width:80px;height:6px;background:var(--card);border:1px solid var(--border);flex-shrink:0;}
+  .muscle-bar{height:100%;transition:width 0.3s;}
+  .muscle-level{width:24px;text-align:right;font-size:9px;flex-shrink:0;}
+  .muscle-level.l1{color:rgba(249,115,22,0.6);}
+  .muscle-level.l2{color:var(--orange);}
+  .muscle-level.l3{color:var(--red);text-shadow:0 0 4px var(--red);}
+  .muscle-empty{color:var(--text-dim);font-size:10px;font-style:italic;}
+  .muscles-footer{padding:12px 18px;border-top:1px solid var(--border);font-size:8px;color:var(--text-dim);letter-spacing:1px;line-height:1.6;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="bodwave.html" class="header-back">← BodWave</a>
+  <div class="header-logo">💪 BODWAVE AVATAR</div>
+  <div class="header-sub">MUSCLE FOCUS TRAINER · MNN v1.1</div>
+  <div class="header-version">VITRUV · LOD 1</div>
+</div>
+
+<div class="main">
+
+  <!-- AVATAR -->
+  <div class="avatar-panel">
+    <div class="corner-tl"></div><div class="corner-tr"></div>
+    <div class="corner-bl"></div><div class="corner-br"></div>
+    <div class="view-tag" id="view-tag">VITRUV · ANTERIOR</div>
+    <div class="anim-label-display" id="anim-label-display"></div>
+    <svg id="avatar-svg" viewBox="0 0 460 520" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="2.5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow-sm" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="1.5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="glow-muscle" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="9" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <g id="avatar-render"></g>
+    </svg>
+    <div class="style-selector">
+      <button class="style-btn active" onclick="setStyle('vitruv',this)">VITRUV</button>
+      <button class="style-btn" onclick="setStyle('wire',this)">WIRE</button>
+      <button class="style-btn" onclick="setStyle('bulk',this)">BULK</button>
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="control-panel">
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('learn')">LEARN</div>
+      <div class="tab" onclick="switchTab('muscles')">MUSCLES</div>
+    </div>
+
+    <!-- LEARN TAB -->
+    <div class="tab-content active" id="tab-learn">
+      <div class="learn-scroll" id="learn-scroll"></div>
+      <div class="playback-bar">
+        <button class="pb-btn" id="pb-play" onclick="pbToggle()">▶ PLAY</button>
+        <button class="pb-btn" id="pb-stop" onclick="pbStop()">■ STOP</button>
+        <span class="pb-label" id="pb-label">Select an exercise above</span>
+        <button class="pb-loop" id="pb-loop" onclick="pbToggleLoop(this)">∞ LOOP</button>
+      </div>
+    </div>
+
+    <!-- MUSCLES TAB -->
+    <div class="tab-content" id="tab-muscles">
+      <div class="muscle-scroll">
+        <div class="muscle-section-title">ACTIVE MUSCLES</div>
+        <div id="muscle-list"><div class="muscle-empty">Play an animation to see muscle activation</div></div>
+      </div>
+      <div class="muscles-footer">
+        ORANGE = active · +/++/+++ = motor unit recruitment level<br>
+        MNN (Muscular Neuro Notation) © 2026 BodSpas / AIUNITES
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+const DEG = Math.PI / 180;
+let currentStyle = 'vitruv';
+const defaultState = {
+  'Sp.L':{Flex:0,Lat:0,Rot:0},'Sp.T':{Flex:0,Lat:0,Rot:0},'Sp.C':{Flex:0,Lat:0,Rot:0},
+  'L.Sh':{Flex:0,Abd:90,IR:0,ER:0},'R.Sh':{Flex:0,Abd:90,IR:0,ER:0},
+  'L.El':{Flex:0},'R.El':{Flex:0},
+  'L.Wr':{Flex:0,Rad:0,Uln:0},'R.Wr':{Flex:0,Rad:0,Uln:0},
+  'L.Hip':{Flex:0,Abd:5,IR:0,ER:0},'R.Hip':{Flex:0,Abd:5,IR:0,ER:0},
+  'L.Kn':{Flex:0},'R.Kn':{Flex:0},
+  'L.Ank':{Dors:0,Plan:5},'R.Ank':{Dors:0,Plan:5},
+  'TMJ':{Open:0},
+};
+let joints = JSON.parse(JSON.stringify(defaultState));
+let muscles = {};
+let rawCache = null;
+
+// ============================================================
+// ANIMATION ENGINE
+// ============================================================
+let animKF=[], animFrame=0, animT=0, animPlaying=false, animLoop=true;
+let animRafId=null, animLastTime=null, currentAnimKey=null;
+
+const EASINGS = {
+  'ease-bio':   t=>t<0.5?2*t*t*(1.5-t):1-Math.pow(-2*t+2,2)/2,
+  'ease-linear':t=>t,
+  'ease-snap':  t=>t<0.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,
+  'ease-in':    t=>t*t*t,
+  'ease-out':   t=>1-Math.pow(1-t,3),
+  'ease-spring':t=>{const c=2*Math.PI/3;return t===0?0:t===1?1:Math.pow(2,-10*t)*Math.sin((t*10-0.75)*c)+1;},
+};
+
+function lerpJoints(a,b,t){
+  const out={};
+  new Set([...Object.keys(a),...Object.keys(b)]).forEach(j=>{
+    out[j]={};
+    const fa=a[j]||{},fb=b[j]||{};
+    new Set([...Object.keys(fa),...Object.keys(fb)]).forEach(ax=>{
+      out[j][ax]=(fa[ax]??0)+((fb[ax]??0)-(fa[ax]??0))*t;
+    });
+  });
+  return out;
+}
+
+function mergeJoints(base,ovr){
+  const out=JSON.parse(JSON.stringify(base));
+  Object.entries(ovr).forEach(([j,axes])=>{if(!out[j])out[j]={};Object.assign(out[j],axes);});
+  return out;
+}
+
+function animStep(ts){
+  if(!animPlaying||animKF.length<2)return;
+  if(animLastTime===null)animLastTime=ts;
+  const dt=ts-animLastTime; animLastTime=ts;
+  const kf=animKF[animFrame];
+  animT+=dt/kf.duration;
+  if(animT>=1){
+    animT=1;
+    joints=JSON.parse(JSON.stringify(animKF[animFrame+1].joints));
+    muscles={...(animKF[animFrame+1].muscles||{})};
+    animFrame++;
+    if(animFrame>=animKF.length-1){
+      if(animLoop){animFrame=0;animT=0;}
+      else{animPlaying=false;animLastTime=null;updatePbUI();render();updateMuscleDisplay();return;}
+    } else {animT=0;}
+    updateMuscleDisplay();
+  } else {
+    const et=(EASINGS[kf.easing]||EASINGS['ease-bio'])(animT);
+    joints=lerpJoints(animKF[animFrame].joints,animKF[animFrame+1].joints,et);
+    const cm=animKF[animFrame].muscles||{},nm=animKF[animFrame+1].muscles||{};
+    muscles=Object.keys({...cm,...nm}).reduce((acc,k)=>{
+      acc[k]=Math.round((cm[k]||0)+((nm[k]||0)-(cm[k]||0))*et);return acc;},{});
+  }
+  render();
+  animRafId=requestAnimationFrame(animStep);
+}
+
+function pbPlay(){
+  if(animKF.length<2)return;
+  animPlaying=true;animFrame=0;animT=0;animLastTime=null;
+  joints=JSON.parse(JSON.stringify(animKF[0].joints));
+  muscles={...(animKF[0].muscles||{})};
+  updatePbUI();updateMuscleDisplay();
+  animRafId=requestAnimationFrame(animStep);
+}
+
+function pbStop(){
+  animPlaying=false;
+  if(animRafId)cancelAnimationFrame(animRafId);
+  animRafId=null;animLastTime=null;animFrame=0;animT=0;
+  updatePbUI();
+}
+
+function pbToggle(){
+  if(animPlaying)pbStop();else pbPlay();
+}
+
+function pbToggleLoop(btn){
+  animLoop=!animLoop;
+  btn.classList.toggle('loop-on',animLoop);
+  btn.textContent=animLoop?'∞ LOOP ON':'∞ LOOP';
+}
+
+function updatePbUI(){
+  const pb=document.getElementById('pb-play');
+  if(pb)pb.textContent=animPlaying?'⏸ PAUSE':'▶ PLAY';
+}
+
+function loadAnim(key){
+  pbStop();
+  const seq=EXERCISES[key];
+  if(!seq)return;
+  currentAnimKey=key;
+  animLoop=seq.loop!==false;
+  const loopBtn=document.getElementById('pb-loop');
+  if(loopBtn){loopBtn.classList.toggle('loop-on',animLoop);loopBtn.textContent=animLoop?'∞ LOOP ON':'∞ LOOP';}
+  const lbl=document.getElementById('pb-label');
+  if(lbl)lbl.textContent=seq.label;
+  const animLbl=document.getElementById('anim-label-display');
+  if(animLbl)animLbl.textContent=seq.label;
+  animKF=seq.keyframes.map(kf=>{
+    const parsed=parseMNN(kf.mnn);
+    return{joints:mergeJoints(defaultState,parsed.joints),muscles:kf.muscles||{},duration:kf.duration,easing:kf.easing||seq.easing||'ease-bio'};
+  });
+  // Update card highlights
+  document.querySelectorAll('.learn-card').forEach(c=>c.classList.remove('active-card'));
+  const card=document.getElementById('card-'+key);
+  if(card){card.classList.add('active-card');card.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  document.querySelectorAll('.learn-play-btn').forEach(b=>{b.textContent='▶ PLAY';b.classList.remove('playing');});
+  const btn=document.getElementById('btn-'+key);
+  if(btn){btn.textContent='⏸ PLAYING';btn.classList.add('playing');}
+  pbPlay();
+}
+
+// ============================================================
+// MNN PARSER (minimal — positions + muscles only)
+// ============================================================
+function parseMNN(str){
+  const result={joints:{},muscles:{}};
+  for(const block of [...str.matchAll(/\[Pos:([^\]]+)\]/g)]){
+    for(const jm of [...block[1].matchAll(/([LRBi]*\.?[A-Za-z.]+)\(([^)]+)\)/g)]){
+      const axes={};
+      for(const am of [...jm[2].matchAll(/([A-Za-z]+):\s*(-?\d+)/g)])axes[am[1]]=parseInt(am[2]);
+      result.joints[jm[1].trim()]=axes;
+    }
+  }
+  for(const block of [...str.matchAll(/\[Con:([^\]]+)\]/g)]){
+    for(const part of block[1].split(',')){
+      const cm=part.trim().match(/^([A-Za-z.]+)(\++)/);
+      if(cm)result.muscles[cm[1].trim()]=cm[2].length;
+    }
+  }
+  return result;
+}
+
+// ============================================================
+// EXERCISES — Educational compensation patterns
+// ============================================================
+const EXERCISES = {
+  bench_correct:{
+    label:'Bench Press ✓ — Pec Dominant',
+    badge:'correct',
+    desc:'Shoulder blades retracted and depressed. Elbows at ~55°, not flared. Sternal pec fires first and hardest. Anterior delt contributes minimally.',
+    cue:'Feel the bar being squeezed inward — chest contracts, not shoulders.',
+    mnn:'{Push.H} [Con:Pec.S+++, Pec.C++, Tri++, Dlt.A+] → MedPec/LatPec',
+    loop:true, easing:'ease-bio',
+    keyframes:[
+      {mnn:'[Pos:L.Sh(Abd:55,Flex:0) R.Sh(Abd:55,Flex:0) L.El(Flex:90) R.El(Flex:90)]',muscles:{'Pec.S':3,'Pec.C':2,'Tri':1},duration:400},
+      {mnn:'[Pos:L.Sh(Abd:55,Flex:5) R.Sh(Abd:55,Flex:5) L.El(Flex:15) R.El(Flex:15)]',muscles:{'Pec.S':3,'Pec.C':3,'Tri':2,'Dlt.A':1},duration:1000},
+      {mnn:'[Pos:L.Sh(Abd:55,Flex:5) R.Sh(Abd:55,Flex:5) L.El(Flex:5) R.El(Flex:5)]',muscles:{'Pec.S':2,'Tri':3},duration:400},
+      {mnn:'[Pos:L.Sh(Abd:55,Flex:0) R.Sh(Abd:55,Flex:0) L.El(Flex:90) R.El(Flex:90)]',muscles:{'Pec.S':2,'Pec.C':1,'Tri':1},duration:900},
+    ],
+  },
+  bench_wrong:{
+    label:'Bench Press ✗ — Shoulder Takeover',
+    badge:'wrong',
+    desc:'Shoulders roll forward, blades protract. Elbows flare wide. Anterior delt drives the press instead of the chest. You feel it in the front of the shoulder, not the sternum.',
+    cue:'[Comp:Dlt.A for Pec.S] — shoulder compensating for a weak mind-muscle connection to the pecs.',
+    mnn:'{Push.H} [Con:Dlt.A+++, Pec.S+, Trp.U++] [Comp:Dlt.A for Pec.S]',
+    loop:true, easing:'ease-bio',
+    keyframes:[
+      {mnn:'[Pos:L.Sh(Abd:75,Flex:15) R.Sh(Abd:75,Flex:15) L.El(Flex:90) R.El(Flex:90)]',muscles:{'Pec.S':1,'Dlt.A':2,'Trp.U':1},duration:400},
+      {mnn:'[Pos:L.Sh(Abd:75,Flex:45) R.Sh(Abd:75,Flex:45) L.El(Flex:30) R.El(Flex:30)]',muscles:{'Dlt.A':3,'Pec.S':1,'Pec.C':1,'Tri':1,'Trp.U':2},duration:1000},
+      {mnn:'[Pos:L.Sh(Abd:75,Flex:50) R.Sh(Abd:75,Flex:50) L.El(Flex:10) R.El(Flex:10)]',muscles:{'Dlt.A':3,'Tri':2,'Pec.S':1},duration:400},
+      {mnn:'[Pos:L.Sh(Abd:75,Flex:15) R.Sh(Abd:75,Flex:15) L.El(Flex:90) R.El(Flex:90)]',muscles:{'Dlt.A':1,'Pec.S':1},duration:900},
+    ],
+  },
+  squat_correct:{
+    label:'Squat ✓ — Quad + Glute Drive',
+    badge:'correct',
+    desc:'Hip crease below parallel. Knees track toes. Glutes and quads fire together. Upper trap stays relaxed. Drive through the whole foot.',
+    cue:'Push the floor away — feel both quads and glutes working from the bottom of the hole.',
+    mnn:'{Squat} [Con:Quad.RF+++, Quad.VL+++, Glu.Mx++, Ham++]',
+    loop:true, easing:'ease-bio',
+    keyframes:[
+      {mnn:'[Pos:L.Hip(Flex:0,Abd:5) R.Hip(Flex:0,Abd:5) L.Kn(Flex:0) R.Kn(Flex:0) L.Sh(Abd:0) R.Sh(Abd:0)]',muscles:{},duration:400},
+      {mnn:'[Pos:L.Hip(Flex:90,Abd:20) R.Hip(Flex:90,Abd:20) L.Kn(Flex:100) R.Kn(Flex:100) L.Sh(Abd:80,Flex:40) R.Sh(Abd:80,Flex:40) Sp.L(Flex:15)]',muscles:{'Quad.RF':3,'Quad.VL':3,'Glu.Mx':2,'Ham':2},duration:1800},
+      {mnn:'[Pos:L.Hip(Flex:0,Abd:5) R.Hip(Flex:0,Abd:5) L.Kn(Flex:0) R.Kn(Flex:0) L.Sh(Abd:0) R.Sh(Abd:0) Sp.L(Flex:0)]',muscles:{'Quad.RF':2,'Glu.Mx':3},duration:1500},
+    ],
+  },
+  squat_wrong:{
+    label:'Squat ✗ — Quad Dominant, Glutes Off',
+    badge:'wrong',
+    desc:'Knees cave inward, heels rise, torso pitches forward. Upper trap overworks to compensate. Glutes barely fire — all load falls on quads and lower back.',
+    cue:'[Comp:Quad.RF for Glu.Mx] — quad compensation pattern. Lower back will pay the price.',
+    mnn:'{Squat} [Con:Quad.RF+++, Trp.U++, Rect.Ab++] [Comp:Quad.RF for Glu.Mx]',
+    loop:true, easing:'ease-bio',
+    keyframes:[
+      {mnn:'[Pos:L.Hip(Flex:0,Abd:0) R.Hip(Flex:0,Abd:0) L.Kn(Flex:0) R.Kn(Flex:0)]',muscles:{},duration:400},
+      {mnn:'[Pos:L.Hip(Flex:70,Abd:0) R.Hip(Flex:70,Abd:0) L.Kn(Flex:110) R.Kn(Flex:110) Sp.L(Flex:30)]',muscles:{'Quad.RF':3,'Trp.U':2,'Rect.Ab':2,'Glu.Mx':1},duration:1800},
+      {mnn:'[Pos:L.Hip(Flex:0,Abd:0) R.Hip(Flex:0,Abd:0) L.Kn(Flex:0) R.Kn(Flex:0) Sp.L(Flex:0)]',muscles:{'Quad.RF':2},duration:1500},
+    ],
+  },
+  curl_correct:{
+    label:'Bicep Curl ✓ — Isolated Contraction',
+    badge:'correct',
+    desc:'Elbow pinned to side. Upper arm still. Full range from extension to peak contraction. Only the bicep works — delt is quiet.',
+    cue:'Imagine your elbow is nailed to your hip — only the forearm moves.',
+    mnn:'{Pull.V} [Con:Bic+++, Dlt.A+] → MusCut',
+    loop:true, easing:'ease-bio',
+    keyframes:[
+      {mnn:'[Pos:L.Sh(Abd:5) L.El(Flex:0) R.Sh(Abd:5) R.El(Flex:0)]',muscles:{},duration:500},
+      {mnn:'[Pos:L.El(Flex:135) R.El(Flex:135)]',muscles:{'Bic':3,'Dlt.A':1},duration:600},
+      {mnn:'[Pos:L.El(Flex:0) R.El(Flex:0)]',muscles:{'Tri':1},duration:800},
+    ],
+  },
+  curl_wrong:{
+    label:'Bicep Curl ✗ — Shoulder Swing',
+    badge:'wrong',
+    desc:'Upper arm swings forward, using momentum. Shoulder flexes to "help" the curl. Bicep gets partial credit — anterior delt is doing half the work.',
+    cue:'[Comp:Dlt.A for Bic] — ego lift pattern. Drop the weight 30% and feel the difference.',
+    mnn:'{Pull.V} [Con:Dlt.A+++, Bic++] [Comp:Dlt.A for Bic]',
+    loop:true, easing:'ease-snap',
+    keyframes:[
+      {mnn:'[Pos:L.Sh(Abd:5,Flex:0) L.El(Flex:0) R.Sh(Abd:5,Flex:0) R.El(Flex:0)]',muscles:{},duration:300},
+      {mnn:'[Pos:L.Sh(Abd:5,Flex:40) L.El(Flex:100) R.Sh(Abd:5,Flex:40) R.El(Flex:100)]',muscles:{'Dlt.A':3,'Bic':2},duration:400},
+      {mnn:'[Pos:L.Sh(Abd:5,Flex:0) L.El(Flex:0) R.Sh(Abd:5,Flex:0) R.El(Flex:0)]',muscles:{'Dlt.A':1},duration:600},
+    ],
+  },
+  ohpress_correct:{
+    label:'Overhead Press ✓ — Delt Dominant',
+    badge:'correct',
+    desc:'Bar path vertical. Core braced. Deltoids and triceps drive the press. Upper trap fires for scapular upward rotation — this is correct, not compensation.',
+    cue:'Press your head through at the top — ears in line with arms. Glutes squeezed throughout.',
+    mnn:'{Push.V} [Con:Dlt.A+++, Dlt.L++, Tri++, Trp.U++]',
+    loop:true, easing:'ease-bio',
+    keyframes:[
+      {mnn:'[Pos:L.Sh(Abd:70,Flex:10) R.Sh(Abd:70,Flex:10) L.El(Flex:90) R.El(Flex:90)]',muscles:{'Dlt.A':1},duration:500},
+      {mnn:'[Pos:L.Sh(Abd:175,Flex:10) R.Sh(Abd:175,Flex:10) L.El(Flex:12) R.El(Flex:12)]',muscles:{'Dlt.A':3,'Dlt.L':2,'Tri':2,'Trp.U':2},duration:900},
+      {mnn:'[Pos:L.Sh(Abd:70,Flex:10) R.Sh(Abd:70,Flex:10) L.El(Flex:90) R.El(Flex:90)]',muscles:{'Tri':1},duration:1000},
+    ],
+  },
+  lat_correct:{
+    label:'Lat Pulldown ✓ — Lat Dominant',
+    badge:'correct',
+    desc:'Elbows drive down and back. Shoulder blades depress before arms pull. Chest stays up. Lats initiate the pull — biceps are just hooks.',
+    cue:'Imagine bending the bar over your back. Feel lats fire before your hands move.',
+    mnn:'{Pull.V} [Con:Lat+++, Trp.L++, Bic+] → ThDors',
+    loop:true, easing:'ease-bio',
+    keyframes:[
+      {mnn:'[Pos:L.Sh(Abd:90,Flex:160) R.Sh(Abd:90,Flex:160) L.El(Flex:10) R.El(Flex:10)]',muscles:{},duration:500},
+      {mnn:'[Pos:L.Sh(Abd:55,Flex:10) R.Sh(Abd:55,Flex:10) L.El(Flex:100) R.El(Flex:100)]',muscles:{'Lat':3,'Trp.L':2,'Bic':1},duration:900},
+      {mnn:'[Pos:L.Sh(Abd:90,Flex:160) R.Sh(Abd:90,Flex:160) L.El(Flex:10) R.El(Flex:10)]',muscles:{},duration:800},
+    ],
+  },
+  lat_wrong:{
+    label:'Lat Pulldown ✗ — Bicep Dominant',
+    badge:'wrong',
+    desc:'Arms pull while lats stay asleep. Elbows bend aggressively. Biceps dominate the movement. Shoulders may shrug to assist.',
+    cue:'[Comp:Bic for Lat] — extremely common. The lats aren\'t "connected" yet. Try scapular depressions first.',
+    mnn:'{Pull.V} [Con:Bic+++, Trp.U++, Lat+] [Comp:Bic for Lat]',
+    loop:true, easing:'ease-bio',
+    keyframes:[
+      {mnn:'[Pos:L.Sh(Abd:90,Flex:155) R.Sh(Abd:90,Flex:155) L.El(Flex:10) R.El(Flex:10)]',muscles:{},duration:500},
+      {mnn:'[Pos:L.Sh(Abd:80,Flex:40) R.Sh(Abd:80,Flex:40) L.El(Flex:130) R.El(Flex:130)]',muscles:{'Bic':3,'Trp.U':2,'Lat':1},duration:900},
+      {mnn:'[Pos:L.Sh(Abd:90,Flex:155) R.Sh(Abd:90,Flex:155) L.El(Flex:10) R.El(Flex:10)]',muscles:{},duration:800},
+    ],
+  },
+};
+
+// ============================================================
+// BUILD LEARN TAB
+// ============================================================
+function buildLearnTab(){
+  const scroll=document.getElementById('learn-scroll');
+  const sections=[
+    {title:'BENCH PRESS', keys:['bench_correct','bench_wrong']},
+    {title:'SQUAT', keys:['squat_correct','squat_wrong']},
+    {title:'BICEP CURL', keys:['curl_correct','curl_wrong']},
+    {title:'OVERHEAD PRESS', keys:['ohpress_correct']},
+    {title:'LAT PULLDOWN', keys:['lat_correct','lat_wrong']},
+  ];
+  let html='';
+  sections.forEach(sec=>{
+    html+=`<div style="padding:8px 20px 4px;font-size:8px;letter-spacing:3px;color:var(--text-dim);border-bottom:1px solid var(--border)">${sec.title}</div>`;
+    sec.keys.forEach(key=>{
+      const ex=EXERCISES[key];
+      const badgeClass=ex.badge==='correct'?'badge-correct':ex.badge==='wrong'?'badge-wrong':'badge-normal';
+      const badgeText=ex.badge==='correct'?'CORRECT':ex.badge==='wrong'?'COMPENSATION':'EXERCISE';
+      html+=`<div class="learn-card" id="card-${key}">
+        <div class="learn-card-header">
+          <span class="learn-badge ${badgeClass}">${badgeText}</span>
+          <span class="learn-title">${ex.label}</span>
+        </div>
+        <div class="learn-desc">${ex.desc}</div>
+        <div class="learn-mnn">${ex.mnn}</div>
+        <div style="font-size:10px;color:var(--text-dim);font-style:italic;margin-bottom:10px;font-family:var(--font-body)">"${ex.cue}"</div>
+        <button class="learn-play-btn" id="btn-${key}" onclick="loadAnim('${key}')">▶ PLAY</button>
+      </div>`;
+    });
+  });
+  scroll.innerHTML=html;
+}
+
+// ============================================================
+// MUSCLE DISPLAY
+// ============================================================
+const muscleNames={
+  'Pec.S':'Pectoralis (Sternal)','Pec.C':'Pectoralis (Clavicular)',
+  'Dlt.A':'Deltoid (Anterior)','Dlt.L':'Deltoid (Lateral)',
+  'Tri':'Triceps','Bic':'Biceps','Lat':'Latissimus Dorsi',
+  'Trp.U':'Trapezius (Upper)','Trp.L':'Trapezius (Lower)',
+  'Trp.M':'Trapezius (Mid)','Rect.Ab':'Rectus Abdominis',
+  'Glu.Mx':'Gluteus Maximus','Quad.RF':'Quadriceps (RF)',
+  'Quad.VL':'Quadriceps (VL)','Ham':'Hamstrings',
+  'Gas':'Gastrocnemius','Sol':'Soleus',
+};
+function updateMuscleDisplay(){
+  const list=document.getElementById('muscle-list');
+  const entries=Object.entries(muscles).filter(([,v])=>v>0).sort(([,a],[,b])=>b-a);
+  if(!entries.length){list.innerHTML='<div class="muscle-empty">No muscles activated</div>';return;}
+  list.innerHTML=entries.map(([sym,level])=>{
+    const pct=level*33;
+    const barColor=['','rgba(249,115,22,0.5)','var(--orange)','var(--red)'][level];
+    const lc=['','l1','l2','l3'][level];
+    const fullName=muscleNames[sym]||sym;
+    return `<div class="muscle-row">
+      <div class="muscle-sym">${sym}</div>
+      <div class="muscle-name-full">${fullName}</div>
+      <div class="muscle-bar-bg"><div class="muscle-bar" style="width:${pct}%;background:${barColor}"></div></div>
+      <div class="muscle-level ${lc}">${'+'.repeat(level)}</div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// KINEMATICS
+// ============================================================
+function calcPositions(j){
+  const cx=230,pelvisY=365;
+  const spLat=(j['Sp.L']?.Lat||0)*DEG,spCFlex=(j['Sp.C']?.Flex||0)*DEG;
+  const sba=-Math.PI/2+spLat;
+  const pelvis={x:cx,y:pelvisY};
+  const lumbar={x:pelvis.x+45*Math.cos(sba),y:pelvis.y+45*Math.sin(sba)};
+  const thoracic={x:lumbar.x+72*Math.cos(sba),y:lumbar.y+72*Math.sin(sba)};
+  const na=sba+spCFlex*0.5;
+  const neck={x:thoracic.x+26*Math.cos(na),y:thoracic.y+26*Math.sin(na)};
+  const headCenter={x:neck.x+18*Math.cos(na),y:neck.y+18*Math.sin(na)};
+  const pa=sba+Math.PI/2,shW=58,hipW=30;
+  const lSh={x:thoracic.x+shW*Math.cos(pa+Math.PI),y:thoracic.y+shW*Math.sin(pa+Math.PI)+8};
+  const rSh={x:thoracic.x+shW*Math.cos(pa),y:thoracic.y+shW*Math.sin(pa)+8};
+  const lHip={x:pelvis.x+hipW*Math.cos(pa+Math.PI),y:pelvis.y+hipW*Math.sin(pa+Math.PI)};
+  const rHip={x:pelvis.x+hipW*Math.cos(pa),y:pelvis.y+hipW*Math.sin(pa)};
+  const lSA=(j['L.Sh']?.Abd??90),lEF=(j['L.El']?.Flex??0),lWF=(j['L.Wr']?.Flex??0);
+  const lUAA=(90+lSA+(j['Sp.L']?.Lat||0)*0.3)*DEG;
+  const lEl={x:lSh.x+82*Math.cos(lUAA),y:lSh.y+82*Math.sin(lUAA)};
+  const lFA=lUAA+lEF*DEG,lWr={x:lEl.x+68*Math.cos(lFA),y:lEl.y+68*Math.sin(lFA)};
+  const lHand={x:lWr.x+30*Math.cos(lFA+lWF*DEG),y:lWr.y+30*Math.sin(lFA+lWF*DEG)};
+  const rSA=(j['R.Sh']?.Abd??90),rEF=(j['R.El']?.Flex??0),rWF=(j['R.Wr']?.Flex??0);
+  const rUAA=(90-rSA-(j['Sp.L']?.Lat||0)*0.3)*DEG;
+  const rEl={x:rSh.x+82*Math.cos(rUAA),y:rSh.y+82*Math.sin(rUAA)};
+  const rFA=rUAA-rEF*DEG,rWr={x:rEl.x+68*Math.cos(rFA),y:rEl.y+68*Math.sin(rFA)};
+  const rHand={x:rWr.x+30*Math.cos(rFA-rWF*DEG),y:rWr.y+30*Math.sin(rFA-rWF*DEG)};
+  const lHA=(j['L.Hip']?.Abd??5),lHF=(j['L.Hip']?.Flex??0),lKF=(j['L.Kn']?.Flex??0);
+  const lULA=(90+lHA+lHF*0.15)*DEG,lKn={x:lHip.x+105*Math.cos(lULA),y:lHip.y+105*Math.sin(lULA)};
+  const lLLA=lULA-lKF*0.5*DEG,lAnk={x:lKn.x+95*Math.cos(lLLA),y:lKn.y+95*Math.sin(lLLA)};
+  const lFE={x:lAnk.x-36*Math.cos(lLLA-Math.PI/2),y:lAnk.y-36*Math.sin(lLLA-Math.PI/2)};
+  const rHA=(j['R.Hip']?.Abd??5),rHF=(j['R.Hip']?.Flex??0),rKF=(j['R.Kn']?.Flex??0);
+  const rULA=(90-rHA-rHF*0.15)*DEG,rKn={x:rHip.x+105*Math.cos(rULA),y:rHip.y+105*Math.sin(rULA)};
+  const rLLA=rULA+rKF*0.5*DEG,rAnk={x:rKn.x+95*Math.cos(rLLA),y:rKn.y+95*Math.sin(rLLA)};
+  const rFE={x:rAnk.x+36*Math.cos(rLLA-Math.PI/2),y:rAnk.y+36*Math.sin(rLLA-Math.PI/2)};
+  const lShF=j['L.Sh']?.Flex??0,rShF=j['R.Sh']?.Flex??0;
+  lEl.z=Math.sin(lShF*DEG)*82;rEl.z=Math.sin(rShF*DEG)*82;
+  lWr.z=lEl.z+Math.sin(lEF*DEG)*-18;rWr.z=rEl.z+Math.sin(rEF*DEG)*-18;
+  lHand.z=lWr.z;rHand.z=rWr.z;
+  lKn.z=Math.sin(lHF*DEG)*65;rKn.z=Math.sin(rHF*DEG)*65;
+  lAnk.z=lKn.z+Math.sin(lKF*DEG)*-55;rAnk.z=rKn.z+Math.sin(rKF*DEG)*-55;
+  lFE.z=lAnk.z;rFE.z=rAnk.z;
+  headCenter.z=12;neck.z=5;
+  [pelvis,lumbar,thoracic,lSh,rSh,lHip,rHip].forEach(pt=>{pt.z=0;});
+  return{pelvis,lumbar,thoracic,neck,headCenter,lSh,rSh,lEl,rEl,lWr,rWr,lHand,rHand,
+    lHip,rHip,lKn,rKn,lAnk,rAnk,lFootEnd:lFE,rFootEnd:rFE,
+    spineBaseAngle:sba,neckAngle:na,lUAA,rUAA,lULA,rULA,lFA,rFA,lLLA,rLLA};
+}
+
+// ============================================================
+// SVG HELPERS
+// ============================================================
+function svgEl(tag,attrs,parent){
+  const e=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
+  (parent||document.getElementById('avatar-render')).appendChild(e);
+  return e;
+}
+function limbPath(p1,p2,w1,w2){
+  const dx=p2.x-p1.x,dy=p2.y-p1.y,len=Math.sqrt(dx*dx+dy*dy)||1;
+  const nx=-dy/len,ny=dx/len,f=n=>n.toFixed(1);
+  return 'M'+f(p1.x+nx*w1)+','+f(p1.y+ny*w1)+' L'+f(p2.x+nx*w2)+','+f(p2.y+ny*w2)+
+         ' L'+f(p2.x-nx*w2)+','+f(p2.y-ny*w2)+' L'+f(p1.x-nx*w1)+','+f(p1.y-ny*w1)+' Z';
+}
+function projectFacePoint(lx,ly,lz){
+  if(!rawCache)return{x:230+lx,y:260+ly};
+  const{x:hcx,y:hcy}=rawCache.headCenter;
+  return{x:hcx+lx,y:hcy+ly};
+}
+
+// ============================================================
+// MUSCLE OVERLAYS
+// ============================================================
+const muscleMap={
+  'Pec.S':{color:'#cc2200',region:p=>({cx:(p.lSh.x+p.rSh.x)/2,cy:p.lSh.y+22,rx:50,ry:22})},
+  'Pec.C':{color:'#dd4400',region:p=>({cx:(p.lSh.x+p.rSh.x)/2,cy:p.lSh.y+8,rx:44,ry:14})},
+  'Dlt.A':{color:'#ee6600',region:p=>({cx:p.lSh.x+8,cy:p.lSh.y+10,rx:13,ry:19,r2cx:p.rSh.x-8,r2cy:p.rSh.y+10})},
+  'Dlt.L':{color:'#ff8800',region:p=>({cx:p.lSh.x,cy:p.lSh.y+5,rx:12,ry:17,r2cx:p.rSh.x,r2cy:p.rSh.y+5})},
+  'Tri':{color:'#cc3300',region:p=>({cx:p.lSh.x+(p.lEl.x-p.lSh.x)*0.55+10,cy:p.lSh.y+(p.lEl.y-p.lSh.y)*0.55,rx:12,ry:22})},
+  'Bic':{color:'#ee5500',region:p=>({cx:p.lSh.x+(p.lEl.x-p.lSh.x)*0.45+10,cy:p.lSh.y+(p.lEl.y-p.lSh.y)*0.45,rx:12,ry:20})},
+  'Lat':{color:'#bb2200',region:p=>({cx:(p.lSh.x+p.lHip.x)/2+5,cy:(p.lSh.y+p.lHip.y)/2,rx:20,ry:32})},
+  'Trp.U':{color:'#dd5500',region:p=>({cx:(p.lSh.x+p.rSh.x)/2,cy:p.thoracic.y+5,rx:52,ry:12})},
+  'Trp.L':{color:'#cc4400',region:p=>({cx:(p.lSh.x+p.rSh.x)/2,cy:p.thoracic.y+40,rx:40,ry:14})},
+  'Trp.M':{color:'#cc4400',region:p=>({cx:(p.lSh.x+p.rSh.x)/2,cy:p.thoracic.y+22,rx:46,ry:13})},
+  'Rect.Ab':{color:'#cc3300',region:p=>({cx:p.pelvis.x,cy:(p.thoracic.y+p.pelvis.y)/2+5,rx:18,ry:30})},
+  'Glu.Mx':{color:'#bb2200',region:p=>({cx:p.lHip.x-5,cy:p.lHip.y+12,rx:18,ry:18,r2cx:p.rHip.x+5,r2cy:p.rHip.y+12})},
+  'Quad.RF':{color:'#cc3300',region:p=>({cx:p.lHip.x+(p.lKn.x-p.lHip.x)*0.45+16,cy:p.lHip.y+(p.lKn.y-p.lHip.y)*0.45,rx:13,ry:22})},
+  'Quad.VL':{color:'#dd4400',region:p=>({cx:p.lHip.x+(p.lKn.x-p.lHip.x)*0.5+18,cy:p.lHip.y+(p.lKn.y-p.lHip.y)*0.5,rx:12,ry:20})},
+  'Ham':{color:'#bb2200',region:p=>({cx:p.lHip.x+(p.lKn.x-p.lHip.x)*0.55-14,cy:p.lHip.y+(p.lKn.y-p.lHip.y)*0.55,rx:12,ry:20})},
+  'Gas':{color:'#cc3300',region:p=>({cx:p.lKn.x+(p.lAnk.x-p.lKn.x)*0.4+10,cy:p.lKn.y+(p.lAnk.y-p.lKn.y)*0.4,rx:10,ry:16})},
+};
+
+function renderMuscleOverlays(p){
+  const active=Object.entries(muscles).filter(([,v])=>v>0);
+  if(!active.length)return;
+  const opLevels=[0,0.35,0.6,0.88];
+  active.forEach(([sym,level])=>{
+    const info=muscleMap[sym];
+    if(!info)return;
+    const reg=info.region(p);
+    const op=opLevels[level];
+    const attrs={fill:info.color,opacity:op.toString(),filter:'url(#glow-muscle)'};
+    svgEl('ellipse',{...attrs,cx:reg.cx.toFixed(1),cy:reg.cy.toFixed(1),rx:reg.rx,ry:(reg.ry||reg.rx*0.7)});
+    if(reg.r2cx!==undefined)
+      svgEl('ellipse',{...attrs,cx:reg.r2cx.toFixed(1),cy:(reg.r2cy||reg.cy).toFixed(1),rx:reg.rx,ry:(reg.ry||reg.rx*0.7)});
+  });
+}
+
+// ============================================================
+// RENDERERS
+// ============================================================
+function renderVitruvian(p){
+  const gold='#c8a84b',goldL='#e8d5a3',goldD='#7a5010';
+  const circleCy=(p.lSh.y+p.pelvis.y)/2+10;
+  const circleR=Math.abs(p.rSh.x-p.lSh.x)*0.88+25;
+  svgEl('circle',{cx:p.headCenter.x.toFixed(1),cy:circleCy.toFixed(1),r:circleR.toFixed(1),fill:'none',stroke:gold,'stroke-width':'0.7',opacity:'0.2'});
+  const sqTop=p.headCenter.y-36,sqBot=p.lAnk.y+22,sqH=sqBot-sqTop,sqW=circleR*2;
+  svgEl('rect',{x:(p.headCenter.x-sqW/2).toFixed(1),y:sqTop.toFixed(1),width:sqW.toFixed(1),height:sqH.toFixed(1),fill:'none',stroke:gold,'stroke-width':'0.7',opacity:'0.15'});
+  const B={fill:goldL,stroke:goldD,'stroke-width':'1.2',opacity:'0.9'};
+  svgEl('path',{...B,d:limbPath(p.lHip,p.lKn,14,11)});svgEl('path',{...B,d:limbPath(p.rHip,p.rKn,14,11)});
+  svgEl('path',{...B,d:limbPath(p.lKn,p.lAnk,11,7)});svgEl('path',{...B,d:limbPath(p.rKn,p.rAnk,11,7)});
+  svgEl('ellipse',{...B,cx:(p.lAnk.x-6).toFixed(1),cy:(p.lAnk.y+7).toFixed(1),rx:'14',ry:'6'});
+  svgEl('ellipse',{...B,cx:(p.rAnk.x+6).toFixed(1),cy:(p.rAnk.y+7).toFixed(1),rx:'14',ry:'6'});
+  svgEl('path',{...B,d:limbPath(p.lSh,p.lEl,11,9)});svgEl('path',{...B,d:limbPath(p.rSh,p.rEl,11,9)});
+  svgEl('path',{...B,d:limbPath(p.lEl,p.lWr,9,6)});svgEl('path',{...B,d:limbPath(p.rEl,p.rWr,9,6)});
+  svgEl('ellipse',{...B,cx:p.lHand.x.toFixed(1),cy:p.lHand.y.toFixed(1),rx:'7',ry:'9'});
+  svgEl('ellipse',{...B,cx:p.rHand.x.toFixed(1),cy:p.rHand.y.toFixed(1),rx:'7',ry:'9'});
+  const f=n=>n.toFixed(1),shW=13,hipW=10;
+  svgEl('path',{...B,d:'M'+f(p.lSh.x-shW)+','+f(p.lSh.y)+' L'+f(p.rSh.x+shW)+','+f(p.rSh.y)+' L'+f(p.rHip.x+hipW)+','+f(p.rHip.y)+' L'+f(p.lHip.x-hipW)+','+f(p.lHip.y)+' Z'});
+  svgEl('rect',{...B,x:(p.thoracic.x-7).toFixed(1),y:p.thoracic.y.toFixed(1),width:'14',height:(p.neck.y-p.thoracic.y).toFixed(1),rx:'3'});
+  svgEl('circle',{...B,cx:p.headCenter.x.toFixed(1),cy:p.headCenter.y.toFixed(1),r:'30'});
+  renderMuscleOverlays(p);
+  // Face
+  const eL=projectFacePoint(-9,-7,24),eR=projectFacePoint(9,-7,24);
+  const ff=n=>n.toFixed(1);
+  svgEl('ellipse',{fill:goldD,opacity:'1',cx:ff(eL.x),cy:ff(eL.y),rx:'3',ry:'2.5'});
+  svgEl('ellipse',{fill:goldD,opacity:'1',cx:ff(eR.x),cy:ff(eR.y),rx:'3',ry:'2.5'});
+  const mL=projectFacePoint(-9,10,22),mM=projectFacePoint(0,12,25),mR=projectFacePoint(9,10,22);
+  svgEl('path',{d:'M'+ff(mL.x)+','+ff(mL.y)+' Q'+ff(mM.x)+','+ff(mM.y)+' '+ff(mR.x)+','+ff(mR.y),fill:'none',stroke:goldD,'stroke-width':'1.5','stroke-linecap':'round'});
+  svgEl('line',{x1:p.thoracic.x.toFixed(1),y1:p.thoracic.y.toFixed(1),x2:p.pelvis.x.toFixed(1),y2:p.pelvis.y.toFixed(1),stroke:goldD,'stroke-width':'0.6',opacity:'0.3','stroke-dasharray':'3,4'});
+}
+
+function renderWire(p){
+  const C='#dc2626',Cd='#b91c1c';
+  renderMuscleOverlays(p);
+  const bg=svgEl('g',{filter:'url(#glow)'});
+  const bone=(x1,y1,x2,y2,sw,op)=>svgEl('line',{stroke:C,'stroke-width':sw,'stroke-linecap':'round',opacity:op||'1',x1:x1.toFixed(1),y1:y1.toFixed(1),x2:x2.toFixed(1),y2:y2.toFixed(1)},bg);
+  bone(p.pelvis.x,p.pelvis.y,p.thoracic.x,p.thoracic.y,'2.5');
+  bone(p.thoracic.x,p.thoracic.y,p.neck.x,p.neck.y,'2');
+  bone(p.thoracic.x,p.thoracic.y,p.lSh.x,p.lSh.y,'1.5','0.7');
+  bone(p.thoracic.x,p.thoracic.y,p.rSh.x,p.rSh.y,'1.5','0.7');
+  bone(p.lSh.x,p.lSh.y,p.lEl.x,p.lEl.y,'3');bone(p.lEl.x,p.lEl.y,p.lWr.x,p.lWr.y,'2.5');bone(p.lWr.x,p.lWr.y,p.lHand.x,p.lHand.y,'1.5','0.7');
+  bone(p.rSh.x,p.rSh.y,p.rEl.x,p.rEl.y,'3');bone(p.rEl.x,p.rEl.y,p.rWr.x,p.rWr.y,'2.5');bone(p.rWr.x,p.rWr.y,p.rHand.x,p.rHand.y,'1.5','0.7');
+  bone(p.pelvis.x,p.pelvis.y,p.lHip.x,p.lHip.y,'2','0.6');bone(p.pelvis.x,p.pelvis.y,p.rHip.x,p.rHip.y,'2','0.6');
+  bone(p.lHip.x,p.lHip.y,p.lKn.x,p.lKn.y,'3.5');bone(p.lKn.x,p.lKn.y,p.lAnk.x,p.lAnk.y,'3');bone(p.lAnk.x,p.lAnk.y,p.lFootEnd.x,p.lFootEnd.y,'2');
+  bone(p.rHip.x,p.rHip.y,p.rKn.x,p.rKn.y,'3.5');bone(p.rKn.x,p.rKn.y,p.rAnk.x,p.rAnk.y,'3');bone(p.rAnk.x,p.rAnk.y,p.rFootEnd.x,p.rFootEnd.y,'2');
+  const jg=svgEl('g',{filter:'url(#glow-sm)'});
+  const jc=(cx,cy,r,fill,op)=>svgEl('circle',{cx:cx.toFixed(1),cy:cy.toFixed(1),r,fill,opacity:op||'0.85'},jg);
+  svgEl('circle',{cx:p.headCenter.x.toFixed(1),cy:p.headCenter.y.toFixed(1),r:'34',fill:'none',stroke:Cd,'stroke-width':'1.5'},jg);
+  [p.lSh,p.rSh].forEach(pt=>jc(pt.x,pt.y,7,C));
+  [p.lEl,p.rEl].forEach(pt=>jc(pt.x,pt.y,5,Cd,'0.7'));
+  jc(p.lHip.x,p.lHip.y,6,C,'0.8');jc(p.rHip.x,p.rHip.y,6,C,'0.8');
+  [p.lKn,p.rKn].forEach(pt=>jc(pt.x,pt.y,5,Cd,'0.7'));
+}
+
+function renderBulk(p){
+  const fill='#f1d0d0',stroke='#4a1515',sw='1.8';
+  const B={fill,stroke,'stroke-width':sw};const f=n=>n.toFixed(1);
+  renderMuscleOverlays(p);
+  svgEl('path',{...B,d:limbPath(p.lHip,p.lKn,20,16)});svgEl('path',{...B,d:limbPath(p.rHip,p.rKn,20,16)});
+  svgEl('path',{...B,d:limbPath(p.lKn,p.lAnk,15,11)});svgEl('path',{...B,d:limbPath(p.rKn,p.rAnk,15,11)});
+  svgEl('ellipse',{...B,cx:f(p.lAnk.x-9),cy:f(p.lAnk.y+9),rx:'18',ry:'10'});svgEl('ellipse',{...B,cx:f(p.rAnk.x+9),cy:f(p.rAnk.y+9),rx:'18',ry:'10'});
+  svgEl('path',{...B,d:limbPath(p.lSh,p.lEl,18,14)});svgEl('path',{...B,d:limbPath(p.rSh,p.rEl,18,14)});
+  svgEl('path',{...B,d:limbPath(p.lEl,p.lWr,14,9)});svgEl('path',{...B,d:limbPath(p.rEl,p.rWr,14,9)});
+  svgEl('ellipse',{...B,cx:f(p.lHand.x),cy:f(p.lHand.y),rx:'11',ry:'13'});svgEl('ellipse',{...B,cx:f(p.rHand.x),cy:f(p.rHand.y),rx:'11',ry:'13'});
+  const shExt=26,waistNip=0.72,hipExt=18;
+  const tSL={x:p.lSh.x-shExt,y:p.lSh.y},tSR={x:p.rSh.x+shExt,y:p.rSh.y};
+  const midY=(p.lSh.y+p.pelvis.y)/2;
+  const wL={x:p.pelvis.x-(Math.abs(p.rSh.x-p.lSh.x)/2+shExt)*waistNip,y:midY};
+  const wR={x:p.pelvis.x+(Math.abs(p.rSh.x-p.lSh.x)/2+shExt)*waistNip,y:midY};
+  const hL={x:p.lHip.x-hipExt,y:p.lHip.y},hR={x:p.rHip.x+hipExt,y:p.rHip.y};
+  svgEl('path',{...B,d:'M'+f(tSL.x)+','+f(tSL.y)+' L'+f(tSR.x)+','+f(tSR.y)+' Q'+f(wR.x)+','+f(wR.y)+' '+f(hR.x)+','+f(hR.y)+' L'+f(hL.x)+','+f(hL.y)+' Q'+f(wL.x)+','+f(wL.y)+' '+f(tSL.x)+','+f(tSL.y)+' Z'});
+  svgEl('rect',{...B,x:f(p.thoracic.x-13),y:f(p.thoracic.y-4),width:'26',height:f(p.neck.y-p.thoracic.y+6),rx:'5'});
+  svgEl('circle',{...B,cx:f(p.headCenter.x),cy:f(p.headCenter.y),r:'33'});
+  const eL=projectFacePoint(-11,-8,26),eR=projectFacePoint(11,-8,26);
+  svgEl('ellipse',{fill:stroke,opacity:'1',cx:f(eL.x),cy:f(eL.y),rx:'5',ry:'4'});
+  svgEl('ellipse',{fill:stroke,opacity:'1',cx:f(eR.x),cy:f(eR.y),rx:'5',ry:'4'});
+}
+
+// ============================================================
+// RENDER + STYLE
+// ============================================================
+function render(){
+  const raw=calcPositions(joints);
+  rawCache=raw;
+  document.getElementById('avatar-render').innerHTML='';
+  if(currentStyle==='vitruv')renderVitruvian(raw);
+  else if(currentStyle==='wire')renderWire(raw);
+  else if(currentStyle==='bulk')renderBulk(raw);
+}
+
+function setStyle(name,btn){
+  currentStyle=name;
+  document.querySelectorAll('.style-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  const labels={wire:'WIRE · ANTERIOR',vitruv:'VITRUV · ANTERIOR',bulk:'BULK · ANTERIOR'};
+  document.getElementById('view-tag').textContent=labels[name];
+  render();
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['learn','muscles'][i]===name));
+  document.querySelectorAll('.tab-content').forEach(tc=>tc.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+buildLearnTab();
+render();
+// Auto-load bench press correct on start
+setTimeout(()=>loadAnim('bench_correct'),300);
+</script>
+</body>
+</html>
