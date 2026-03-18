@@ -457,6 +457,91 @@ Adds remaining named muscles for complete anatomical coverage. Primarily relevan
 
 ---
 
+## 4.6 Avatar Surface Layer
+
+> **Summary:** This section defines two optional tags — `[Morph:]` and `[Body:]` — that allow MNN strings to carry explicit surface rendering hints for avatar implementations. Both tags are always optional. Omitting them is fully valid MNN. See `HMN_SPEC_v1.md Section 4.7` for the complete specification including design rationale, grammar, and worked examples. This section provides the essential reference for MNN implementors.
+
+### 4.6.1 Default Activation-to-Morph Mapping
+
+Compliant avatar renderers MUST derive morph target weights from `[Con:]` activation level as follows when no `[Morph:]` override is present:
+
+| Activation | Morph Weight |
+|---|---|
+| *(absent)* | 0.0 |
+| `+` | 0.25 |
+| `++` | 0.50 |
+| `+++` | 0.75 |
+| `++++` | 1.00 |
+
+The morph target identifier is the MNN muscle symbol. `[Con:Bic+++]` → engine sets morph target `Bic` to 0.75. LOD 2+ sub-muscle symbols map to sub-morphs: `Bic.Long` → `Bic.Long` morph target. An engine without sub-morphs falls back to the parent symbol (`Bic`) and ignores `.Long`.
+
+### 4.6.2 The `[Morph:]` Tag
+
+Optional override for explicit morph target weights. Use when the visible surface should differ from activation-level defaults.
+
+```
+[Morph:Target:weight, Target:weight, ...]
+```
+
+Weights are floats 0.0–1.0. Targets are MNN muscle symbols with optional descriptor suffixes:
+
+| Descriptor suffix | Description |
+|---|---|
+| *(none)* | Default overall morph |
+| `.Long` / `.Short` | Muscle head specificity (LOD 2+) |
+| `.Vasc` | Vascular surface response (pump) |
+| `.Atr` | Atrophy — reduces surface below `[Body:]` baseline |
+| `.Str` | Striation visibility |
+
+Use `[Morph:]` for:
+- **Isometric contractions** — joint doesn't move but surface must change: `[Con:Quad.VL++++] [Pos:L.Kn(Flex:0)] [Morph:Quad.VL:1.0]`
+- **Muscle head specificity**: `[Morph:Bic.Long:0.95,Bic.Short:0.4]`
+- **Vascular response**: `[Morph:Bic.Vasc:0.6]`
+- **Clinical atrophy**: `[Morph:Quad.VM.Atr:0.7]`
+
+Do NOT use `[Morph:]` for standard contractions — the default mapping handles them.
+
+An LOD 1 renderer encountering `[Morph:Bic.Long:0.9]` MUST treat it as `[Morph:Bic:0.9]` — forward compatibility fallback to parent symbol.
+
+### 4.6.3 The `[Body:]` Tag
+
+Declares the avatar's baseline body composition. Place once at session or record level.
+
+```
+[Body:Mass:Nkg,BF:N%,Frame:X,Height:Ncm]
+```
+
+| Parameter | Values |
+|---|---|
+| `Mass` | number + `kg` or `lb` |
+| `BF` | percentage (affects surface visibility scaling) |
+| `Frame` | `XS`, `S`, `M`, `L`, `XL` |
+| `Height` | number + `cm` or `in` |
+
+All parameters are optional. Renderers SHOULD scale morph magnitudes by `(1 - BF_normalized)` where BF_normalized maps 3–40% → 0.0–1.0. If absent, use the engine's default baseline.
+
+### 4.6.4 Interaction with Transition Notation
+
+`[Morph:]` tags within a transition sequence animate with the same easing curve as the accompanying joint transition. Morph weights lerp between keyframe values. `[Morph:]` placed between two pose states applies at the transition midpoint, consistent with `[Con:]` peak activation behavior (Section 4.5.5).
+
+### 4.6.5 Grammar
+
+```ebnf
+MorphTag    := "[Morph:" MorphEntry ("," MorphEntry)* "]"
+MorphEntry  := MorphTarget ":" MorphWeight
+MorphTarget := Identifier ("." Identifier)*
+MorphWeight := Float
+Float       := Digit+ "." Digit+  |  Digit+
+
+BodyTag     := "[Body:" BodyParam ("," BodyParam)* "]"
+BodyParam   := BodyKey ":" BodyValue
+BodyKey     := "Mass" | "BF" | "Frame" | "Height" | Identifier
+BodyValue   := (Digit+ (".")? Digit* ("kg" | "lb" | "%" | "cm" | "in" | ""))
+             | "XS" | "S" | "M" | "L" | "XL"
+```
+
+---
+
 ## 4.5 LOD Quick Reference
 
 When declaring LOD support in an implementation, use the following summary to determine which symbols must be recognized:
@@ -1212,6 +1297,7 @@ Reference implementation: https://aiunites.github.io/bodspas-site/log.html
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.6.0 | March 18, 2026 | Added Section 4.6 — Avatar Surface Layer: `[Morph:]` tag (morph target weight overrides with `.Long`/`.Short`/`.Vasc`/`.Atr`/`.Str` descriptor suffixes), `[Body:]` tag (baseline morphology: Mass, BF%, Frame, Height), default activation-to-morph weight mapping, LOD compatibility table, BF%-to-surface scaling, transition notation integration. References `HMN_SPEC_v1.md Section 4.7` for full rationale and worked examples. |
 | 1.5.1 | March 15, 2026 | Added Eshkol-Wachman Movement Notation (EWMN) and HamNoSys/SiGML to Section 13.5 prior art; added both to Section 13.7 summary table. |
 | 1.5.0 | March 15, 2026 | Added HMN umbrella relationship to Section 1.1 — MNN formally positioned as a protocol within Human Movement Notation (HMN) alongside VRN and VNN. Added Section 4.1–4.5 — Muscle Level of Detail (LOD) framework: LOD 1 (Functional, ~55 muscles, existing symbols), LOD 2 (Anatomical, +32: forearm ×13, finger extrinsics ×5, deep hip ×8, lower leg ×8, neck accessory ×6), LOD 3 (High-Fidelity, +38: thenar ×4, hypothenar ×3, lumbricals/interossei ×11, foot intrinsics ×11, deep spinal ×8), LOD 4 (Research, +24: adductor detail, erector components, breathing muscles); LOD quick reference table; additional nerve symbols per LOD (Median, Ulnar, PIN, AIN, Plantmed, Plantlat, Phrenic). Total at LOD 4: ~149 named muscles. |
 | 1.4.0 | March 14, 2026 | Added Section 14 — Clinical Anatomy Extension (Genital Structures): male genital symbols (4), female genital symbols (7), anal canal symbols (3); 5 new nerve symbols (`CavN`, `CavN.C`, `DorsN.P`, `DorsN.C`, `IlioIng`); avatar default states table; activation level `0` defined for genital structures. Section marked as web-gated / login-required on bodspas-site. |
