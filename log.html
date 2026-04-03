@@ -634,11 +634,15 @@
 
           <!-- MNN Builder -->
           <div class="mnn-builder">
-            <div style="display:flex;align-items:center;gap:10px">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
               <h4 style="margin-bottom:0">MNN Notation Builder</h4>
               <div class="display-toggle">
                 <span class="label" id="displayLabel">Compact</span>
                 <div class="toggle-switch" id="displayToggle" onclick="toggleDisplayMode()"></div>
+              </div>
+              <div style="display:flex;gap:3px;background:var(--dark);border:1px solid var(--dark-border);border-radius:14px;padding:2px;margin-left:4px">
+                <button id="syntaxV2Btn" onclick="setSyntaxVersion('v2')" style="padding:2px 9px;border:none;border-radius:10px;font-family:inherit;font-size:.65rem;font-weight:700;cursor:pointer;background:var(--gradient);color:var(--white);transition:var(--transition)" title="v2.0 annotation syntax">v2.0 @TAG</button>
+                <button id="syntaxV1Btn" onclick="setSyntaxVersion('v1')" style="padding:2px 9px;border:none;border-radius:10px;font-family:inherit;font-size:.65rem;font-weight:700;cursor:pointer;background:transparent;color:var(--gray);transition:var(--transition)" title="Legacy bracket syntax">v1.x [ ]</button>
               </div>
             </div>
 
@@ -733,10 +737,6 @@
 
             <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
               <div class="chip-section-label" style="margin:0">Preview</div>
-              <div style="display:flex;gap:4px;background:var(--dark);border:1px solid var(--dark-border);border-radius:20px;padding:3px">
-                <button id="syntaxV1Btn" onclick="setSyntaxVersion('v1')" style="padding:3px 10px;border:none;border-radius:16px;font-family:inherit;font-size:.68rem;font-weight:700;cursor:pointer;background:var(--dark);color:var(--gray);transition:var(--transition)" title="Legacy bracket syntax v1.x">v1.x [ ]</button>
-                <button id="syntaxV2Btn" onclick="setSyntaxVersion('v2')" style="padding:3px 10px;border:none;border-radius:16px;font-family:inherit;font-size:.68rem;font-weight:700;cursor:pointer;background:var(--gradient);color:var(--white);transition:var(--transition)" title="v2.0 @TAG annotation syntax">v2.0 @TAG</button>
-              </div>
             </div>
             <div class="mnn-preview" id="mnnPreview"></div>
           </div>
@@ -792,18 +792,24 @@
           </details>
           <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">Activation Levels</summary>
             <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
-              <code style="color:var(--green)">+</code> Low — stabilizer or light assist<br>
-              <code style="color:var(--yellow)">++</code> Moderate — synergist / secondary mover<br>
-              <code style="color:var(--primary-light)">+++</code> High — prime mover
+              <strong style="color:var(--white)">v2.0 syntax</strong><br>
+              <code style="color:var(--green)">:1</code> Low — stabilizer or light assist<br>
+              <code style="color:var(--yellow)">:2</code> Moderate — synergist / secondary mover<br>
+              <code style="color:var(--primary-light)">:3</code> High — prime mover<br>
+              <code style="color:var(--primary-light)">:4</code> Maximum voluntary contraction<br><br>
+              <strong style="color:var(--white)">v1.x legacy syntax</strong><br>
+              <code style="color:var(--green)">+</code> Low &nbsp;
+              <code style="color:var(--yellow)">++</code> Moderate &nbsp;
+              <code style="color:var(--primary-light)">+++</code> High
             </div>
           </details>
           <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">Common Compensations</summary>
             <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
-              <code style="color:var(--primary-light)">[Comp:Dlt.A for Pec.S]</code> Front delt takes over bench<br>
-              <code style="color:var(--primary-light)">[Comp:Trp.U for Dlt.L]</code> Shrugging on lateral raise<br>
-              <code style="color:var(--primary-light)">[Comp:Bic for Lat]</code> Biceps take over rows<br>
-              <code style="color:var(--primary-light)">[Comp:Ers for Glu.Mx]</code> Low back takes over deadlift<br>
-              <code style="color:var(--primary-light)">[Comp:Trp.U for Trp.L]</code> Upper trap compensating lower
+              <code style="color:var(--primary-light)">@COMP(Dlt.A/Pec.S)</code> Front delt takes over bench<br>
+              <code style="color:var(--primary-light)">@COMP(Trp.U/Dlt.L)</code> Shrugging on lateral raise<br>
+              <code style="color:var(--primary-light)">@COMP(Bic/Lat)</code> Biceps take over rows<br>
+              <code style="color:var(--primary-light)">@COMP(Ers/Glu.Mx)</code> Low back takes over deadlift<br>
+              <code style="color:var(--primary-light)">@COMP(Trp.U/Trp.L)</code> Upper trap compensating lower
             </div>
           </details>
           <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">🧠 Nerve Status Check-In</summary>
@@ -816,28 +822,27 @@
           <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">🦴 Joint Position Tags</summary>
             <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
               Define body position per joint. Only non-zero axes appear in notation.<br><br>
-              <strong style="color:var(--white)">Format:</strong> <code>[Pos:Side.Joint(Axis:value,...)]</code><br><br>
-              <code style="color:var(--accent)">[Pos:L.Sh(IR:25,Flex:90)]</code> Left shoulder, 25° IR, 90° flexion<br>
-              <code style="color:var(--accent)">[Pos:R.El(Flex:15,Pro:45)]</code> Right elbow, 15° flexion, 45° pronation<br>
-              <code style="color:var(--accent)">[Pos:Bi.Hip(Flex:90)]</code> Both hips at 90° (seated)<br>
-              <code style="color:var(--accent)">[Pos:Sp(Rot:15)]</code> Spine rotated 15°<br><br>
-              <strong style="color:var(--white)">Joints:</strong> Sh (Shoulder), El (Elbow), Wr (Wrist), Hip, Kn (Knee), Ank (Ankle), Sp (Spine), Scap (Scapula)<br>
-              <strong style="color:var(--white)">Sides:</strong> L (Left), R (Right), Bi (Bilateral)<br>
-              <strong style="color:var(--white)">Why:</strong> Tracks exactly which angle produces clean activation vs compensation. Essential for machine control — a cable rig or exoskeleton needs joint angles to reproduce a position.
+              <strong style="color:var(--white)">v2.0 format:</strong> <code>@JNT(Side.Joint:Axis=value,...)</code><br><br>
+              <code style="color:var(--accent)">@JNT(L.Sh:IR=25,Flex=90)</code> Left shoulder, 25° IR, 90° flexion<br>
+              <code style="color:var(--accent)">@JNT(R.El:Flex=15,Pro=45)</code> Right elbow, 15° flexion, 45° pronation<br>
+              <code style="color:var(--accent)">@JNT(Bi.Hip:Flex=90)</code> Both hips at 90° (seated)<br>
+              <code style="color:var(--accent)">@JNT(Sp:Rot=15)</code> Spine rotated 15°<br><br>
+              <strong style="color:var(--white)">Joints:</strong> Sh, El, Wr, Hip, Kn, Ank, Sp, Scap<br>
+              <strong style="color:var(--white)">Sides:</strong> L, R, Bi<br>
+              <strong style="color:var(--white)">Axes use <code>=</code></strong> in v2.0 (vs <code>:</code> in v1.x)
             </div>
           </details>
           <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">🎯 Resistance Vector Tags</summary>
             <div style="margin-top:10px;font-size:.88rem;color:var(--gray-light);line-height:2">
               Describe the resistance source direction and setup.<br><br>
-              <strong style="color:var(--white)">Format:</strong> <code>[Vec:H:height,A:angle,Src:source]</code><br><br>
-              <code style="color:var(--secondary)">[Vec:H:Mid,Src:Cable]</code> Cable at mid height<br>
-              <code style="color:var(--secondary)">[Vec:H:Floor,A:45°,Src:Cable]</code> Low cable, 45° to the side<br>
-              <code style="color:var(--secondary)">[Vec:H:Over,A:0°,Src:Cable]</code> Overhead cable, straight ahead<br>
-              <code style="color:var(--secondary)">[Vec:Src:Gravity]</code> Free weight (gravity only)<br><br>
-              <strong style="color:var(--white)">Heights:</strong> Floor, Low, Mid, High, Overhead<br>
+              <strong style="color:var(--white)">v2.0 format:</strong> <code>@VEC(Ht=height,Ang=angle,Src=source)</code><br><br>
+              <code style="color:var(--secondary)">@VEC(Ht=Mid,Src=Cable)</code> Cable at mid height<br>
+              <code style="color:var(--secondary)">@VEC(Ht=Floor,Ang=45°,Src=Cable)</code> Low cable, 45° to the side<br>
+              <code style="color:var(--secondary)">@VEC(Ht=Over,Ang=0°,Src=Cable)</code> Overhead cable, straight ahead<br>
+              <code style="color:var(--secondary)">@VEC(Src=Gravity)</code> Free weight (gravity only)<br><br>
+              <strong style="color:var(--white)">Heights:</strong> Floor, Low, Mid, High, Over<br>
               <strong style="color:var(--white)">Angle:</strong> 0° = straight ahead, +/- for side angle<br>
-              <strong style="color:var(--white)">Sources:</strong> Cable, Band, Gravity, Machine, Manual<br>
-              <strong style="color:var(--white)">Why:</strong> Changes the force line. Same muscle, same joint angle, different cable height = different activation pattern. Machines need this to set pulley position.
+              <strong style="color:var(--white)">Sources:</strong> Cable, Band, Gravity, Machine, Manual
             </div>
           </details>
           <details style="margin-bottom:12px"><summary style="cursor:pointer;font-weight:700;color:var(--accent);padding:8px 0">🌐 Prior Art &amp; Related Standards</summary>
@@ -1192,16 +1197,19 @@ let syntaxVersion = localStorage.getItem('bodspas_syntax_version') || 'v2';
 function setSyntaxVersion(v) {
   syntaxVersion = v;
   localStorage.setItem('bodspas_syntax_version', v);
-  const v1b = document.getElementById('syntaxV1Btn');
   const v2b = document.getElementById('syntaxV2Btn');
-  if (v === 'v2') {
-    v2b.style.background = 'var(--gradient)'; v2b.style.color = 'var(--white)';
-    v1b.style.background = 'var(--dark)'; v1b.style.color = 'var(--gray)';
-  } else {
-    v1b.style.background = 'var(--gradient)'; v1b.style.color = 'var(--white)';
-    v2b.style.background = 'var(--dark)'; v2b.style.color = 'var(--gray)';
+  const v1b = document.getElementById('syntaxV1Btn');
+  if (v2b && v1b) {
+    if (v === 'v2') {
+      v2b.style.background = 'var(--gradient)'; v2b.style.color = 'var(--white)';
+      v1b.style.background = 'transparent'; v1b.style.color = 'var(--gray)';
+    } else {
+      v1b.style.background = 'var(--gradient)'; v1b.style.color = 'var(--white)';
+      v2b.style.background = 'transparent'; v2b.style.color = 'var(--gray)';
+    }
   }
   updatePreview();
+  renderActivation(); // refresh nerve arrow and level labels
 }
 
 function loadSyntaxVersion() {
@@ -1718,15 +1726,16 @@ function renderActivation() {
   const muscles = Object.keys(builder.muscles);
   if (!muscles.length) { panel.style.display = 'none'; return; }
   panel.style.display = 'block';
+  const lbls = syntaxVersion === 'v2' ? [':1', ':2', ':3'] : ['+', '++', '+++'];
   rows.innerHTML = muscles.map(m => {
     const act = builder.muscles[m].activation;
     const info = MUSCLES[m] || {};
     return `<div class="activation-row">
       <span class="muscle-tag">${muscleName(m)}</span>
-      <button class="activation-btn ${act===1?'a1':''}" onclick="setAct('${m}',1)">+</button>
-      <button class="activation-btn ${act===2?'a2':''}" onclick="setAct('${m}',2)">++</button>
-      <button class="activation-btn ${act===3?'a3':''}" onclick="setAct('${m}',3)">+++</button>
-      <span class="nerve-tag">→ ${nerveName(info.nerve || '?')} (${info.roots || '?'})</span>
+      <button class="activation-btn ${act===1?'a1':''}" onclick="setAct('${m}',1)">${lbls[0]}</button>
+      <button class="activation-btn ${act===2?'a2':''}" onclick="setAct('${m}',2)">${lbls[1]}</button>
+      <button class="activation-btn ${act===3?'a3':''}" onclick="setAct('${m}',3)">${lbls[2]}</button>
+      <span class="nerve-tag">${syntaxVersion === 'v2' ? '>>' : '\u2192'} ${nerveName(info.nerve || '?')} (${info.roots || '?'})</span>
     </div>`;
   }).join('');
 }
