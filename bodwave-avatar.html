@@ -124,7 +124,7 @@
 <div class="header">
   <a href="bodwave.html" class="header-back">← BodWave</a>
   <div class="header-logo">💪 BODWAVE AVATAR</div>
-  <div class="header-sub">MUSCLE FOCUS TRAINER · MNN v1.1</div>
+  <div class="header-sub">MUSCLE FOCUS TRAINER · MNN v2.0</div>
   <div class="header-version">VITRUV · LOD 1</div>
 </div>
 
@@ -185,8 +185,8 @@
         <div id="muscle-list"><div class="muscle-empty">Play an animation to see muscle activation</div></div>
       </div>
       <div class="muscles-footer">
-        ORANGE = active · +/++/+++ = motor unit recruitment level<br>
-        MNN (Muscular Neuro Notation) © 2026 BodSpas / AIUNITES
+        ORANGE = active · :1/:2/:3 = motor unit recruitment level (MNN v2.0)<br>
+        MNN (Muscular Neuro Notation) v2.0 © 2026 BodSpas / AIUNITES
       </div>
     </div>
   </div>
@@ -359,7 +359,7 @@ const EXERCISES = {
     badge:'correct',
     desc:'Shoulder blades retracted and depressed. Elbows at ~55°, not flared. Sternal pec fires first and hardest. Anterior delt contributes minimally.',
     cue:'Feel the bar being squeezed inward — chest contracts, not shoulders.',
-    mnn:'{Push.H} [Con:Pec.S+++, Pec.C++, Tri++, Dlt.A+] → MedPec/LatPec',
+    mnn:'@MOV(Push.H) @ACT(Pec.S:3, Pec.C:2, Tri:2, Dlt.A:1) >> MedPec/LatPec',
     loop:true, easing:'ease-bio',
     keyframes:[
       {mnn:'[Pos:L.Sh(Abd:55,Flex:0) R.Sh(Abd:55,Flex:0) L.El(Flex:90) R.El(Flex:90)]',muscles:{'Pec.S':3,'Pec.C':2,'Tri':1},duration:400},
@@ -373,7 +373,7 @@ const EXERCISES = {
     badge:'wrong',
     desc:'Shoulders roll forward, blades protract. Elbows flare wide. Anterior delt drives the press instead of the chest. You feel it in the front of the shoulder, not the sternum.',
     cue:'[Comp:Dlt.A for Pec.S] — shoulder compensating for a weak mind-muscle connection to the pecs.',
-    mnn:'{Push.H} [Con:Dlt.A+++, Pec.S+, Trp.U++] [Comp:Dlt.A for Pec.S]',
+    mnn:'@MOV(Push.H) @ACT(Dlt.A:3, Pec.S:1, Trp.U:2) @COMP(Dlt.A/Pec.S)',
     loop:true, easing:'ease-bio',
     keyframes:[
       {mnn:'[Pos:L.Sh(Abd:75,Flex:15) R.Sh(Abd:75,Flex:15) L.El(Flex:90) R.El(Flex:90)]',muscles:{'Pec.S':1,'Dlt.A':2,'Trp.U':1},duration:400},
@@ -387,7 +387,7 @@ const EXERCISES = {
     badge:'correct',
     desc:'Hip crease below parallel. Knees track toes. Glutes and quads fire together. Upper trap stays relaxed. Drive through the whole foot.',
     cue:'Push the floor away — feel both quads and glutes working from the bottom of the hole.',
-    mnn:'{Squat} [Con:Quad.RF+++, Quad.VL+++, Glu.Mx++, Ham++]',
+    mnn:'@MOV(Squat) @ACT(Quad.RF:3, Quad.VL:3, Glu.Mx:2, Ham:2)',
     loop:true, easing:'ease-bio',
     keyframes:[
       {mnn:'[Pos:L.Hip(Flex:0,Abd:5) R.Hip(Flex:0,Abd:5) L.Kn(Flex:0) R.Kn(Flex:0) L.Sh(Abd:0) R.Sh(Abd:0)]',muscles:{},duration:400},
@@ -400,7 +400,7 @@ const EXERCISES = {
     badge:'wrong',
     desc:'Knees cave inward, heels rise, torso pitches forward. Upper trap overworks to compensate. Glutes barely fire — all load falls on quads and lower back.',
     cue:'[Comp:Quad.RF for Glu.Mx] — quad compensation pattern. Lower back will pay the price.',
-    mnn:'{Squat} [Con:Quad.RF+++, Trp.U++, Rect.Ab++] [Comp:Quad.RF for Glu.Mx]',
+    mnn:'@MOV(Squat) @ACT(Quad.RF:3, Trp.U:2, Rect.Ab:2) @COMP(Quad.RF/Glu.Mx)',
     loop:true, easing:'ease-bio',
     keyframes:[
       {mnn:'[Pos:L.Hip(Flex:0,Abd:0) R.Hip(Flex:0,Abd:0) L.Kn(Flex:0) R.Kn(Flex:0)]',muscles:{},duration:400},
@@ -413,7 +413,7 @@ const EXERCISES = {
     badge:'correct',
     desc:'Elbow pinned to side. Upper arm still. Full range from extension to peak contraction. Only the bicep works — delt is quiet.',
     cue:'Imagine your elbow is nailed to your hip — only the forearm moves.',
-    mnn:'{Pull.V} [Con:Bic+++, Dlt.A+] → MusCut',
+    mnn:'@MOV(Pull.V) @ACT(Bic:3, Dlt.A:1) >> MusCut',
     loop:true, easing:'ease-bio',
     keyframes:[
       {mnn:'[Pos:L.Sh(Abd:5) L.El(Flex:0) R.Sh(Abd:5) R.El(Flex:0)]',muscles:{},duration:500},
@@ -426,7 +426,7 @@ const EXERCISES = {
     badge:'wrong',
     desc:'Upper arm swings forward, using momentum. Shoulder flexes to "help" the curl. Bicep gets partial credit — anterior delt is doing half the work.',
     cue:'[Comp:Dlt.A for Bic] — ego lift pattern. Drop the weight 30% and feel the difference.',
-    mnn:'{Pull.V} [Con:Dlt.A+++, Bic++] [Comp:Dlt.A for Bic]',
+    mnn:'@MOV(Pull.V) @ACT(Dlt.A:3, Bic:2) @COMP(Dlt.A/Bic)',
     loop:true, easing:'ease-snap',
     keyframes:[
       {mnn:'[Pos:L.Sh(Abd:5,Flex:0) L.El(Flex:0) R.Sh(Abd:5,Flex:0) R.El(Flex:0)]',muscles:{},duration:300},
@@ -439,7 +439,7 @@ const EXERCISES = {
     badge:'correct',
     desc:'Bar path vertical. Core braced. Deltoids and triceps drive the press. Upper trap fires for scapular upward rotation — this is correct, not compensation.',
     cue:'Press your head through at the top — ears in line with arms. Glutes squeezed throughout.',
-    mnn:'{Push.V} [Con:Dlt.A+++, Dlt.L++, Tri++, Trp.U++]',
+    mnn:'@MOV(Push.V) @ACT(Dlt.A:3, Dlt.L:2, Tri:2, Trp.U:2)',
     loop:true, easing:'ease-bio',
     keyframes:[
       {mnn:'[Pos:L.Sh(Abd:70,Flex:10) R.Sh(Abd:70,Flex:10) L.El(Flex:90) R.El(Flex:90)]',muscles:{'Dlt.A':1},duration:500},
@@ -452,7 +452,7 @@ const EXERCISES = {
     badge:'correct',
     desc:'Elbows drive down and back. Shoulder blades depress before arms pull. Chest stays up. Lats initiate the pull — biceps are just hooks.',
     cue:'Imagine bending the bar over your back. Feel lats fire before your hands move.',
-    mnn:'{Pull.V} [Con:Lat+++, Trp.L++, Bic+] → ThDors',
+    mnn:'@MOV(Pull.V) @ACT(Lat:3, Trp.L:2, Bic:1) >> ThDors',
     loop:true, easing:'ease-bio',
     keyframes:[
       {mnn:'[Pos:L.Sh(Abd:90,Flex:160) R.Sh(Abd:90,Flex:160) L.El(Flex:10) R.El(Flex:10)]',muscles:{},duration:500},
@@ -465,7 +465,7 @@ const EXERCISES = {
     badge:'wrong',
     desc:'Arms pull while lats stay asleep. Elbows bend aggressively. Biceps dominate the movement. Shoulders may shrug to assist.',
     cue:'[Comp:Bic for Lat] — extremely common. The lats aren\'t "connected" yet. Try scapular depressions first.',
-    mnn:'{Pull.V} [Con:Bic+++, Trp.U++, Lat+] [Comp:Bic for Lat]',
+    mnn:'@MOV(Pull.V) @ACT(Bic:3, Trp.U:2, Lat:1) @COMP(Bic/Lat)',
     loop:true, easing:'ease-bio',
     keyframes:[
       {mnn:'[Pos:L.Sh(Abd:90,Flex:155) R.Sh(Abd:90,Flex:155) L.El(Flex:10) R.El(Flex:10)]',muscles:{},duration:500},
@@ -535,7 +535,7 @@ function updateMuscleDisplay(){
       <div class="muscle-sym">${sym}</div>
       <div class="muscle-name-full">${fullName}</div>
       <div class="muscle-bar-bg"><div class="muscle-bar" style="width:${pct}%;background:${barColor}"></div></div>
-      <div class="muscle-level ${lc}">${'+'.repeat(level)}</div>
+      <div class="muscle-level ${lc}">${':'+level}</div>
     </div>`;
   }).join('');
 }
