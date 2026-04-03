@@ -731,7 +731,13 @@
               </div>
             </div>
 
-            <div class="chip-section-label" style="margin-top:12px">Preview</div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+              <div class="chip-section-label" style="margin:0">Preview</div>
+              <div style="display:flex;gap:4px;background:var(--dark);border:1px solid var(--dark-border);border-radius:20px;padding:3px">
+                <button id="syntaxV1Btn" onclick="setSyntaxVersion('v1')" style="padding:3px 10px;border:none;border-radius:16px;font-family:inherit;font-size:.68rem;font-weight:700;cursor:pointer;background:var(--dark);color:var(--gray);transition:var(--transition)" title="Legacy bracket syntax v1.x">v1.x [ ]</button>
+                <button id="syntaxV2Btn" onclick="setSyntaxVersion('v2')" style="padding:3px 10px;border:none;border-radius:16px;font-family:inherit;font-size:.68rem;font-weight:700;cursor:pointer;background:var(--gradient);color:var(--white);transition:var(--transition)" title="v2.0 @TAG annotation syntax">v2.0 @TAG</button>
+              </div>
+            </div>
             <div class="mnn-preview" id="mnnPreview"></div>
           </div>
 
@@ -1181,6 +1187,27 @@ const NERVES = {
 
 // Display mode
 let displayMode = 'compact'; // 'compact' or 'full'
+let syntaxVersion = localStorage.getItem('bodspas_syntax_version') || 'v2';
+
+function setSyntaxVersion(v) {
+  syntaxVersion = v;
+  localStorage.setItem('bodspas_syntax_version', v);
+  const v1b = document.getElementById('syntaxV1Btn');
+  const v2b = document.getElementById('syntaxV2Btn');
+  if (v === 'v2') {
+    v2b.style.background = 'var(--gradient)'; v2b.style.color = 'var(--white)';
+    v1b.style.background = 'var(--dark)'; v1b.style.color = 'var(--gray)';
+  } else {
+    v1b.style.background = 'var(--gradient)'; v1b.style.color = 'var(--white)';
+    v2b.style.background = 'var(--dark)'; v2b.style.color = 'var(--gray)';
+  }
+  updatePreview();
+}
+
+function loadSyntaxVersion() {
+  if (syntaxVersion === 'v1') setSyntaxVersion('v1');
+  else setSyntaxVersion('v2');
+}
 
 function toggleDisplayMode() {
   displayMode = displayMode === 'compact' ? 'full' : 'compact';
@@ -1867,7 +1894,54 @@ function buildMNN() {
   if (cf && ct) parts.push('\n[Comp:' + muscleName(cf) + ' for ' + muscleName(ct) + ']');
   return parts.join(' ');
 }
-function updatePreview() { document.getElementById('mnnPreview').textContent = buildMNN(); }
+
+function buildMNNv2() {
+  const parts = [];
+  // Movement -- convert {Push.H} to @MOV(Push.H)
+  if (builder.movement) {
+    const m = builder.movement.match(/^\{(.+)\}$/);
+    parts.push('@MOV(' + (m ? m[1] : builder.movement) + ')');
+  }
+  // Contraction -- @ACT(Muscle:level)
+  const muscles = Object.entries(builder.muscles);
+  if (muscles.length) {
+    const str = muscles.sort((a,b) => b[1].activation - a[1].activation)
+      .map(([n,d]) => muscleName(n) + ':' + d.activation).join(', ');
+    parts.push('@ACT(' + str + ')');
+  }
+  // Nerve output -- >>
+  if (builder.nerves.size) parts.push('>> ' + [...builder.nerves].map(n => nerveName(n)).join('/'));
+  // Joint position -- @JNT(Side.Joint:Axis=val)
+  const jKeys = Object.keys(posState.joints);
+  if (jKeys.length) {
+    const side = posState.side ? posState.side + '.' : '';
+    const jparts = jKeys.map(sym => {
+      const axes = posState.joints[sym];
+      const nonZero = Object.entries(axes).filter(([,v]) => v !== 0);
+      if (!nonZero.length) return null;
+      return sym + ':' + nonZero.map(([k,v]) => k + '=' + v).join(',');
+    }).filter(Boolean);
+    if (jparts.length) parts.push('\n@JNT(' + side + jparts.join(' ') + ')');
+  }
+  // Resistance vector -- @VEC(Ht=,Ang=,Src=)
+  const angle = parseInt(document.getElementById('vecAngle').value) || 0;
+  const source = document.getElementById('vecSource').value;
+  const vparts = [];
+  if (vecState.height) vparts.push('Ht=' + vecState.height);
+  if (angle !== 0) vparts.push('Ang=' + angle + '\u00b0');
+  if (source) vparts.push('Src=' + source);
+  if (vparts.length) parts.push((jKeys.length ? '' : '\n') + '@VEC(' + vparts.join(',') + ')');
+  // Compensation -- @COMP(A/B)
+  const cf = document.getElementById('compFrom').value;
+  const ct = document.getElementById('compFor').value;
+  if (cf && ct) parts.push('\n@COMP(' + muscleName(cf) + '/' + muscleName(ct) + ')');
+  return parts.join(' ');
+}
+
+function updatePreview() {
+  const str = syntaxVersion === 'v2' ? buildMNNv2() : buildMNN();
+  document.getElementById('mnnPreview').textContent = str;
+}
 
 // =============================================
 // SAVE SET
@@ -2237,6 +2311,7 @@ function renderNotes() {
   }
 })();
 loadDisplayMode();
+loadSyntaxVersion();
 buildChips();
 buildJointChips();
 checkSession();
