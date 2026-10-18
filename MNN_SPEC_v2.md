@@ -180,6 +180,7 @@ All muscle symbols are unchanged from v1.x. Symbols are anatomically grounded ab
 |--------|-----------|-------|-------------|
 | `Tri` | Triceps Brachii | Rad | C6–C8 |
 | `Bic` | Biceps Brachii | MusCut | C5–C7 |
+| `Brach` | Brachialis | MusCut (+Rad) | C5–C6 |
 
 #### Back
 | Symbol | Full Name | Nerve | Spinal Roots |
@@ -287,7 +288,7 @@ MNN muscles are organized into four **Levels of Detail**. Implementations declar
 | LOD | Name | Muscle Count | Use Case |
 |-----|------|-------------|----------|
 | **LOD 1** | Functional | ~55 | Gym logging, basic avatar posing, exercise prescription, rehab |
-| **LOD 2** | Anatomical | +32 | Clinical documentation, realistic skin deformation, forearm/hip/leg detail |
+| **LOD 2** | Anatomical | +39 | Clinical documentation, realistic skin deformation, forearm/hip/leg detail |
 | **LOD 3** | High-Fidelity | +38 | Hand animation, gait analysis, exoskeleton control, surgical sim |
 | **LOD 4** | Research | +24 | Full clinical/research — every named muscle |
 
@@ -299,7 +300,20 @@ The LOD tag is optional metadata for implementations. It does not appear in MNN 
 
 ## 4.2 LOD 2 — Anatomical Fidelity
 
-Adds forearm, deep hip rotators, lower leg, and neck accessory muscles. Required for accurate wrist/ankle biomechanics and clinical-grade documentation.
+Adds upper-arm heads, forearm, deep hip rotators, lower leg, and neck accessory muscles. Required for accurate wrist/ankle biomechanics and clinical-grade documentation.
+
+#### Upper Arm (heads and deep flexors)
+| Symbol | Full Name | Nerve | Spinal Roots | Notes |
+|--------|-----------|-------|-------------|-------|
+| `Bic.Long` | Biceps Brachii — Long Head | MusCut | C5–C6 | Outer head; from the supraglenoid tubercle — forms the biceps peak |
+| `Bic.Short` | Biceps Brachii — Short Head | MusCut | C5–C6 | Inner head; from the coracoid process — inner fullness |
+| `Tri.Long` | Triceps Brachii — Long Head | Rad | C6–C8 | From the infraglenoid tubercle; crosses the shoulder (extends the arm) |
+| `Tri.Lat` | Triceps Brachii — Lateral Head | Rad | C6–C8 | Outer horseshoe of the triceps |
+| `Tri.Med` | Triceps Brachii — Medial Head | Rad | C6–C8 | Deep head, above the elbow |
+| `CorBr` | Coracobrachialis | MusCut | C5–C7 | Inner upper arm; shoulder flexion + adduction |
+| `Anc` | Anconeus | Rad | C7–C8 | Small elbow extensor behind the elbow |
+
+> `Bic` and `Tri` remain the LOD 1 whole-muscle symbols; the head symbols refine them. `Brach` (LOD 1) is the strongest pure elbow flexor and lies under the biceps.
 
 #### Forearm
 | Symbol | Full Name | Nerve | Spinal Roots | Notes |
@@ -537,6 +551,7 @@ Weights are floats 0.0–1.0. Targets are MNN muscle symbols with optional descr
 | `.Long` / `.Short` | Muscle head specificity (LOD 2+) |
 | `.Vasc` | Vascular surface response (pump) |
 | `.Atr` | Atrophy — reduces surface below `@BODY(...)` baseline |
+| `.Full` | Fullness — hypertrophy shape: rounder belly that fills toward the tendons instead of peaking (the 'swole' look); 0 = default shape, 1 = fullest |
 | `.Str` | Striation visibility |
 
 Use `@MORPH(...)` for:
@@ -544,6 +559,7 @@ Use `@MORPH(...)` for:
 - **Muscle head specificity**: `@MORPH(Bic.Long=0.95,Bic.Short=0.4)`
 - **Vascular response**: `@MORPH(Bic.Vasc=0.6)`
 - **Clinical atrophy**: `@MORPH(Quad.VM.Atr=0.7)`
+- **Hypertrophy shape**: `@MORPH(Pec.S=1.0,Pec.S.Full=0.8)` — same size at the peak, fuller toward the tendons
 
 ### 4.6.3 The `@BODY(...)` Tag
 
