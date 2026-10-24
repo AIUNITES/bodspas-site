@@ -224,6 +224,9 @@ All muscle symbols are unchanged from v1.x. Symbols are anatomically grounded ab
 | `Inf` | Infraspinatus | SupScap | C5–C6 |
 | `Sub` | Subscapularis | Subscap | C5–C6 |
 | `Ter.Mn` | Teres Minor | Axil | C5–C6 |
+| `Ter.Mj` | Teres Major | LSubscap | C5–C7 |
+
+> `Ter.Mj` is not a rotator-cuff muscle (it doesn't attach to the humeral head), but it sits with them: inferior angle of the scapula → front of the humerus, under the armpit. With the upper `Lat` it gives the width directly below the arm.
 
 #### Quadriceps
 | Symbol | Full Name | Nerve | Spinal Roots |
