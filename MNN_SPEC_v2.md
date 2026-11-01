@@ -1,7 +1,7 @@
 # Muscular Neuro Notation (MNN) — Formal Specification
 
-**Version:** 2.0.0
-**Date:** April 3, 2026
+**Version:** 2.1.0
+**Date:** November 1, 2026 (2.0.0: April 3, 2026)
 **Author:** Tom / AIUNITES LLC / BODWAVE
 **Copyright:** © 2026 AIUNITES LLC. All rights reserved.
 **License:** This specification is published for prior art and copyright registration purposes. Use of the notation format in personal training logs is permitted. Commercial implementations, machine firmware integration, avatar control systems, and derivative specification documents require written permission from the author.
@@ -579,6 +579,110 @@ Declares the avatar's baseline body composition. Place once at session or record
 | `Frame` | `XS`, `S`, `M`, `L`, `XL` |
 | `Height` | number + `cm` or `in` |
 
+#### Relative shape keys (v2.1)
+
+`@BODY(...)` may also carry relative shape keys: a signed number from -1.00 to +1.00, no unit, relative to the base body
+(0 = unchanged; -1 and +1 are the ends of the range). They describe proportions the absolute keys cannot, and mix freely with them:
+
+```
+@BODY(Mass=82kg,Height=180cm,Sh.Wid=0.40,Tor.V=0.60,Wst.Circ=-0.30,Thigh.Mus=0.50)
+```
+
+- Omitted keys = 0. Order does not matter. Laterality as in section 7 (`L.`/`R.` prefix) when one side differs.
+- *less .. more* means a smaller / larger amount of the named feature; position keys (`.Fwd`, `.Up`, `.Side`) move that part from its base place.
+- Muscle-bulk keys (`Pec.Size`, `Lat.Size`, `Dlt.Size`, `UArm.Mus` ...) set the resting shape; `@ACT` / `@MORPH` still describe contraction on top of it.
+- The face is not in `@BODY`: face shape is FNN `@FSHP(...)`.
+
+| Key | Feature | -1 .. +1 |
+|-----|---------|----------|
+| Neck.Circ | Neck circumference | less .. more |
+| Neck.Len | Neck length | less .. more |
+| Neck.Dep | Neck depth | less .. more |
+| Neck.Fwd | Neck position | back .. forward |
+| Neck.Dbl | Double chin | less .. more |
+| Neck.Side | Neck position (sideways) | in .. out |
+| Neck.Back | Back of the neck | less .. more |
+| Neck.Wid | Neck width | less .. more |
+| Neck.Ht | Neck height (scale) | less .. more |
+| Neck.Up | Neck position | down .. up |
+| Tor.Fwd | Torso position | back .. forward |
+| Pec.Size | Chest muscle | less .. more |
+| Chest.Under | Under-chest circumference | less .. more |
+| Tor.Wid | Torso width | less .. more |
+| Tor.Dep | Torso depth | less .. more |
+| Back.Len | Nape to waist | less .. more |
+| Wst.Hip | Waist to hip | less .. more |
+| Sh.Wid | Shoulder width | less .. more |
+| Hip.Circ | Hip circumference | less .. more |
+| Tor.V | V-shape | less .. more |
+| Tor.Up | Torso position | down .. up |
+| Lat.Size | Back muscle (lats) | less .. more |
+| Wst.Circ | Waist circumference | less .. more |
+| Chest.Front | Front chest width | less .. more |
+| Tor.Ht | Torso height | less .. more |
+| Chest.Circ | Chest circumference | less .. more |
+| Tor.Side | Torso position (sideways) | in .. out |
+| Abd.Belly | Belly | less .. more |
+| Umb.Out | Navel depth | in .. out |
+| Umb.Up | Navel position | down .. up |
+| Abd.Tone | Stomach tone | less .. more |
+| Hip.Side | Hip position (sideways) | in .. out |
+| Hip.Wid | Hip width | less .. more |
+| Hip.Dep | Hip depth | less .. more |
+| Wst.Up | Waist position | down .. up |
+| Hip.Fwd | Hip position | back .. forward |
+| Hip.Ht | Hip height | less .. more |
+| Hip.Up | Hip position | down .. up |
+| Glu.Vol | Buttocks | less .. more |
+| Pelv.Bulge | Groin bulge | less .. more |
+| Pelv.Tone | Pelvis tone | less .. more |
+| Fore.Dep | Forearm depth | less .. more |
+| UArm.Wid | Upper arm width | less .. more |
+| UArm.Fat | Upper arm fat | less .. more |
+| UArm.Len | Upper arm length | less .. more |
+| Fore.Fat | Forearm fat | less .. more |
+| Fore.Wid | Forearm width | less .. more |
+| Fore.Mus | Forearm muscle | less .. more |
+| Dlt.Size | Shoulder muscle | less .. more |
+| UArm.Circ | Upper arm circumference | less .. more |
+| UArm.Dep | Upper arm depth | less .. more |
+| Fore.Vert | Forearm scale (along) | less .. more |
+| Fore.Len | Forearm length | less .. more |
+| UArm.Mus | Upper arm muscle | less .. more |
+| UArm.Vert | Upper arm scale (along) | less .. more |
+| Hand.Side | Hand position | in .. out |
+| Fing.Len | Finger length | less .. more |
+| Hand.Size | Hand size | less .. more |
+| Fing.Dia | Finger thickness | less .. more |
+| Fing.Sp | Finger spacing | less .. more |
+| Wrist.Circ | Wrist circumference | less .. more |
+| Calf.Circ | Calf circumference | less .. more |
+| LLeg.Len | Lower leg length | less .. more |
+| Thigh.Fat | Thigh fat | less .. more |
+| Calf.Mus | Calf muscle | less .. more |
+| Leg.Valg | Knock-knee (valgus) | less .. more |
+| LLeg.Dep | Lower leg depth | less .. more |
+| LLeg.Vert | Lower leg scale (along) | less .. more |
+| Thigh.Dep | Thigh depth | less .. more |
+| Thigh.Wid | Thigh width | less .. more |
+| Thigh.Ht | Thigh height | less .. more |
+| Calf.Fat | Calf fat | less .. more |
+| LLeg.Wid | Lower leg width | less .. more |
+| LLeg.Ht | Lower leg height | less .. more |
+| Thigh.Len | Thigh length | less .. more |
+| Thigh.Mus | Thigh muscle | less .. more |
+| Knee.Circ | Knee circumference | less .. more |
+| Thigh.Circ | Thigh circumference | less .. more |
+| Thigh.Vert | Thigh scale (along) | less .. more |
+| Foot.Wid | Foot width | less .. more |
+| Foot.Side | Foot position (sideways) | in .. out |
+| Foot.Ht | Foot height | less .. more |
+| Foot.Fwd | Foot position | back .. forward |
+| Foot.Len | Foot length | less .. more |
+| Foot.Size | Foot size | less .. more |
+| Foot.Up | Foot position | down .. up |
+| Ankle.Circ | Ankle circumference | less .. more |
+
 ### 4.6.4 Grammar
 
 ```ebnf
@@ -590,7 +694,7 @@ MorphWeight := Float
 BodyTag     := "@BODY(" BodyParam ("," BodyParam)* ")"
 BodyParam   := BodyKey "=" BodyValue
 BodyKey     := "Mass" | "BF" | "Frame" | "Height" | Identifier
-BodyValue   := (Digit+ (".")? Digit* ("kg" | "lb" | "%" | "cm" | "in" | ""))
+BodyValue   := (("-" | "+")? Digit+ (".")? Digit* ("kg" | "lb" | "%" | "cm" | "in" | ""))
              | "XS" | "S" | "M" | "L" | "XL"
 ```
 
@@ -1311,6 +1415,7 @@ Reference implementation: https://aiunites.github.io/bodspas-site/log.html
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 2.1.0 | November 1, 2026 | `@BODY(...)` relative shape keys (section 4.6.3): 87 signed keys, -1.00 .. +1.00, for neck, chest, waist, hips, arms, hands, legs and feet. `BodyValue` grammar accepts a sign. Backward compatible. |
 | 2.0.0 | April 3, 2026 | Complete syntax redesign. All tags migrated from `[TAG:...]` / `{...}` / `+` style to `@TAG(...)` / `>>` / `:N` annotation style. Movement tags: `{Pattern}` to `@MOV(Pattern)`. Contraction tags: `[Con:Muscle+++]` to `@ACT(Muscle:3)`. Nerve arrow: Unicode right-arrow / `->` to `>>`. Joint position: `[Pos:Side.Joint(Axis:val)]` to `@JNT(Side.Joint:Axis=val)`. Vector: `[Vec:H:height,A:angle,Src:src]` to `@VEC(Ht=height,Ang=angle,Src=src)`. Compensation: `[Comp:A for B]` to `@COMP(A/B)`. Nerve status: `[Nerve:C5-C6]` to `@NERV(C5-C6)`. Morph: `[Morph:M:w]` to `@MORPH(M=w)`. Body: `[Body:K:V]` to `@BODY(K=V)`. v1.x backward-compatibility grammar added. Formal MNN string identifier defined (`@` prefix). Activation level 4 added (maximum voluntary contraction). |
 | 1.6.0 | March 18, 2026 | Added Section 4.6 -- Avatar Surface Layer: `[Morph:]` and `[Body:]` tags. |
 | 1.5.1 | March 15, 2026 | Added Eshkol-Wachman and HamNoSys/SiGML to prior art. |
